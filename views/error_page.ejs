@@ -1,0 +1,59 @@
+<div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+    <div class="container-fluid">
+        <div class="row mb-2">
+        <div class="col-sm-6">
+            <h1>Error</h1>
+        </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">Error</li>
+            </ol>
+        </div>
+        </div>
+    </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+    <div class="error-page">
+        <h2 class="headline text-danger" id="error-code"></h2>
+
+        <div class="error-content">
+        <h3><i class="fas fa-exclamation-triangle text-danger"></i> <span id="error-title"></span></h3>
+
+        <p id="error-message">
+            
+        </p>
+
+        <div>
+            <a href="/">
+                Back to Home
+            </a>
+        </div>
+        </div>
+        <!-- /.error-content -->
+    </div>
+    <!-- /.error-page -->
+    </section>
+    <!-- /.content -->
+</div>
+<script>
+    // Query 404: ?code=404&title=Page+Not+Found&message=It+looks+like+you+found+a+glitch+in+the+matrix...
+   // Query 500: ?code=500&title=Internal+Server+Error&message=We+will+fix+it+as+soon+as+possible...
+   const urlParams = new URLSearchParams(window.location.search);
+   const errorCode = urlParams.get("code");
+   const errorTitle = urlParams.get("title");
+   const errorMessage = urlParams.get("message");
+
+   const errorMessageElement = document.getElementById("error-message");
+   const errorCodeElement = document.getElementById("error-code");
+   const errorTitleElement = document.getElementById("error-title");
+
+   errorCodeElement.setAttribute("data-text", errorCode);
+   errorCodeElement.innerText = errorCode;
+   errorTitleElement.innerText = errorTitle;
+   errorMessageElement.innerText = errorMessage;
+</script>

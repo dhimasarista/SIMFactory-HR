@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>SIMFactory</title>
+      
+        <!-- Google Font: Source Sans Pro -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+        <!-- Font Awesome Icons -->
+        <link rel="stylesheet" href="./plugins/fontawesome-free/css/all.min.css">
+        <!-- overlayScrollbars -->
+        <link rel="stylesheet" href="./plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+        <!-- Theme style -->
+        <link rel="stylesheet" href="./css/adminlte.min.css">
+          <!-- DataTables -->
+        <link rel="stylesheet" href="./plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
+        <link rel="stylesheet" href="./plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
+        <link rel="stylesheet" href="./plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+        <link rel="stylesheet" href="./plugins/sweetalert2/sweetalert2.min.css">
+        <link href="./plugins/notyf/notyf.min.css" rel="stylesheet">
+        <!-- CDN -->
+        
+        <!-- REQUIRED SCRIPTS -->
+        <!-- jQuery -->
+        <script src="./plugins/jquery/jquery.min.js"></script>
+        <!-- Bootstrap -->
+        <script src="./plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- overlayScrollbars -->
+        <script src="./plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
+        <!-- AdminLTE App -->
+        <script src="./js/adminlte.js"></script>
+    
+        <!-- jQuery Mapael -->
+        <script src="./plugins/jquery-mousewheel/jquery.mousewheel.js"></script>
+        <script src="./plugins/raphael/raphael.min.js"></script>
+        <script src="./plugins/jquery-mapael/jquery.mapael.min.js"></script>
+        <script src="./plugins/jquery-mapael/maps/usa_states.min.js"></script>
+        <!-- ChartJS -->
+        <script src="./plugins/chart.js/Chart.min.js"></script>
+    
+        <!-- AdminLTE for demo purposes -->
+        <!-- <script src="./js/demo.js"></script> -->
+        <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+        <script src="./js/pages/dashboard2.js"></script>
+        <!-- DataTables  & Plugins -->
+        <script src="./plugins/datatables/jquery.dataTables.min.js"></script>
+        <script src="./plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
+        <script src="./plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
+        <script src="./plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
+        <script src="./plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
+        <script src="./plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
+        <script src="./plugins/jszip/jszip.min.js"></script>
+        <script src="./plugins/pdfmake/pdfmake.min.js"></script>
+        <script src="./plugins/pdfmake/vfs_fonts.js"></script>
+        <script src="./plugins/datatables-buttons/js/buttons.html5.min.js"></script>
+        <script src="./plugins/datatables-buttons/js/buttons.print.min.js"></script>
+        <script src="./plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+        <script src="./plugins/sweetalert2/sweetalert2.all.min.js"></script>
+        <script src="./plugins/notyf/notyf.min.js"></script>
+        <script src="./js/script.js"></script>
+    </head>    
+    <body class="hold-transition light-mode sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+    <div class="wrapper">
+        <!-- Navbar -->
+        <nav class="main-header navbar navbar-expand navbar-light">
+            <!-- Left navbar links -->
+            <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
+            </li>
+            </ul>
+            
+            <!-- Right navbar links -->
+            <ul class="navbar-nav ml-auto">
+            <li class="nav-item dropdown no-arrow">
+                <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <span class="mr-2 d-none d-lg-inline text-gray-600 small"><%= username %></span>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 20 20"><path fill="#8c8c8c" d="M8 7a2 2 0 1 1 4 0a2 2 0 0 1-4 0Zm-.5 3h5a1.5 1.5 0 0 1 1.5 1.5c0 1.116-.459 2.01-1.212 2.615c-.741.595-1.735.885-2.788.885c-1.053 0-2.047-.29-2.788-.885C6.46 13.51 6 12.616 6 11.5A1.5 1.5 0 0 1 7.5 10ZM10 2a8 8 0 1 0 0 16a8 8 0 0 0 0-16Zm-7 8a7 7 0 1 1 14 0a7 7 0 0 1-14 0Z"/></svg>
+                </a>
+                <!-- Dropdown - User Information -->
+                <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
+                    aria-labelledby="userDropdown">
+                    <a class="dropdown-item" href="#">
+                        <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Profile
+                    </a>
+                    <a class="dropdown-item" href="#">
+                        <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
+                        <!-- Settings -->
+                        Soon
+                    </a>
+                    <a class="dropdown-item" href="#">
+                        <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
+                        <!-- Activity Log -->
+                        Soon
+                    </a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/logout">
+                        <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
+                        Logout
+                    </a>
+                </div>
+            </li>
+            </ul>
+        </nav>
+        <!-- End Navbar -->
+        <!-- Sidebar -->
+        <aside class="main-sidebar sidebar-dark-white elevation-4">
+            <!-- Brand Logo -->
+            <a href="/" class="brand-link text-center">
+            <!-- <i>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M5.5 7a3 3 0 1 1 6 0a3 3 0 0 1-6 0m3-5a5 5 0 1 0 0 10a5 5 0 0 0 0-10m7 0h-1v2h1a3 3 0 1 1 0 6h-1v2h1a5 5 0 0 0 0-10M0 19a5 5 0 0 1 5-5h7a5 5 0 0 1 5 5v2h-2v-2a3 3 0 0 0-3-3H5a3 3 0 0 0-3 3v2H0v-1zm24 0a5 5 0 0 0-5-5h-1v2h1a3 3 0 0 1 3 3v2h2v-1z"/></svg>
+            </i> -->
+            <span class="brand-text font-weight-light">
+                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path fill="white" d="M6.343 2a1.75 1.75 0 0 0-1.516.875l-1.588 2.75a1.75 1.75 0 0 0 0 1.75l1.588 2.75c.313.541.89.875 1.516.875h3.175a1.75 1.75 0 0 0 1.516-.875l1.587-2.75a1.75 1.75 0 0 0 0-1.75l-1.587-2.75A1.75 1.75 0 0 0 9.518 2zM4.827 13.875A1.75 1.75 0 0 1 6.343 13h3.175a1.75 1.75 0 0 1 1.516.875l1.587 2.75a1.75 1.75 0 0 1 0 1.75l-1.587 2.75A1.75 1.75 0 0 1 9.518 22H6.343a1.75 1.75 0 0 1-1.516-.875l-1.588-2.75a1.75 1.75 0 0 1 0-1.75zm9.5-5.5a1.75 1.75 0 0 1 1.516-.875h3.175a1.75 1.75 0 0 1 1.516.875l1.587 2.75a1.75 1.75 0 0 1 0 1.75l-1.587 2.75a1.75 1.75 0 0 1-1.516.875h-3.175a1.75 1.75 0 0 1-1.516-.875l-1.588-2.75a1.75 1.75 0 0 1 0-1.75z"/></svg>
+                SIMFactory HR
+            </span>
+            </a>
+
+            <!-- Sidebar -->
+            <div class="sidebar">
+
+            <!-- Sidebar Menu -->
+            <nav class="mt-2">
+                <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false">
+                <!-- Add icons to the links using the .nav-icon class
+                    with font-awesome or any other icon font library -->
+                    <li class="nav-item">
+                        <a href="/employees" class="nav-link <%= path === '/employees' ? 'active' : '' %>">
+                        <i class="nav-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 36 36"><ellipse cx="18" cy="11.28" fill="currentColor" rx="4.76" ry="4.7"/><path fill="currentColor" d="M10.78 11.75h.48v-.43a6.7 6.7 0 0 1 3.75-6a4.62 4.62 0 1 0-4.21 6.46Zm13.98-.47v.43h.48A4.58 4.58 0 1 0 21 5.29a6.7 6.7 0 0 1 3.76 5.99m-2.47 5.17a21.45 21.45 0 0 1 5.71 2a2.71 2.71 0 0 1 .68.53H34v-3.42a.72.72 0 0 0-.38-.64a18 18 0 0 0-8.4-2.05h-.66a6.66 6.66 0 0 1-2.27 3.58M6.53 20.92A2.76 2.76 0 0 1 8 18.47a21.45 21.45 0 0 1 5.71-2a6.66 6.66 0 0 1-2.27-3.55h-.66a18 18 0 0 0-8.4 2.05a.72.72 0 0 0-.38.64V22h4.53Zm14.93 5.77h5.96v1.4h-5.96z"/><path fill="currentColor" d="M32.81 21.26h-6.87v-1a1 1 0 0 0-2 0v1H22v-2.83a20.17 20.17 0 0 0-4-.43a19.27 19.27 0 0 0-9.06 2.22a.76.76 0 0 0-.41.68v5.61h7.11v6.09a1 1 0 0 0 1 1h16.17a1 1 0 0 0 1-1V22.26a1 1 0 0 0-1-1m-1 10.36H17.64v-8.36h6.3v.91a1 1 0 0 0 2 0v-.91h5.87Z"/></svg>
+                        </i>
+                        <p>
+                            Employees
+                            <!-- <span class="right badge badge-danger">New</span> -->
+                        </p>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/departments" class="nav-link <%= path === '/departments' ? 'active' : '' %>">
+                        <i class="nav-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 36 36"><path fill="currentColor" d="M31 8h-9v25h11V10a2 2 0 0 0-2-2m-5 17h-2v-2h2Zm0-5h-2v-2h2Zm0-5h-2v-2h2Zm4 10h-2v-2h2Zm0-5h-2v-2h2Zm0-5h-2v-2h2Z" class="clr-i-solid clr-i-solid-path-1"/><path fill="currentColor" d="M17.88 3H6.12A2.12 2.12 0 0 0 4 5.12V33h5v-3h6v3h5V5.12A2.12 2.12 0 0 0 17.88 3M9 25H7v-2h2Zm0-5H7v-2h2Zm0-5H7v-2h2Zm0-5H7V8h2Zm4 15h-2v-2h2Zm0-5h-2v-2h2Zm0-5h-2v-2h2Zm0-5h-2V8h2Zm4 15h-2v-2h2Zm0-5h-2v-2h2Zm0-5h-2v-2h2Zm0-5h-2V8h2Z" class="clr-i-solid clr-i-solid-path-2"/><path fill="none" d="M0 0h36v36H0z"/></svg>
+                        </i>
+                        <p>
+                            Departments
+                            <!-- <span class="right badge badge-danger">New</span> -->
+                        </p>
+                        </a>
+                    </li>
+                    <li class="nav-header">System</li>
+                    <li class="nav-item">
+                        <a href="/user-management" class="nav-link administrator-path">
+                        <i class="nav-icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M12 23C6.443 21.765 2 16.522 2 11V5l10-4l10 4v6c0 5.524-4.443 10.765-10 12M4 6v5a10.58 10.58 0 0 0 8 10a10.58 10.58 0 0 0 8-10V6l-8-3Z"/><circle cx="12" cy="8.5" r="2.5" fill="currentColor"/><path fill="currentColor" d="M7 15a5.782 5.782 0 0 0 5 3a5.782 5.782 0 0 0 5-3c-.025-1.896-3.342-3-5-3c-1.667 0-4.975 1.104-5 3"/></svg>
+                        </i>
+                        <p>
+                            User Management
+                            <!-- <span class="right badge badge-danger">New</span> -->
+                        </p>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            <!-- /.sidebar-menu -->
+            </div>
+            <!-- /.sidebar -->
+        </aside>
+        <!-- End Sidebar -->
+        <!-- Content Wrapper. Contains page content -->
+        <main><%- body %></main>
+            <!-- /.content -->
+        </div>
+        <!-- /.content-wrapper -->
+        <!-- /.content-wrapper -->
+    </div>
+    <footer class="main-footer">
+        <strong>Hak Cipta &copy; 2024 <a href="#">dhimasarista</a></strong>
+        All rights reserved.
+        <div class="float-right d-none d-sm-inline-block">
+            <b>Development</b> Version
+        </div>
+    </footer>
+    </body>
+</html>
