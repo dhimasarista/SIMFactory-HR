@@ -1,4 +1,5 @@
 <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> -->
+
 <div class="content-wrapper">
     <!-- Content Header (Page header) -->
     <section class="content-header">
@@ -9,8 +10,14 @@
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-            <li class="breadcrumb-item"><a href="#">Home</a></li>
-            <li class="breadcrumb-item active">Departments</li>
+            <!-- <li class="breadcrumb-item"><a href="#">Home</a></li>
+            <li class="breadcrumb-item active">Employees</li> -->
+                <div class="col text-right">
+                    <button type="button" class="btn btn-sm btn-secondary" id="new-department-button">New Department</button>
+                    <!-- <button type="button" class="btn btn-sm btn-secondary" id="new-position-button">New Position</button> -->
+                    <button type="button" class="btn btn-sm btn-secondary" id="cancel-button" hidden>Cancel</button>
+                    <button type="button" class="btn btn-sm btn-secondary" id="return-button" hidden>return</button>
+                </div>
             </ol>
         </div>
         </div>
@@ -19,7 +26,7 @@
 
     <!-- Main content -->
     <section class="content">
-        <div id="daftar-anggota-card" class="container-fluid">
+        <div id="departments-card" class="container-fluid">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -31,334 +38,229 @@
                         <table id="departments-table" class="table table-sm table-bordered table-striped" width="100%" cellspacing="0">
                         <thead>
                         <tr>
-                            <th>Departs ID</th>
+                            <th>ID</th>
                             <th>Name</th>
-                            <th>Employees</th>
-                            <th>Positions</th>
+                            <th>Position</th>
                             <th></th>
                         </tr>
                         </thead>
                         <tbody>
-                            <tr>
+                            <tr id="it-table">
                                 <td>606</td>
-                                <td>Production</td>
-                                <td>465</td>
-                                <td>4</td>
+                                <td>IT</td>
+                                <td>
+                                    <small class="badge badge-dark">Engineer</small>
+                                    <small class="badge badge-dark">Leader</small>
+                                    <small class="badge badge-dark">Analyst</small>
+                                </td>
                                 <td class="text-center text-break">
-                                    <a href="#" class="m-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M15 11h7v2h-7zm1 4h6v2h-6zm-2-8h8v2h-8zM4 19h10v-1c0-2.757-2.243-5-5-5H7c-2.757 0-5 2.243-5 5v1zm4-7c1.995 0 3.5-1.505 3.5-3.5S9.995 5 8 5S4.5 6.505 4.5 8.5S6.005 12 8 12"/></svg>
+                                    <!-- Detail -->
+                                    <a href="#" class="m-1" onclick="showDepartmentDetailCard()">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 256 256"><path fill="green" d="M128 24a104 104 0 1 0 104 104A104.11 104.11 0 0 0 128 24m0 192a88 88 0 1 1 88-88a88.1 88.1 0 0 1-88 88m12-88a12 12 0 1 1-12-12a12 12 0 0 1 12 12m44 0a12 12 0 1 1-12-12a12 12 0 0 1 12 12m-88 0a12 12 0 1 1-12-12a12 12 0 0 1 12 12"/></svg>
                                     </a>
-                                    <a href="#" class="m-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 32 32"><path fill="currentColor" d="M25 4.031c-.766 0-1.516.297-2.094.875L13 14.781l-.219.219l-.062.313l-.688 3.5l-.312 1.468l1.469-.312l3.5-.688l.312-.062l.219-.219l9.875-9.906A2.968 2.968 0 0 0 25 4.03zm0 1.938c.234 0 .465.12.688.343c.445.446.445.93 0 1.375L16 17.376l-1.719.344l.344-1.719l9.688-9.688c.222-.222.453-.343.687-.343zM4 8v20h20V14.812l-2 2V26H6V10h9.188l2-2z"/></svg>
+                                    <!-- Edit -->
+                                    <a href="#" class="m-1" onclick="editDepartment()">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 32 32"><path fill="orange" d="M25 4.031c-.766 0-1.516.297-2.094.875L13 14.781l-.219.219l-.062.313l-.688 3.5l-.312 1.468l1.469-.312l3.5-.688l.312-.062l.219-.219l9.875-9.906A2.968 2.968 0 0 0 25 4.03zm0 1.938c.234 0 .465.12.688.343c.445.446.445.93 0 1.375L16 17.376l-1.719.344l.344-1.719l9.688-9.688c.222-.222.453-.343.687-.343zM4 8v20h20V14.812l-2 2V26H6V10h9.188l2-2z"/></svg>
                                     </a>
+                                    <!-- Delete -->
                                     <a href="#" class="m-1">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z"/></svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="red" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z"/></svg>
                                     </a>
                                 </td>
                             </tr>
                             </tbody>                            
                         </table>
                     </div>
+                    <script>
+                        $(function () {
+                            $("#departments-table").DataTable({
+                                "responsive": true,
+                                "lengthChange": true, // Setel menjadi true untuk menampilkan dropdown "Show entries"
+                                "autoWidth": false,
+                                "buttons": [
+                                  "copy", 
+                                  "csv", 
+                                  "excel", 
+                                  "pdf", 
+                                  "print",
+                                  // "colvis"
+                                ],
+                                "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]], // Atur opsi panjang halaman yang diinginkan
+                                "paging": true,
+                                "ordering": true,
+                                "info": true,
+                            }).buttons().container().appendTo('#departments-table_wrapper .col-md-6:eq(0)');
+                        });
+                    </script>
                     <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
+              </div>
             </div>
         </div>
-    </section>
-    <div id="edit-anggota-card" class="container-fluid" hidden>
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header row align-items-center">
-                        <div class="col"><b>Edit Anggota</b></div>
-                        <div class="col text-right">
-                            <button type="button" class="btn btn-sm btn-secondary" id="button-batalkan-edit">Batal</button>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <form>
-                            <div class="form-group">
-                                <label for="nik">NIK <small style="color: red;">*Wajib Diisi</small></label>
-                                <input type="text" class="form-control" id="nik-edit" name="nik">
-                            </div>
-                            <div class="form-group">
-                                <label for="nama">Nama Lengkap <small style="color: red;">*Wajib Diisi</small></label>
-                                <input type="text" class="form-control" id="nama-edit" name="nama">
-                            </div>
-                            <div class="form-group">
-                                <label for="gelar">Gelar</label>
-                                <input type="text" class="form-control" id="gelar-edit" name="gelar">
-                            </div>
-                            <!-- tambahkan input untuk kota lahir, tgl lahir, agama, jenis kelamin, golongan darah, suku bangsa, status pernikahan, dll. -->
-                            <div class="form-group">
-                                <label for="tempat_lahir">Tempat Lahir</label>
-                                <input type="text" class="form-control" id="tempat-lahir-edit" name="tempat_lahir">
-                            </div>
-                            <!-- Tanggal Lahir -->
-                            <div class="form-group">
-                            <label>Tanggal Lahir</label>
-                                <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                                    <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate"/>
-                                    <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+        <div id="department-form-card" class="container-fluid" hidden>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="id-department">Department Code <small style="color: red;">*Required</small></label>
+                                    <input type="text" class="form-control" id="id-department-form" name="id-department">
+                                </div>
+                                <div class="form-group">
+                                    <label for="department-name">Name <small style="color: red;">*Required</small></label>
+                                    <input type="text" class="form-control" id="department-name-form" name="fullname">
+                                </div>
+                                <div class="form-group" id="checkbox-position">
+                                    <div id="checkbox-container">
+                                        <label for="exampleFormControlSelect2">
+                                            Select Position
+                                            <button type="button" id="new-position-button" class="btn btn-sm btn-dark">+Position</button> 
+                                        </label>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="option1" value="Option 1">
+                                            <label class="form-check-label" for="option1">Option 1</label>
+                                        </div>
+                                        <div class="form-check mb-2">
+                                            <input class="form-check-input" type="checkbox" id="option2" value="Option 2">
+                                            <label class="form-check-label" for="option2">Option 2</label>
+                                        </div>
+                                        
                                     </div>
                                 </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="foto_ktp">Foto KTP</label>
-                                <input type="file" class="form-control-file" id="foto-ktp" name="foto_ktp">
-                            </div>
-                            <div class="form-group">
-                                <label for="pas-foto">Pas Photo</label>
-                                <input type="file" class="form-control-file" id="pas-foto" name="pas-foto">
-                            </div>
-                            <div class="form-group">
-                                <label for="alamat">Alamat</label>
-                                <textarea class="form-control" id="alamat-edit" name="alamat" rows="3"></textarea>
-                            </div>
-                            <!-- tambahkan input untuk provinsi, kota, kecamatan, desa/kelurahan, rt, rw, dan kode pos -->
-                            <button type="submit" class="btn btn-primary" id="simpan-edit">Simpan</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div id="informasi-anggota-card" class="container-fluid" hidden>
-        <div class="row">
-            <div class="col-12">
-                <div class="card">
-                    <div class="card-header row align-items-center">
-                        <div class="col"><b>Informasi Anggota</b></div>
-                        <div class="col text-right">
-                            <button type="button" class="btn btn-sm btn-secondary" id="button-kembali">Kembali</button>
+                                <div id="new-position" hidden>
+                                    <div class="form-group">
+                                        <label for="newOption">Add New Position</label>
+                                        <input type="text" class="form-control" id="new-position-input" placeholder="Enter New Position Name">
+                                    </div>
+                                    <button type="button" id="submit-new-position" class="btn btn-sm btn-primary">Add</button>
+                                    <button type="button" id="cancel-new-position" class="btn btn-sm btn-danger">cancel</button>
+                                </div>
+                                      <script>
+                                        const checkboxPosition = document.getElementById("checkbox-position");
+                                        const newPositionButton = document.getElementById("new-position-button");
+                                        const newPosition = document.getElementById("new-position");
+                                        const submitNewPosition = document.getElementById("submit-new-position");
+                                        const cancelNewPosition = document.getElementById("cancel-new-position");
+                                        const newPositionInput = document.getElementById("new-position-input");
+                                        const checkboxContainer = document.getElementById("checkbox-container");
+                                        const hiddenCheckboxPosition = () => {
+                                            checkboxPosition.setAttribute("hidden", true);
+                                            newPosition.removeAttribute('hidden');
+                                        }
+                                        const hiddenNewPosition = () => {
+                                            checkboxPosition.removeAttribute('hidden');
+                                            newPosition.setAttribute("hidden", true);
+                                        }
+
+                                        newPositionButton.addEventListener("click", (e) => {
+                                            e.preventDefault();
+
+                                            hiddenCheckboxPosition();
+                                        })
+
+                                        cancelNewPosition.addEventListener("click", (e) => {
+                                            e.preventDefault();
+
+                                            hiddenNewPosition();
+                                        });
+
+                                        submitNewPosition.addEventListener("click", (e) => {
+                                            e.preventDefault();
+
+                                            const value = newPositionInput.value;
+                                            if (value !== "") {
+                                                let newId = "37598437543";
+                                                let newCheckbox = `<input class="form-check-input" type="checkbox" id="${newId}" value="${value}"><label class="form-check-label" for="${newId}">${value}</label>`;
+                                                let div = document.createElement("div");
+                                                div.setAttribute("class", "form-check mb-2");
+                                                div.innerHTML = newCheckbox  
+                                                checkboxContainer.append(div);
+                                                newPositionInput.value = null;
+
+                                                hiddenNewPosition();
+                                            } else {
+                                                alert("Please enter a value");
+                                            }
+                                        })
+                                      </script>
+                                </div>                
+                                <div id="button-submit-form">
+                                    <!-- Button Will be creating is here -->
+                                </div>
+                            </form>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <table class="table table-sm table-bordered" width="100%" cellspacing="0">
-                            <tbody>
-                            <tr>
-                                <td>No. Anggota</td>
-                                <td id="kolom_no_anggota"></td>
-                            </tr>
-                            <tr>
-                                <td>NIK</td>
-                                <td id="kolom-nik"></td>
-                            </tr>
-                            <tr>
-                                <td>Nama</td>
-                                <td id="kolom-nama"></td>
-                            </tr>
-                            <tr>
-                                <td>Gelar</td>
-                                <td id="kolom-gelar"></td>
-                            </tr>
-                            <tr>
-                                <td>Tempat/Tanggal Lahir</td>
-                                <td><span id="kolom-tempat-lahir"></span><span id="kolom-tanggal-lahir"></span></td>
-                            </tr>
-                            <tr>
-                                <td>Alamat</td>
-                                <td id="kolom-alamat"></td>
-                            </tr>
-                            <tr>
-                                <td>Foto</td>
-                                <td><a href="#">lihat</a></td>
-                            </tr>
-                            <tr>
-                                <td>Scan KTP</td>
-                                <td><a href="#">lihat</a></td>
-                            </tr>
-                            </tbody>
-                        </table>
+            </div>
+        </div>
+        <div id="department-detail-card" class="container-fluid" hidden>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header align-items-center">
+                            <div><b>Department Information</b></div>
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-sm table-bordered" width="100%" cellspacing="0">
+                                <tbody>
+                                <tr>
+                                    <td>Department ID/Code</td>
+                                    <td id="department-id-column">606</td>
+                                </tr>
+                                <tr>
+                                    <td>Name</td>
+                                    <td id="department-name-column">IT Department</td>
+                                </tr>
+                                <tr>
+                                    <td>Positions</td>
+                                    <td id="positions-column">
+                                        <small class="badge badge-danger">Engineer</small>
+                                        <small class="badge badge-success">Analyst</small>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>Total Employees</td>
+                                    <td>18</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-    <!-- /.col -->
-    <!-- /.row -->
-    <!-- /.container-fluid -->
     </section>
 </div>
 <script>
-    // Card 
-    const daftarAnggotaCard = document.getElementById("daftar-anggota-card");
-    const editAnggotaCard = document.getElementById("edit-anggota-card");
-    const informasiAnggotaCard = document.getElementById("informasi-anggota-card");
-    // Button
-    const buttonKembali = document.getElementById("button-kembali");
-    const buttonBatalkanEdit = document.getElementById("button-batalkan-edit");
-    const simpanEdit = document.getElementById("simpan-edit");
-
-    // Event Menampilkan Informasi Anggota
-    function tampilkanInformasiAnggota(id) {
-        const kolomNoAnggota = document.getElementById("kolom_no_anggota");
-        const kolomNIK = document.getElementById("kolom-nik");
-        const kolomNama = document.getElementById("kolom-nama");
-        const kolomGelar = document.getElementById("kolom-gelar");
-        const kolomTempatLahir = document.getElementById("kolom-tempat-lahir");
-        const kolomTanggalLahir = document.getElementById("kolom-tanggal-lahir");
-        const kolomAlamat = document.getElementById("kolom-alamat");
-
-        const idToNumber = parseInt(id)
-        fetch(`/anggota/${idToNumber}`)
-        .then(response =>  response.json())
-        .then(results => {
-            if (results.status !== 200) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: results.message,
-                });
-
-                return 0;
-            }
-            daftarAnggotaCard.setAttribute("hidden", true);
-            informasiAnggotaCard.removeAttribute("hidden");
-
-            // Menampilkan Data ke Tabel
-            kolomNoAnggota.innerHTML = `<b>${results["anggota"]["no_anggota"]}</b>`;
-            kolomNIK.innerHTML = results["anggota"]["nik"];
-            kolomNama.innerHTML = results["anggota"]["nama_lengkap"];
-            kolomGelar.innerHTML = results["anggota"]["gelar"];
-            kolomTempatLahir.innerHTML = results["anggota"]["tempat_lahir"];
-            kolomAlamat.innerHTML = results["anggota"]["alamat"];
-            
-            return results;
-        })
-
-        return 1;
+    const newDepartmentButton = document.getElementById("new-department-button");
+    const cancelButton = document.getElementById("cancel-button"); // Cancel new department
+    const returnButton = document.getElementById("return-button"); // Return from department detail
+    const departmentsCard = document.getElementById("departments-card");
+    const departmentFormCard = document.getElementById("department-form-card");
+    const departmentDetailCard = document.getElementById("department-detail-card");
+    const clearDepartmentForm = () => {
+        
     }
 
-    // Jika Button Kembali diKlik
-    buttonKembali.addEventListener("click", (e) => {
+    newDepartmentButton.addEventListener("click", (e) => {
         e.preventDefault();
 
-        // Maka tampilkan Daftar Anggota
-        daftarAnggotaCard.removeAttribute("hidden");
-        informasiAnggotaCard.setAttribute("hidden", true);
+        departmentsCard.setAttribute("hidden", true);
+        newDepartmentButton.setAttribute("hidden", true);
+        departmentFormCard.removeAttribute("hidden", true);
+        cancelButton.removeAttribute("hidden");
     });
 
-    // Event Mengedit Anggota
-    function editAnggota(id) {
-        const editNik = document.getElementById("nik-edit");
-        const editNama = document.getElementById("nama-edit");
-        const editGelar = document.getElementById("gelar-edit");
-        const editTempatLahir = document.getElementById("tempat-lahir-edit");
-        const editAlamat = document.getElementById("alamat-edit");
-
-        const idToNumber = parseInt(id)
-        fetch(`/anggota/${idToNumber}`)
-        .then(response =>  response.json())
-        .then(results => {
-            if (results.status !== 200) {
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: results.message,
-                });
-
-                return 0;
-            }
-            daftarAnggotaCard.setAttribute("hidden", true);
-            editAnggotaCard.removeAttribute("hidden");
-
-            // Menampilkan Data ke Kolom Input
-            editNik.value = results["anggota"]["nik"];
-            editNama.value = results["anggota"]["nama_lengkap"];
-            editGelar.value = results["anggota"]["gelar"];
-            editTempatLahir.value = results["anggota"]["tempat_lahir"];
-            editAlamat.value = results["anggota"]["alamat"]
-            
-            return results;
-        })
-
-        return 1;
-    }
-
-    // Jika Button Batalkan edit diKlik
-    buttonBatalkanEdit.addEventListener("click", (e) => {
+    cancelButton.addEventListener("click", (e) => {
         e.preventDefault();
 
-        // Maka tampilkan Daftar Anggota
-        daftarAnggotaCard.removeAttribute("hidden");
-        editAnggotaCard.setAttribute("hidden", true);
-
-        // Membersihkan Form Input
-        clearForm();
+        departmentsCard.removeAttribute("hidden");
+        newDepartmentButton.removeAttribute("hidden");
+        departmentFormCard.setAttribute("hidden", true);
+        cancelButton.setAttribute("hidden", true);
     });
 
-    // Menyimpan hasil perubahan data anggota
-    simpanEdit.addEventListener("click", (e) => {
-        e.preventDefault();
 
-        window.location.reload();
-    })
 
-    // Menghapus Data Anggota
-    function hapusDataAnggota(id) {
-        Swal.fire({
-            title: "Yakin ingin menghapus data?",
-            // text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Ya!"
-        }).then(result => {
-            if (result.isConfirmed) {
-                fetch(`/anggota/${id}`,{
-                    method: "DELETE",
-                })
-                .then(response => response.json())
-                .then(results => {
-                    Swal.fire({
-                        title: "Sukses!",
-                        text: results.message,
-                        icon: "success"
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            window.location.reload();
-                        }
-                    });
-                })
-            }
-        })
-    }
-    // Fungsi membersihkan Kolom Input
-    function clearForm() {
-        const editNik = document.getElementById("nik-edit");
-        const editNama = document.getElementById("nama-edit");
-        const editGelar = document.getElementById("gelar-edit");
-        const editTempatLahir = document.getElementById("tempat-lahir-edit");
-        const editAlamat = document.getElementById("alamat-edit");
-
-        editNik.value = null;
-        editNama.value = null;
-        editGelar.value = null;
-        editTempatLahir.value = null;
-        editAlamat.value = null;
-    }
-</script>
-<script>
-    $(function () {
-        $("#departments-table").DataTable({
-            "responsive": true,
-            "lengthChange": true, // Setel menjadi true untuk menampilkan dropdown "Show entries"
-            "autoWidth": false,
-            "buttons": [
-              "copy", 
-              "csv", 
-              "excel", 
-              "pdf", 
-              "print",
-              // "colvis"
-            ],
-            "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]], // Atur opsi panjang halaman yang diinginkan
-            "paging": true,
-            "ordering": true,
-            "info": true,
-        }).buttons().container().appendTo('#departments-table_wrapper .col-md-6:eq(0)');
-    });
 </script>

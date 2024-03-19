@@ -1,3 +1,4 @@
+const EmployeeModel = require("../models/employee_model");
 const UserModel = require("../models/user_model");
 
 class EmployeeRoute{
@@ -7,18 +8,22 @@ class EmployeeRoute{
     }
 
     main(){
-        const users = new UserModel();
+        const userModel = new UserModel();
+        const employeeModel = new EmployeeModel();
         this.app.get("/", (req, res) => {
             return res.redirect("/employees");
         });
 
-        this.app.get("/employees", (req, res) => {
-            const user = users.GetUserByID(2004);
+        this.app.get("/employees", async (req, res) => {
+            const user = userModel.GetUserByID(2004);
             const username = user.username;
             const path = req.path;
+
+            const employees = await employeeModel.findAll();
             return res.render("employees_page", {
                 username: username,
                 path: path,
+                employees: employees,
             });
         });
     }
