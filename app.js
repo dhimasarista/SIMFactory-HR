@@ -4,7 +4,6 @@ const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
 const http = require("http");
 const path = require("path");
-const SetupRoutes = require("./app/routes/routes");
 const EmployeeRoute = require("./app/routes/employee_routes");
 const ErrorRoutes = require("./app/routes/error_routes");
 const DepartmentRoutes = require("./app/routes/department_routes");
