@@ -1,4 +1,4 @@
-const UserModel = require("../models/user_model");
+const { render } = require("../controllers/user_management_controllers");
 
 class UserManagementRoutes{
     constructor(app){
@@ -7,16 +7,7 @@ class UserManagementRoutes{
     }
 
     main(){
-        const users = new UserModel();
-        this.app.get("/user-management", (req, res) => {
-            const user = users.GetUserByID(2004);
-            const username = user["username"]
-            const path = req.path;
-            return res.render("user_management_page", {
-                username: username,
-                path: path,
-            })
-        })
+        this.app.get("/user-management", render)
     }
 }
 

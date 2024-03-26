@@ -1,6 +1,4 @@
-const EmployeeModel = require("../models/employee_model");
-const UserModel = require("../models/user_model");
-
+const { render } = require("../controllers/employee_controllers");
 class EmployeeRoute{
     constructor(app){
         this.app = app;
@@ -8,24 +6,12 @@ class EmployeeRoute{
     }
 
     main(){
-        const userModel = new UserModel();
-        const employeeModel = new EmployeeModel();
+      
         this.app.get("/", (req, res) => {
             return res.redirect("/employees");
         });
 
-        this.app.get("/employees", async (req, res) => {
-            const user = userModel.GetUserByID(2004);
-            const username = user.username;
-            const path = req.path;
-
-            const employees = await employeeModel.findAll();
-            return res.render("employees_page", {
-                username: username,
-                path: path,
-                employees: employees,
-            });
-        });
+        this.app.get("/employees", render);
     }
 }
 
