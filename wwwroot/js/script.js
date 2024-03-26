@@ -19,17 +19,21 @@ function checkFileType(file, expectedTypes, errorMsg, toDelete) {
         return 0;
     }
 }
-// Pustaka notifikasi
-let notyf = new Notyf({
-    duration: 4000,
-    dismissible: true,
-    position: {
-        x: "right",
-        y: "top"
-    }
+
+let notyf; // Variabel notyf dideklarasikan di luar event listener
+document.addEventListener("DOMContentLoaded", function() {
+    // Pustaka notifikasi
+    notyf = new Notyf({
+        duration: 4000,
+        dismissible: true,
+        position: {
+            x: "right",
+            y: "top"
+        },
+    });
 });
 
-function ErrorNotif(error) {
+function WarningNotif(error) {
     notyf.open({
         type: "error",
         background: "orange",   
@@ -37,13 +41,14 @@ function ErrorNotif(error) {
     });
 }
 
-function InternalServerError(error) {
+function ErrorNotif(error) {
     notyf.open({
         type: "error",
         message: error,
     });
 }
-function ServerStatusOke(msg) {
+
+function OkeNotif(msg) {
     notyf.open({
         type: "success",
         message: msg,
