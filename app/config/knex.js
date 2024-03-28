@@ -1,11 +1,12 @@
+require('dotenv').config();
 const knex = require('knex')({
-    client: 'mysql',
+    client: process.env.DB_CONNECTION,
     connection: {
-      host : '127.0.0.1',
-      port : 3306,
-      user : 'root',
-      password : '',
-      database : 'simfactory_dev'
+      host : process.env.DB_HOST,
+      port : process.env.DB_PORT,
+      user : process.env.DB_USERNAME,
+      password : process.env.DB_PASSWORD,
+      database : process.env.DB_DATABASE,
     }
   });
 
