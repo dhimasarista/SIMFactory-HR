@@ -20,6 +20,11 @@ function checkFileType(file, expectedTypes, errorMsg, toDelete) {
     }
 }
 
+// Fungsi untuk memeriksa apakah input hanya terdiri dari angka
+function IsNumber(input) {
+    return /^\d+$/.test(input);
+}
+
 let notyf; // Variabel notyf dideklarasikan di luar event listener
 document.addEventListener("DOMContentLoaded", function() {
     // Pustaka notifikasi
