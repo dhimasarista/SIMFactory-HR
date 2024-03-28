@@ -9,6 +9,7 @@ exports.up = function(knex) {
         table.string('password').unique();
         table.integer('employee_id').unsigned(); // Kolom employee_id sebagai integer unsigned
         table.foreign('employee_id').references('id').inTable('employees'); // Kunci asing ke tabel employees
+        table.boolean('is_active').defaultTo(true); // Kolom is_superuser sebagai boolean default false
         table.boolean('is_superuser').defaultTo(false); // Kolom is_superuser sebagai boolean default false
         table.timestamp('created_at').defaultTo(knex.fn.now()); // Kolom created_at dengan nilai default saat ini
         table.timestamp('updated_at').defaultTo(knex.fn.now()); // Kolom updated_at dengan nilai default saat ini
