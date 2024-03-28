@@ -10,6 +10,22 @@ class DepartmentModel{
             throw error;
         }
     }
+
+    async findDepartmentWithPosition() {
+        try {
+          const rows = await knex.select('*').from('departments_positions');
+          // Melakukan sesuatu dengan data yang diperoleh
+          console.log(rows);
+          return rows; // Mengembalikan hasil query untuk digunakan di luar fungsi
+        } catch (err) {
+          // Menangani kesalahan jika terjadi
+          console.error(err);
+          throw err; // Melempar kesalahan untuk ditangani di luar fungsi
+        } finally {
+          // Menutup koneksi ke database
+          knex.destroy();
+        }
+      }
 }
 
 module.exports = DepartmentModel;

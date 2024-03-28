@@ -18,10 +18,10 @@ const port = process.env.APP_PORT || 3000; // Init port
 const server = http.createServer(app); // Init server
 console.clear();
 // Middlewares & Routes
-app.use((req, res, next) => {
-    logger.info(`${req.method} ${req.url}`);
-    next();
-});
+// app.use((req, res, next) => {
+//     logger.info(`${req.method} ${req.url}`);
+//     next();
+// });
 app.use(expressLayouts); // Layouting menggunakan EJS 
 app.use(compression()); // Kompresi HTTP Resources yang dikirimkan ke klien
 app.set("layout", path.join(__dirname, "views/layouts/main")); // Mengatur file utama layouting
