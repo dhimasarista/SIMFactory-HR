@@ -8,8 +8,7 @@
         </div>
         <div class="col-sm-6">
             <div class="col text-right">
-                <button type="button" class="btn btn-sm btn-success" id="new-department-button">New User</button>
-                <button type="button" class="btn btn-sm btn-danger" id="cancel-button" hidden>Cancel</button>
+                <button type="button" class="btn btn-sm btn-success" id="new-user-button">New User</button>
                 <button type="button" class="btn btn-sm btn-warning" id="return-button" hidden>return</button>
             </div>
         </div>
@@ -19,7 +18,7 @@
 
     <!-- Main content -->
     <section class="content">
-        <div id="employees-card" class="container-fluid" hidden>
+        <div id="users-card" class="container-fluid">
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -45,7 +44,7 @@
                                 <td>Administrator</td>
                                 <td>
                                     <div class="custom-control custom-switch">
-                                        <input type="checkbox" class="custom-control-input" id="customSwitch1">
+                                        <input type="checkbox" class="custom-control-input" id="customSwitch1" checked disabled>
                                         <label class="custom-control-label" for="customSwitch1">
                                             <!-- <small class="badge badge-danger">not-active</small> -->
                                         </label>
@@ -96,7 +95,7 @@
               </div>
             </div>
         </div>
-        <div id="department-form-card" class="container-fluid">
+        <div id="search-employee-form-card" class="container-fluid" hidden>
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -105,7 +104,7 @@
                                 <h6>Enter Employee ID</h6>
                                 <div class="form-group mx-sm-3 mb-2">
                                   <label for="inputPassword2" class="sr-only">Password</label>
-                                  <input type="number" class="form-control" id="input-id-employee" placeholder="">
+                                  <input type="number" min="0" class="form-control" id="input-id-employee" placeholder="">
                                 </div>
                                 <button type="button" id="search-employee-id-button" class="btn btn-primary mb-2">Search Employee</button>
                             </form>          
@@ -118,7 +117,7 @@
                                     searchEmployee(id);
                                     return 0;
                                 }
-                                alert("Numbers Only! ");
+                                WarningNotif("Input Correctly!");
                             })
                             function searchEmployee(id) {
                                 // Mendapatkan nilai ID karyawan dari input
@@ -150,7 +149,7 @@
 
                                 if (employee) {
                                     tableHTML += "<tr><td>" + employee.id + "</td><td>" + employee.name + "</td><td>" 
-                                        + `<button type="button" class="btn btn-sm btn-success">
+                                        + `<button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#new-user" data-username="${employee.name}">
                                             <i>
                                                 add    
                                             </i>
@@ -185,20 +184,66 @@
     </section>
     <!-- /.content -->
 </div>
+<!-- Modal -->
+<div class="modal fade" id="new-user" tabindex="-1" aria-labelledby="new-userLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="new-userLabel">New User</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="col-form-label">Username:</label>
+            <input type="text" class="form-control" id="user-username">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="col-form-label">Default Password:</label>
+            <input type="text" class="form-control" id="message-text" placeholder="Employee Birthdate" disabled>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" id="new-user-submit-button">New User</button>
+      </div>
+    </div>
+  </div>
+</div>
 <script>
-    // Query 404: ?code=404&title=Page+Not+Found&message=It+looks+like+you+found+a+glitch+in+the+matrix...
-   // Query 500: ?code=500&title=Internal+Server+Error&message=We+will+fix+it+as+soon+as+possible...
-   const urlParams = new URLSearchParams(window.location.search);
-   const errorCode = urlParams.get("code");
-   const errorTitle = urlParams.get("title");
-   const errorMessage = urlParams.get("message");
-
-   const errorMessageElement = document.getElementById("error-message");
-   const errorCodeElement = document.getElementById("error-code");
-   const errorTitleElement = document.getElementById("error-title");
-
-   errorCodeElement.setAttribute("data-text", errorCode);
-   errorCodeElement.innerText = errorCode;
-   errorTitleElement.innerText = errorTitle;
-   errorMessageElement.innerText = errorMessage;
+    $('#new-user').on('show.bs.modal', function (event) {
+        var button = $(event.relatedTarget) // Button that triggered the modal
+        var username = button.data('username') // Extract info from data-* attributes
+        // If necessary, you could initiate an AJAX request here (and then do the updating in a callback).
+        // Update the modal's content. We'll use jQuery here, but you could use a data binding library or other methods instead.
+        var modal = $(this)
+        modal.find('.modal-body input#user-username').val(LowercaseAndRemoveSpace(username))
+    });
+    $("#new-user-submit-button").on("click" , (e) => {
+        e.preventDefault();
+        $("#new-user").modal("hide");
+        hideNewUserCard();
+        OkeNotif("User added!");
+    })
+</script>
+<!-- End Modal -->
+<script>
+    const hideNewUserCard = () => {
+        $("#search-employee-form-card,  #return-button").attr("hidden", true);
+        $("#users-card, #new-user-button").removeAttr("hidden");
+        $("#input-id-employee").val("");
+        $("#employee-search-result").html("");
+    }
+    $("#new-user-button").on("click", (e) => {
+        e.preventDefault();
+        $("#users-card, #new-user-button").attr("hidden", true);
+        $("#search-employee-form-card, #return-button").removeAttr("hidden");
+    });
+    $("#return-button").on("click", (e) => {
+        e.preventDefault();
+        hideNewUserCard();
+    });
 </script>
