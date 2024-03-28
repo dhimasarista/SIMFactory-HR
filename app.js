@@ -16,14 +16,14 @@ const logger = require('./app/logging/winston');
 const app = express(); // Init aplikasi
 const port = process.env.APP_PORT || 3000; // Init port
 const server = http.createServer(app); // Init server
-
+console.clear();
 // Middlewares & Routes
-app.use(expressLayouts); // Layouting menggunakan EJS 
-app.use(compression()); // Kompresi HTTP Resources yang dikirimkan ke klien
 app.use((req, res, next) => {
     logger.info(`${req.method} ${req.url}`);
     next();
 });
+app.use(expressLayouts); // Layouting menggunakan EJS 
+app.use(compression()); // Kompresi HTTP Resources yang dikirimkan ke klien
 app.set("layout", path.join(__dirname, "views/layouts/main")); // Mengatur file utama layouting
 app.set("view engine", "ejs"); // Mengatur View Engine ke EJS
 app.set("views", path.join(__dirname, "views")); // Mengatur path ke folder views
@@ -31,7 +31,6 @@ app.use(express.static(path.join(__dirname, "wwwroot"))); // Mengatur akses laya
 app.use(express.urlencoded({extended: false})); 
 app.use(express.json()); // Parsing permintaan JSON
 app.use(cookieParser()); // Menggunakan cookie-parser
-// Middleware logging
 // Routes
 new EmployeeRoute(app);     
 new ErrorRoutes(app);
@@ -44,6 +43,5 @@ app.use((req, res) => {
 
 // Menjalankan aplikasi
 server.listen(port, () => {
-    console.clear();
-    console.log(` Server running on [http://${process.env.APP_URL}:${port}]`);
+    console.log(`Server ${process.env.APP_NAME} running on [http://${process.env.APP_URL}:${port}]`);
 });
