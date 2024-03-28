@@ -24,13 +24,18 @@ function checkFileType(file, expectedTypes, errorMsg, toDelete) {
 function IsNumber(input) {
     return /^\d+$/.test(input);
 }
+function LowercaseAndRemoveSpace(text) {
+    // Mengonversi setiap huruf menjadi huruf kecil dan menghapus spasi
+    return text.toLowerCase().replace(/\s/g, '');
+}
 
 let notyf; // Variabel notyf dideklarasikan di luar event listener
 document.addEventListener("DOMContentLoaded", function() {
     // Pustaka notifikasi
     notyf = new Notyf({
         duration: 4000,
-        dismissible: true,
+        dismissible: false,
+        ripple: true,   
         position: {
             x: "right",
             y: "top"
@@ -63,7 +68,7 @@ function OkeNotif(msg) {
 function LoadingNotif(msg) {
     notyf.open({
         type: "info",
-        background: "blue",   
-        message: msg, 
+        background: "purple",   
+        message: msg,
     });
 }
