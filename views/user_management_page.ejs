@@ -19,7 +19,7 @@
 
     <!-- Main content -->
     <section class="content">
-        <div id="employees-card" class="container-fluid">
+        <div id="employees-card" class="container-fluid" hidden>
             <div class="row">
                 <div class="col-12">
                     <div class="card">
@@ -28,7 +28,7 @@
                     </div> -->
                     <!-- /.card-header -->
                     <div class="card-body">
-                        <table id="employees-table" class="table table-sm table-bordered table-striped" width="100%" cellspacing="0">
+                        <table id="users-table" class="table table-sm table-bordered table-striped" width="100%" cellspacing="0">
                         <thead>
                         <tr>
                             <th>Employee ID</th>
@@ -71,24 +71,115 @@
                     </div>
                     <script>
                         $(function () {
-                            $("#employees-table").DataTable({
+                            $("#users-table").DataTable({
                                 "responsive": true,
                                 "lengthChange": true, // Setel menjadi true untuk menampilkan dropdown "Show entries"
                                 "autoWidth": false,
                                 "buttons": [
-                                  // "colvis"
+                                //   "colvis"
+                                    "copy", 
+                                    "csv", 
+                                    "excel", 
+                                    "pdf", 
+                                    "print",
                                 ],
                                 "lengthMenu": [[10, 25, 50, 100], [10, 25, 50, 100]], // Atur opsi panjang halaman yang diinginkan
                                 "paging": true,
                                 "ordering": true,
                                 "info": true,
-                            }).buttons().container().appendTo('#employees-table_wrapper .col-md-6:eq(0)');
+                            }).buttons().container().appendTo('#users-table_wrapper .col-md-6:eq(0)');
                         });
                     </script>
                     <!-- /.card-body -->
                 </div>
                 <!-- /.card -->
               </div>
+            </div>
+        </div>
+        <div id="department-form-card" class="container-fluid">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <form class="form-inline">
+                                <h6>Enter Employee ID</h6>
+                                <div class="form-group mx-sm-3 mb-2">
+                                  <label for="inputPassword2" class="sr-only">Password</label>
+                                  <input type="number" class="form-control" id="input-id-employee" placeholder="">
+                                </div>
+                                <button type="button" id="search-employee-id-button" class="btn btn-primary mb-2">Search Employee</button>
+                            </form>          
+                            <div id="employee-search-result"></div>
+                        </div>
+                        <script>
+                            $("#search-employee-id-button").on("click", (e) => {
+                                let id = $("#input-id-employee").val();
+                                if (IsNumber(id)) {
+                                    searchEmployee(id);
+                                    return 0;
+                                }
+                                alert("Numbers Only! ");
+                            })
+                            function searchEmployee(id) {
+                                // Mendapatkan nilai ID karyawan dari input
+                                var employeeId = id;
+                                
+                                // Simulasi data karyawan (biasanya ini akan menjadi panggilan AJAX ke server)
+                                var employeeData = [
+                                    { id: 1, name: "John Doe", position: "Manager" },
+                                    { id: 2, name: "Jane Smith", position: "Developer" },
+                                    // Data lainnya
+                                ];
+
+                                // Mencari data karyawan berdasarkan ID
+                                var employee = employeeData.find(function(emp) {
+                                    return emp.id == employeeId;
+                                });
+
+                                // Membuat tabel HTML untuk menampilkan informasi karyawan
+                                var tableHTML = `
+                                    <table class='table'>
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th>Name</th>
+                                                <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                    <tbody>`;
+
+                                if (employee) {
+                                    tableHTML += "<tr><td>" + employee.id + "</td><td>" + employee.name + "</td><td>" 
+                                        + `<button type="button" class="btn btn-sm btn-success">
+                                            <i>
+                                                add    
+                                            </i>
+                                            </button>`
+                                        + "</td></tr>";
+                                } else {
+                                    tableHTML += "<tr><td colspan='3'>Employee not found</td></tr>";
+                                }
+
+                                tableHTML += "</tbody></table>";
+
+                                let loading = `
+                                <div class="text-center m-5">
+                                    <div class="spinner-grow spinner-grow-sm text-warninggoi" role="status">
+                                        <span class="sr-only">Loading...</span>
+                                    </div>
+                                </div>
+                                `;
+                                // Menampilkan tabel di dalam div dengan id "employeeTable"
+                                $("#employee-search-result").html(loading);
+                                setTimeout(() => {
+                                    // Menampilkan tabel di dalam div dengan id "employeeTable"
+                                    $("#employee-search-result").html(tableHTML);
+                                }, 1000);
+                        }
+
+                        </script>
+                    </div>
+                </div>  
             </div>
         </div>
     </section>
