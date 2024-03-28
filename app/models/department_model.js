@@ -21,9 +21,6 @@ class DepartmentModel{
           // Menangani kesalahan jika terjadi
           console.error(err);
           throw err; // Melempar kesalahan untuk ditangani di luar fungsi
-        } finally {
-          // Menutup koneksi ke database
-          knex.destroy();
         }
       }
 }
