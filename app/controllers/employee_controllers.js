@@ -14,5 +14,20 @@ module.exports = {
             path: path,
             employees: employees,
         });
+    },
+    deleteEmployee: async (req, res) => {
+        try {
+            const id = req.params.id;
+            const results = await employeeModel.hardDelete(id);
+            return res.json({
+                status: 200,
+                results: results,
+            });
+        } catch (error) {
+            return res.json({
+                status: 500,
+                results: error
+            })            
+        }
     }
 }
