@@ -9,7 +9,7 @@ class DepartmentRoutes{
 
     department(){
         this.app.get("/departments", renderDepartment);
-        this.app.post("/department", newDepartment);
+        this.app.post("/department/new", newDepartment);
     }
 
     position(){
