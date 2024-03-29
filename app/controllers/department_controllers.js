@@ -6,7 +6,7 @@ const user = new UserModel();
 const department = new DepartmentModel();
 const position = new PositionModel();
 module.exports = {
-    render: async (req, res) => {
+    renderDepartment: async (req, res) => {
         const users = user.GetUserByID(2004);
         const username = users["username"];
         const path = req.path;
@@ -20,4 +20,13 @@ module.exports = {
             positions: findAllPosition,
         })
     },
+    newDepartment: async (req, res) => {
+        const {name} = req.body;
+        try {
+            const results = await department.insert(name);
+            return res.status(200).json(results);
+        } catch (error) {
+            return res.status(500).send(error);
+        }
+    }
 }
