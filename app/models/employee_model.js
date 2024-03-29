@@ -5,7 +5,9 @@ class EmployeeModel{
 
     async findAll(){
         try {
-            const employees = await knex.select("*").from("employees");
+            const employees = await knex.select('employees.*', 'positions.name as position_name')
+            .from('employees')
+            .leftJoin('positions', 'employees.position_id', 'positions.id');
             return employees;
         } catch (error) {
             throw error;
