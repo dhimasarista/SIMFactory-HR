@@ -14,17 +14,17 @@ const logger = winston.createLogger({
       // - Write all logs with importance level of `info` or less to `combined.log`
       //
       new winston.transports.File({ filename: 'app/logging/error.log', level: 'error' }),
-      new winston.transports.Console({
-        level: 'debug',
-      })
+      // new winston.transports.Console({
+      //   level: 'debug',
+      // })
     ],
 });
 
-if (process.env.APP_ENV !== 'production') {
-    logger.add(new winston.transports.Console({
-      format: winston.format.simple(),
-    }));
-}
+// if (process.env.APP_ENV !== 'production') {
+//     logger.add(new winston.transports.Console({
+//       format: winston.format.simple(),
+//     }));
+// }
 if (process.env.APP_ENV === "production") {
     logger.add(new winston.transports.File({ filename: 'app/logging/combined.log' }));
 }
