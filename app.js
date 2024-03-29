@@ -12,16 +12,17 @@ const ErrorRoutes = require("./app/routes/error_routes");
 const DepartmentRoutes = require("./app/routes/department_routes");
 const UserManagementRoutes = require("./app/routes/user_management_routes");
 const logger = require('./app/logging/winston');
+const { successLogging } = require('./app/logging/console');
 
 const app = express(); // Init aplikasi
 const port = process.env.APP_PORT || 3000; // Init port
 const server = http.createServer(app); // Init server
 console.clear();
 // Middlewares & Routes
-// app.use((req, res, next) => {
-//     logger.info(`${req.method} ${req.url}`);
-//     next();
-// });
+app.use((req, res, next) => {
+    logger.info(`${req.method} ${req.url}`);
+    next();
+});
 app.use(expressLayouts); // Layouting menggunakan EJS 
 app.use(compression()); // Kompresi HTTP Resources yang dikirimkan ke klien
 app.set("layout", path.join(__dirname, "views/layouts/main")); // Mengatur file utama layouting
@@ -43,5 +44,6 @@ app.use((req, res) => {
 
 // Menjalankan aplikasi
 server.listen(port, () => {
-    console.log(`Server ${process.env.APP_NAME} running on [http://${process.env.APP_URL}:${port}]`);
+    const message = `Server ${process.env.APP_NAME} running on http://${process.env.APP_URL}:${port}`;
+    successLogging(message);
 });
