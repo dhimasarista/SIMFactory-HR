@@ -65,7 +65,7 @@ function OkeNotif(msg) {
     })
 }
 
-function LoadingNotif(msg) {
+function PurpleNotif(msg) {
     notyf.open({
         type: "info",
         background: "purple",   
