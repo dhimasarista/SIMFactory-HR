@@ -18,15 +18,16 @@ module.exports = {
     deleteEmployee: async (req, res) => {
         try {
             const id = req.params.id;
-            const results = await employeeModel.hardDelete(id);
+            const results = await employeeModel.softDelete(id);
             return res.json({
                 status: 200,
                 results: results,
+                message: "Employee deleted"
             });
         } catch (error) {
             return res.json({
                 status: 500,
-                results: error
+                message: error
             })            
         }
     }
