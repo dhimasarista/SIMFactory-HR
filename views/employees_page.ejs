@@ -99,15 +99,15 @@
                                 cancelButtonColor: "#d33",
                                 confirmButtonText: "Yes!"
                             }).then(results => {
-                                Swal.fire({
-                                    title: "Loading!",
-                                    timer: 3800,
-                                    timeProgressBar: true,
-                                    didOpen: ()=>{
-                                        Swal.showLoading();
-                                    }
-                                });
                                 if (results.isConfirmed) {
+                                    Swal.fire({
+                                        title: "Loading!",
+                                        timer: 3800,
+                                        timeProgressBar: true,
+                                        didOpen: ()=>{
+                                            Swal.showLoading();
+                                        }
+                                    });
                                     $.ajax({
                                         url: `/employee/${id}`,
                                         method: 'DELETE',
