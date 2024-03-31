@@ -8,17 +8,16 @@ module.exports = class DepartmentPositionModel{
     async findByID(id){
       try {
         const rows = await knex('departments_positions')
-          .select(
-            'departments.id as department_id',
-            'departments.name as department_name', 
-            'positions.id as position_id',
-            'positions.name as positions_name',
-            knex.raw('GROUP_CONCAT(positions.id) as position_ids')
-          )
-          .leftJoin('departments', 'departments_positions.department_id', 'departments.id')
-          .leftJoin('positions', 'departments_positions.position_id', 'positions.id')
-          .groupBy('departments.id', 'departments.name')
-          .where("departments.id", id);
+        .select(
+          'departments.id as department_id',
+          'departments.name as department_name', 
+          // knex.raw('GROUP_CONCAT(positions.id) as position_ids'),
+          knex.raw('GROUP_CONCAT(positions.name) as positions_names')
+        )
+        .leftJoin('departments', 'departments_positions.department_id', 'departments.id')
+        .leftJoin('positions', 'departments_positions.position_id', 'positions.id')
+        .groupBy('departments.id', 'departments.name')
+        .where("departments.id", id)
         return rows;
       } catch (err) {
         errorLogging(err);
@@ -32,20 +31,25 @@ module.exports = class DepartmentPositionModel{
           .select(
             'departments.id as department_id',
             'departments.name as department_name', 
-            'positions.id as position_id',
-            'positions.name as positions_name',
-            knex.raw('GROUP_CONCAT(positions.id) as position_ids')
+            // knex.raw('GROUP_CONCAT(positions.id) as position_ids'),
+            knex.raw('GROUP_CONCAT(positions.name) as positions_names')
           )
           .leftJoin('departments', 'departments_positions.department_id', 'departments.id')
           .leftJoin('positions', 'departments_positions.position_id', 'positions.id')
           .groupBy('departments.id', 'departments.name');
+        
+        // Memisahkan string menjadi array
+        rows.forEach(row => {
+          row.positions_names = row.positions_names.split(',');
+        });
     
         return rows;
       } catch (err) {
         errorLogging(err);
         throw err;
       }
-    }    
+    }
+     
 
     async insert(idDepartment, positions) {
       let results = '';

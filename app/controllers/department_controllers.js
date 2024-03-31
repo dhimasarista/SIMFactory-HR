@@ -47,7 +47,7 @@ module.exports = {
         try {
             const results = await departmentPosition.findByID(idToNumber);
             return res.json({
-                status: 200,
+                status: 202,
                 results: results
             });
         } catch (error) {
