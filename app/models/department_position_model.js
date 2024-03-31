@@ -18,7 +18,7 @@ module.exports = class DepartmentPositionModel{
           .leftJoin('departments', 'departments_positions.department_id', 'departments.id')
           .leftJoin('positions', 'departments_positions.position_id', 'positions.id')
           .groupBy('departments.id', 'departments.name')
-          .where("department_id", id);
+          .where("departments.id", id);
         return rows;
       } catch (err) {
         errorLogging(err);

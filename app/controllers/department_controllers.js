@@ -40,5 +40,21 @@ module.exports = {
                 message: error,
             });
         }
+    },
+    findDepartmentByID: async (req, res) => {
+        const id = req.param("id");
+        const idToNumber = parseInt(id);
+        try {
+            const results = await departmentPosition.findByID(idToNumber);
+            return res.json({
+                status: 200,
+                results: results
+            });
+        } catch (error) {
+            return res.json({
+                status: 500,
+                message: error,
+            });
+        }
     }
 }

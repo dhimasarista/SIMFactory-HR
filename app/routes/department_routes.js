@@ -1,4 +1,4 @@
-const { renderDepartment, newDepartment } = require("../controllers/department_controllers");
+const { renderDepartment, newDepartment, findDepartmentByID } = require("../controllers/department_controllers");
 const { findAllPositions, newPosition} = require("../controllers/position_controllers");
 class DepartmentRoutes{
     constructor(app){
@@ -10,6 +10,7 @@ class DepartmentRoutes{
     department(){
         this.app.get("/departments", renderDepartment);
         this.app.post("/department/new", newDepartment);
+        this.app.get("/department/:id", findDepartmentByID);
     }
 
     position(){
