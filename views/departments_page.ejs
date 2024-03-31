@@ -160,12 +160,39 @@
                             });
                         }
 
-                        function editDepartmentsForm() {
-                            $("#button-submit-form").html(`<button type="submit" class="btn btn-primary" id="submit-edit">Save</button>`)
-                            $("#departments-card").attr("hidden", true);
-                            $("#new-department-button").attr("hidden", true);
-                            $("#department-form-card").removeAttr("hidden");
-                            $("#cancel-button").removeAttr("hidden");
+                        function editDepartmentsForm(id) {
+                            $.ajax({
+                                url: `/department/${id}`,
+                                method: 'GET',
+                                contentType: "application/json",
+                                success: function(results) {
+                                    if (results.status !== 200) {
+                                        ErrorNotif(results.message)
+                                        return 0;
+                                    }
+                                    $("#button-submit-form").html(`<button type="submit" class="btn btn-primary" id="submit-edit">Save</button>`)
+                                    $("#departments-card").attr("hidden", true);
+                                    $("#new-department-button").attr("hidden", true);
+                                    $("#department-form-card").removeAttr("hidden");
+                                    $("#cancel-button").removeAttr("hidden");
+
+                                    const data = results.results[0];
+                                    $("#id-department-form").val(data.department_id);
+                                    $("#department-name-form").val(data.department_name);
+                                    
+                                    // Memeriksa dan menetapkan checkbox sesuai dengan respons
+                                    const checkboxes = $("#checkbox-container input[type=checkbox]");
+                                    checkboxes.each(function(index) {
+                                        if (data.position_ids.includes($(this).val())) {
+                                            $(this).prop('checked', true);
+                                        }
+                                    });
+                                },
+                                error: function(xhr, status, error) {
+                                    ErrorNotif(`${status} ${error}`);
+                                    console.log(error);
+                                }
+                            });
                         }
                     </script>
                     <!-- /.card-body -->

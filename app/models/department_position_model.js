@@ -21,6 +21,7 @@ module.exports = class DepartmentPositionModel{
         // Memisahkan string menjadi array
         rows.forEach(row => {
           row.positions_names = row.positions_names.split(',');
+          row.position_ids = row.position_ids.split(',');
         });
         return rows;
       } catch (err) {
@@ -35,7 +36,7 @@ module.exports = class DepartmentPositionModel{
           .select(
             'departments.id as department_id',
             'departments.name as department_name', 
-            // knex.raw('GROUP_CONCAT(positions.id) as position_ids'),
+            knex.raw('GROUP_CONCAT(positions.id) as position_ids'),
             knex.raw('GROUP_CONCAT(positions.name) as positions_names')
           )
           .leftJoin('departments', 'departments_positions.department_id', 'departments.id')
@@ -45,6 +46,7 @@ module.exports = class DepartmentPositionModel{
         // Memisahkan string menjadi array
         rows.forEach(row => {
           row.positions_names = row.positions_names.split(',');
+          row.position_ids = row.position_ids.split(',');
         });
     
         return rows;
