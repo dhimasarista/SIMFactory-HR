@@ -6,6 +6,7 @@ const expressLayouts = require("express-ejs-layouts");
 const http = require("http");
 const path = require("path");
 const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
 const compression = require('compression');
 const EmployeeRoute = require("./app/routes/employee_routes");
 const ErrorRoutes = require("./app/routes/error_routes");
@@ -31,6 +32,7 @@ app.set("views", path.join(__dirname, "views")); // Mengatur path ke folder view
 app.use(express.static(path.join(__dirname, "wwwroot"))); // Mengatur akses layanan file static dari folder wwwroot
 app.use(express.urlencoded({extended: false})); 
 app.use(express.json()); // Parsing permintaan JSON
+app.use(bodyParser.json());
 app.use(cookieParser()); // Menggunakan cookie-parser
 // Routes
 new EmployeeRoute(app);     
