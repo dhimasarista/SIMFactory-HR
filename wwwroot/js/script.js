@@ -72,3 +72,26 @@ function PurpleNotif(msg) {
         message: msg,
     });
 }
+
+function SuccessModal(message) {
+    Swal.fire({
+        title: 'Success',
+        text: message,
+        icon: 'success',
+        showCancelButton: false,
+        confirmButtonText: 'OK'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          location.reload();
+        }
+      });
+}
+function ErrorModal(message) {
+    Swal.fire({
+        title: 'Error',
+        text: message,
+        icon: 'error',
+        showCancelButton: false,
+        confirmButtonText: 'OK'
+      });
+}
