@@ -145,6 +145,34 @@
                                 "info": true,
                             }).buttons().container().appendTo('#departments-table_wrapper .col-md-6:eq(0)');
                         });
+                        function showDepartmentDetailCard() {
+                            clearDepartmentDetail();
+
+                            $("#department-id-column").html("202");
+                            $("#department-name-column").html("IT Application Development");
+
+                            const positions = ["software engineer", "data analyst"];
+                            let positionsHtml = "";
+                            for (let index = 0; index < positions.length; index++) {
+                                positionsHtml += ` <small class="badge badge-dark">${positions[index]}</small>`;
+                            }
+                            $("#positions-column").html(positionsHtml);
+                            $("#total-employees-column").html(`${12}`);
+
+                            // cards and buttons
+                            $("#department-detail-card").removeAttr("hidden");
+                            $("#return-button").removeAttr("hidden");
+                            $("#departments-card").attr("hidden", true);
+                            $("#new-department-button").attr("hidden", true);
+                        }
+
+                        function editDepartmentsForm() {
+                            $("#button-submit-form").html(`<button type="submit" class="btn btn-primary" id="submit-edit">Save</button>`)
+                            $("#departments-card").attr("hidden", true);
+                            $("#new-department-button").attr("hidden", true);
+                            $("#department-form-card").removeAttr("hidden");
+                            $("#cancel-button").removeAttr("hidden");
+                        }
                     </script>
                     <!-- /.card-body -->
                 </div>
@@ -212,7 +240,7 @@
                                         e.preventDefault();
                                         hiddenNewPosition();
                                     });
-
+                                    // post new position
                                     $("#submit-new-position").on("click", (e) => {
                                         e.preventDefault();
                                         const value = $("#new-position-input").val();
@@ -258,11 +286,21 @@
                                     <!-- Button Will be creating is here -->
                                 </div>
                                 <script>
+                                    // post new department
                                     $("#button-submit-form").on("click", (e) => {
                                         e.preventDefault();
                                         const buttonStatus = $("#button-submit-form").text();
                                         if (buttonStatus === "Submit") {
-                                            alert("New Department")
+                                            $.ajax({
+                                                url: '/position/new',
+                                                method: 'POST',
+                                                dataType: 'json',
+                                                data: {
+                                                    name: value
+                                                },
+                                                success: function(results){},
+                                                error: function(xhr, status, error){}
+                                            })
                                         } else if(buttonStatus === "Save") {
                                             alert("Edit & Save Department")
                                         }
@@ -316,18 +354,6 @@
     </section>
 </div>
 <script>
-    // Buttons
-    const newDepartmentButton = document.getElementById("new-department-button");
-    const cancelButton = document.getElementById("cancel-button"); // Cancel new department
-    const returnButton = document.getElementById("return-button"); // Return from department detail
-    // Department Card
-    const departmentsCard = document.getElementById("departments-card");
-    const departmentFormCard = document.getElementById("department-form-card");
-    const departmentDetailCard = document.getElementById("department-detail-card");
-    // Department Form
-    const departmentIdForm = document.getElementById("id-department-form");
-    const departmentNameForm = document.getElementById("department-name-form");
-    const buttonSubmitForm = document.getElementById("button-submit-form");
     const clearDepartmentForm = () => {
         $("#id-department-form").val(null)
         $("#department-name-form").val(null);
@@ -338,44 +364,10 @@
         // clear the department form
         $("#button-submit-form").html("");
     }
-    // Elements of Department Detail Card
-    const departmentIdColumn = document.getElementById("department-id-column");
-    const departmentNameColumn = document.getElementById("department-name-column");
-    const positionsColumn = document.getElementById("positions-column");
-    const totalEmployeesColumn = document.getElementById("total-employees-column");
-
     function clearDepartmentDetail() {
-        departmentIdColumn.innerHTML = "";
-        departmentNameColumn.innerHTML = "";
-        positionsColumn.innerHTML = "";
-        totalEmployeesColumn.innerHTML = "";
+        $("#department-id-column").html("");
+        $("#department-name-column").html("");
+        $("#positions-column").html("");
+        $("#total-employees-column").html("");
     }
-
-    function showDepartmentDetailCard() {
-        clearDepartmentDetail();
-
-        departmentIdColumn.innerHTML = "202";
-        departmentNameColumn.innerHTML = "IT Application Development";
-        const positions = ["software engineer", "data analyst"];
-        let positionsHtml = "";
-        for (let index = 0; index < positions.length; index++) {
-            positionsHtml += ` <small class="badge badge-dark">${positions[index]}</small>`;
-        }
-        positionsColumn.innerHTML = positionsHtml;
-        totalEmployeesColumn.innerHTML = 12;
-
-        departmentDetailCard.removeAttribute("hidden");
-        returnButton.removeAttribute("hidden");
-        departmentsCard.setAttribute("hidden", true);
-        newDepartmentButton.setAttribute("hidden", true);
-    }
-
-    function editDepartmentsForm() {
-        buttonSubmitForm.innerHTML = `<button type="submit" class="btn btn-primary" id="submit-edit">Save</button>`
-        departmentsCard.setAttribute("hidden", true);
-        newDepartmentButton.setAttribute("hidden", true);
-        departmentFormCard.removeAttribute("hidden", true);
-        cancelButton.removeAttribute("hidden");
-    }
-
 </script>
