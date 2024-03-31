@@ -15,7 +15,6 @@ module.exports = {
         const path = req.path;
 
         const findAllDepartment = await departmentPosition.findAll();
-        console.log(findAllDepartment);
         const findAllPosition = await position.findAll();
         return res.render("departments_page", {
             username: username,
@@ -26,8 +25,14 @@ module.exports = {
     },
     newDepartment: async (req, res) => {
         const { id, name, positions } = req.body;
-        console.log(positions);
         try {
+            const isExist = await department.findByID(id);
+            if (isExist.length !== 0) {
+                return res.json({
+                    status: 500,
+                    message: "Department code is exist!",
+                })
+            }
             await department.insert(id, name);
             await departmentPosition.insert(id, positions);
             return res.json({

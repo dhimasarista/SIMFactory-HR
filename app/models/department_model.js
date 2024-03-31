@@ -2,12 +2,22 @@ const knex = require("../config/knex");
 const { errorLogging } = require("../logging/console");
 class DepartmentModel{
     constructor(){}
+    async findByID(id){
+      try {
+        const departments = await knex.select("*").from("departments").where("id", parseInt(id));
+        return departments;
+      } catch (error) {
+        errorLogging(error);
+          throw error;
+      }
+    }
 
     async findAll(){
         try {
             const departments = await knex.select("*").from("departments");
             return departments;
         } catch (error) {
+          errorLogging(error);
             throw error;
         }
     }
