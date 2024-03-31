@@ -24,8 +24,9 @@ class DepartmentModel{
         }
     }
 
-    async insert(name){
+    async insert(id, name){
       const newData = {
+        id: parseInt(id),
         name: name,
         created_at: new Date(),
         updated_at: new Date(),

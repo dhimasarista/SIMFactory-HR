@@ -24,10 +24,16 @@ module.exports = {
         })
     },
     newDepartment: async (req, res) => {
-        const {name} = req.body;
+        const { id, name, positions } = req.body;
+        console.log(positions);
         try {
-            const results = await department.insert(name);
-            return res.status(200).json(results);
+            const resultDepartment = await department.insert(id, name);
+            const resultDepartmentPosition = await departmentPosition.insert(id, positions);
+            return res.json({
+                status: 200,
+                department: resultDepartment,
+                department_position: resultDepartmentPosition,
+            });
         } catch (error) {
             return res.status(500).send(error);
         }

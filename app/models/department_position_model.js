@@ -17,9 +17,23 @@ module.exports = class DepartmentPositionModel{
         }
     }
 
-    async insert(idDepartment, data){
-        for (let index = 0; index < data.length; index++) {
-
+    async insert(idDepartment, positions) {
+      let results = '';
+      for (let index = 0; index < positions.length; index++) {
+        const data = {
+          department_id: parseInt(idDepartment),
+          position_id: parseInt(positions[index]),
+          created_at: new Date(),
+          updated_at: new Date(),
+        };
+        try {
+          const result = await knex("departments_positions").insert(data);
+          results += `Data-${index + 1}: ${JSON.stringify(result)}\n`;
+        } catch (error) {
+          errorLogging(error);
+          throw error;
         }
+      }
+      return results;
     }
 }
