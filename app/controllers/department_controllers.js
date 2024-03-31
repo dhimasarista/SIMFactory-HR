@@ -15,6 +15,7 @@ module.exports = {
         const path = req.path;
 
         const findAllDepartment = await departmentPosition.findAll();
+        console.log(findAllDepartment);
         const findAllPosition = await position.findAll();
         return res.render("departments_page", {
             username: username,
@@ -27,15 +28,17 @@ module.exports = {
         const { id, name, positions } = req.body;
         console.log(positions);
         try {
-            const resultDepartment = await department.insert(id, name);
-            const resultDepartmentPosition = await departmentPosition.insert(id, positions);
+            await department.insert(id, name);
+            await departmentPosition.insert(id, positions);
             return res.json({
                 status: 200,
-                department: resultDepartment,
-                department_position: resultDepartmentPosition,
+                message: "Department added!"
             });
         } catch (error) {
-            return res.status(500).send(error);
+            return res.json({
+                status: 500,
+                message: error,
+            });
         }
     }
 }
