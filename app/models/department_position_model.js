@@ -5,17 +5,47 @@ const { errorLogging } = require("../logging/console");
 module.exports = class DepartmentPositionModel{
     constructor(){}
 
-    async findAll() {
-        try {
-          const rows = await knex.select('*').from('departments_positions');
-          // Melakukan sesuatu dengan data yang diperoleh
-          return rows; // Mengembalikan hasil query untuk digunakan di luar fungsi
-        } catch (err) {
-          // Menangani kesalahan jika terjadi
-          errorLogging(err);
-          throw err; // Melempar kesalahan untuk ditangani di luar fungsi
-        }
+    async findByID(id){
+      try {
+        const rows = await knex('departments_positions')
+          .select(
+            'departments.id as department_id',
+            'departments.name as department_name', 
+            'positions.id as position_id',
+            'positions.name as positions_name',
+            knex.raw('GROUP_CONCAT(positions.id) as position_ids')
+          )
+          .leftJoin('departments', 'departments_positions.department_id', 'departments.id')
+          .leftJoin('positions', 'departments_positions.position_id', 'positions.id')
+          .groupBy('departments.id', 'departments.name')
+          .where("department_id", id);
+        return rows;
+      } catch (err) {
+        errorLogging(err);
+        throw err;
+      }
     }
+
+    async findAll() {
+      try {
+        const rows = await knex('departments_positions')
+          .select(
+            'departments.id as department_id',
+            'departments.name as department_name', 
+            'positions.id as position_id',
+            'positions.name as positions_name',
+            knex.raw('GROUP_CONCAT(positions.id) as position_ids')
+          )
+          .leftJoin('departments', 'departments_positions.department_id', 'departments.id')
+          .leftJoin('positions', 'departments_positions.position_id', 'positions.id')
+          .groupBy('departments.id', 'departments.name');
+    
+        return rows;
+      } catch (err) {
+        errorLogging(err);
+        throw err;
+      }
+    }    
 
     async insert(idDepartment, positions) {
       let results = '';
