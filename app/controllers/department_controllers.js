@@ -46,8 +46,9 @@ module.exports = {
         const idToNumber = parseInt(id);
         try {
             const results = await departmentPosition.findByID(idToNumber);
+            console.log(results);
             return res.json({
-                status: 202,
+                status: 200,
                 results: results
             });
         } catch (error) {
