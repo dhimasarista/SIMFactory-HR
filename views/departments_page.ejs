@@ -23,6 +23,7 @@
                     $("#new-department-button").on("click", e => {
                         e.preventDefault();
 
+                        $("#id-department-form").removeAttr("disabled");
                         $("#departments-card").attr("hidden", true);
                         $("#new-department-button").attr("hidden", true);
                         $("#department-form-card").removeAttr("hidden");
@@ -177,7 +178,9 @@
                                     $("#cancel-button").removeAttr("hidden");
 
                                     const data = results.results[0];
-                                    $("#id-department-form").val(data.department_id);
+                                    const idDepartmentForm = $("#id-department-form");
+                                    idDepartmentForm.val(data.department_id);
+                                    idDepartmentForm.attr("disabled", true);
                                     $("#department-name-form").val(data.department_name);
                                     
                                     // Memeriksa dan menetapkan checkbox sesuai dengan respons
@@ -361,7 +364,30 @@
                                                         }
                                                     });
                                                 } else if(buttonStatus === "Save") {
-                                                    alert("Edit & Save Department")
+                                                    let data = {
+                                                        positions: positionSelected,
+                                                        id: $("#id-department-form").val(),
+                                                        name: $("#department-name-form").val(),
+                                                    }
+                                                    $.ajax({
+                                                        url: `/department/${data.id}`,
+                                                        method: 'PUT',
+                                                        // dataType: 'json',
+                                                        contentType: "application/json",
+                                                        data: JSON.stringify(data),
+                                                        success: function(results){ 
+                                                            if (results.status !== 200) {
+                                                                ErrorModal(results.message)
+                                                            } else {
+                                                                SuccessModal(results.message);
+                                                            }
+                                                        },
+                                                        error: function(xhr, status, error){
+                                                            Swal.close();
+                                                            ErrorNotif(`${status} ${error}`);
+                                                        }
+                                                    });
+                                                
                                                 }
                                             }
                                         })

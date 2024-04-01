@@ -61,5 +61,22 @@ module.exports = {
                 message: error,
             });
         }
+    },
+    updateDepartment: async(req, res) => {
+        const id = req.param("id");
+        const {name} = req.body;
+
+        try {
+            const result = await department.update(id, name);
+            return res.json({
+                status: 200,
+                message: "Department updated!"
+            });
+        } catch (error) {
+            return res.json({
+                status: 500,
+                message: error,
+            });
+        }
     }
 }

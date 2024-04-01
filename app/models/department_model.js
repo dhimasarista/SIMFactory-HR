@@ -49,6 +49,21 @@ class DepartmentModel{
         throw error;
       }
     }
+
+    async update(id, name){
+      const data = {
+        name: name,
+        created_at: new Date(),
+        updated_at: new Date(),
+      }
+      try {
+        const result = await knex("departments").update(data).where("id", parseInt(id));
+        return result;
+      } catch (error) {
+        errorLogging(error);
+        throw error;
+      }
+    }
 }
 
 module.exports = DepartmentModel;
