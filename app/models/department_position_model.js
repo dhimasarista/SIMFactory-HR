@@ -23,6 +23,13 @@ module.exports = class DepartmentPositionModel{
           row.positions_names = row.positions_names.split(',');
           row.position_ids = row.position_ids.split(',');
         });
+        // mengambil total employee berdasarkan id tertentu
+        const countEmployeeByDepartment = await knex("employees").count("id as total_employees").where("department_id", id).andWhere("deleted_at", null);
+        const totalEmployees = countEmployeeByDepartment[0].total_employees;
+        // Tambahkan total_employees ke dalam setiap objek dalam array rows
+        rows.forEach(row => {
+          row.total_employees = totalEmployees;
+        });
         return rows;
       } catch (err) {
           errorLogging(err);
@@ -41,7 +48,8 @@ module.exports = class DepartmentPositionModel{
           )
           .leftJoin('departments', 'departments_positions.department_id', 'departments.id')
           .leftJoin('positions', 'departments_positions.position_id', 'positions.id')
-          .groupBy('departments.id', 'departments.name');
+          .groupBy('departments.id', 'departments.name')
+          .where("departments.deleted_at", null);
         
         // Memisahkan string menjadi array
         rows.forEach(row => {

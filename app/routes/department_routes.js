@@ -1,4 +1,4 @@
-const { renderDepartment, newDepartment, findDepartmentByID, updateDepartment } = require("../controllers/department_controllers");
+const { renderDepartment, newDepartment, findDepartmentByID, updateDepartment, deleteDepartment } = require("../controllers/department_controllers");
 const { findAllPositions, newPosition} = require("../controllers/position_controllers");
 const DepartmentModel = require("../models/department_model");
 class DepartmentRoutes{
@@ -13,6 +13,7 @@ class DepartmentRoutes{
         this.app.post("/department/new", newDepartment);
         this.app.get("/department/:id", findDepartmentByID);
         this.app.put("/department/:id", updateDepartment);
+        this.app.delete("/department/:id", deleteDepartment)
     }
 
     position(){

@@ -67,10 +67,25 @@ module.exports = {
         const {name} = req.body;
 
         try {
-            const result = await department.update(id, name);
+            await department.update(id, name);
             return res.json({
                 status: 200,
                 message: "Department updated!"
+            });
+        } catch (error) {
+            return res.json({
+                status: 500,
+                message: error,
+            });
+        }
+    },
+    deleteDepartment: async(req, res)=>{
+        const id = req.param("id");
+        try {
+            await department.softDelete(id);
+            return res.json({
+                status: 200,
+                message: "Department deleted!"
             });
         } catch (error) {
             return res.json({

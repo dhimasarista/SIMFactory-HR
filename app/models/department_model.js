@@ -64,6 +64,15 @@ class DepartmentModel{
         throw error;
       }
     }
+
+    async softDelete(id){
+      try {
+        const result = await knex("departments").update("deleted_at", new Date()).where("id", parseInt(id));
+      } catch (error) {
+        errorLogging(error);
+        throw error;
+      }
+    }
 }
 
 module.exports = DepartmentModel;
