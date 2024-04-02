@@ -317,7 +317,7 @@
                                                 success: function(results) {
                                                     console.log(results);
                                                     let newId = results;
-                                                    let newCheckbox = `<input class="form-check-input" type="checkbox" id="${newId}" value="${value}"><label class="form-check-label" for="${newId}">${value}</label>`;
+                                                    let newCheckbox = `<input class="form-check-input" type="checkbox" id="position-${newId}" value="${newId}"><label class="form-check-label" for="${newId}">${value}</label>`;
                                                     let div = document.createElement("div");
                                                     div.setAttribute("class", "form-check mb-2");
                                                     div.innerHTML = newCheckbox  
