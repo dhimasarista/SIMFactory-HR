@@ -3,23 +3,24 @@
 /**
  * @type { Object.<string, import("knex").Knex.Config> }
  */
+require('dotenv').config();
 module.exports = {
 
   development: {
-    client: 'mysql',
+    client: process.env.DB_CONNECTION,
     connection: {
-      database: "simfactory_dev",
-      user: "root",
-      password: "",
+      database: process.env.DB_DATABASE,
+      user: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
     }
   },
 
   staging: {
-    client: 'postgresql',
+    client: process.env.DB_CONNECTION,
     connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
+      database: process.env.DB_DATABASE,
+      user: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
     },
     pool: {
       min: 2,
@@ -31,19 +32,12 @@ module.exports = {
   },
 
   production: {
-    client: 'postgresql',
+    client: process.env.DB_CONNECTION,
     connection: {
-      database: 'my_db',
-      user:     'username',
-      password: 'password'
+      database: process.env.DB_DATABASE,
+      user: process.env.DB_USERNAME,
+      password: process.env.DB_PASSWORD,
     },
-    pool: {
-      min: 2,
-      max: 10
-    },
-    migrations: {
-      tableName: 'knex_migrations'
-    }
   }
 
 };
