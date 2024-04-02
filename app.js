@@ -14,6 +14,7 @@ const DepartmentRoutes = require("./app/routes/department_routes");
 const UserManagementRoutes = require("./app/routes/user_management_routes");
 const logger = require('./app/logging/winston');
 const { successLogging } = require('./app/logging/console');
+const metrics = require('./app/utilities/metrics');
 
 const app = express(); // Init aplikasi
 const port = process.env.APP_PORT || 3000; // Init port
@@ -39,6 +40,20 @@ new EmployeeRoute(app);
 new ErrorRoutes(app);
 new DepartmentRoutes(app);
 new UserManagementRoutes(app);
+app.get("/metrics", (req, res) => {
+    try {
+        const data = metrics();
+        res.json({
+            status: 200,
+            metrics: data
+        });
+    } catch (error) {
+        res.json({
+            status: 500,
+            message: error,
+        })
+    }
+});
 // Middleware untuk menangani routing yang tidak ada
 app.use((req, res) => {
     return res.status(404).redirect("/404");
