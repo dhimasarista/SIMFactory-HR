@@ -12,7 +12,6 @@ module.exports = {
 
         const employees = await employeeModel.findAll();
         const departments = await departmentModel.findAll();
-        console.log(departments);
         return res.render("employees_page", {
             username: username,
             path: path,
