@@ -17,7 +17,8 @@ module.exports = class DepartmentPositionModel{
         .leftJoin('departments', 'departments_positions.department_id', 'departments.id')
         .leftJoin('positions', 'departments_positions.position_id', 'positions.id')
         .groupBy('departments.id', 'departments.name')
-        .where("departments.id", id);
+        .where("departments.id", id)
+        .andWhere("departments.deleted_at", null);
         // Memisahkan string menjadi array
         rows.forEach(row => {
           row.positions_names = row.positions_names.split(',');
@@ -90,6 +91,14 @@ module.exports = class DepartmentPositionModel{
         await knex("departments_positions").where("department_id", departmentID).del();
         const result = await this.insert(departmentID, positions);
         return result;
+      } catch (error) {
+        throw error;
+      }
+    }
+
+    async softDelete(departmentID){
+      try {
+        await knex("department_positions").where("deparment_id", departmentID).update("deleted_at", knex.fn.now());
       } catch (error) {
         throw error;
       }

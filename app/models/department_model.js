@@ -4,7 +4,7 @@ class DepartmentModel{
     constructor(){}
     async findByID(id){
       try {
-        const departments = await knex.select("*").from("departments").where("id", parseInt(id));
+        const departments = await knex.select("*").from("departments").where("id", parseInt(id)).andWhere("deleted_at", null);
         return departments;
       } catch (error) {
         errorLogging(error);
@@ -14,7 +14,7 @@ class DepartmentModel{
 
     async findAll(){
         try {
-            const departments = await knex.select("*").from("departments");
+            const departments = await knex.select("*").from("departments").andWhere("deleted_at", null);
             return departments;
         } catch (error) {
           errorLogging(error);
@@ -22,17 +22,17 @@ class DepartmentModel{
         }
     }
 
-    async findDepartmentWithPosition() {
-        try {
-          const rows = await knex.select('*').from('departments_positions');
-          // Melakukan sesuatu dengan data yang diperoleh
-          return rows; // Mengembalikan hasil query untuk digunakan di luar fungsi
-        } catch (err) {
-          // Menangani kesalahan jika terjadi
-          errorLogging(err);
-          throw err; // Melempar kesalahan untuk ditangani di luar fungsi
-        }
-    }
+    // async findDepartmentWithPosition() {
+    //     try {
+    //       const rows = await knex.select('*').from('departments_positions').andWhere("deleted_at", null);
+    //       // Melakukan sesuatu dengan data yang diperoleh
+    //       return rows; // Mengembalikan hasil query untuk digunakan di luar fungsi
+    //     } catch (err) {
+    //       // Menangani kesalahan jika terjadi
+    //       errorLogging(err);
+    //       throw err; // Melempar kesalahan untuk ditangani di luar fungsi
+    //     }
+    // }
 
     async insert(id, name){
       const newData = {

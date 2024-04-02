@@ -64,10 +64,11 @@ module.exports = {
     },
     updateDepartment: async(req, res) => {
         const id = req.param("id");
-        const {name} = req.body;
+        const {name, positions } = req.body;
 
         try {
             await department.update(id, name);
+            await departmentPosition.update(positions, id);
             return res.json({
                 status: 200,
                 message: "Department updated!"
