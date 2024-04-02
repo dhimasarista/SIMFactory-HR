@@ -65,11 +65,11 @@ module.exports = class DepartmentPositionModel{
     }
      
 
-    async insert(idDepartment, positions) {
+    async insert(departmentID, positions) {
       let results = '';
       for (let index = 0; index < positions.length; index++) {
         const data = {
-          department_id: parseInt(idDepartment),
+          department_id: parseInt(departmentID),
           position_id: parseInt(positions[index]),
           created_at: new Date(),
           updated_at: new Date(),
@@ -83,5 +83,15 @@ module.exports = class DepartmentPositionModel{
         }
       }
       return results;
+    }
+
+    async update(positions, departmentID){
+      try {
+        await knex("departments_positions").where("department_id", departmentID).del();
+        const result = await this.insert(departmentID, positions);
+        return result;
+      } catch (error) {
+        throw error;
+      }
     }
 }

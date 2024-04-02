@@ -93,5 +93,21 @@ module.exports = {
                 message: error,
             });
         }
+    },
+    test: async(req, res) => {
+        const id = req.param("id");
+        const dp = req.param("dp");
+        try {
+            const result = await departmentPosition.update(parseInt(id), parseInt(dp));
+            return res.json({
+                status: 200,
+                message: result,
+            });
+        } catch (error) {
+            return res.json({
+                status: 500,
+                message: error,
+            });
+        }
     }
 }

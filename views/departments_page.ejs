@@ -134,6 +134,7 @@
                                 method: 'GET',
                                 contentType: "application/json",
                                 success: function(results) {
+                                    console.log(results);
                                     if (results.status !== 200) {
                                         ErrorNotif(Object.values(results.message)[0])
                                         return 0;
@@ -396,7 +397,7 @@
                                                         data: JSON.stringify(data),
                                                         success: function(results){ 
                                                             if (results.status !== 200) {
-                                                                ErrorModal(Object.values(results.message)[0])
+                                                                ErrorModal(results.message)
                                                             } else {
                                                                 SuccessModal(results.message);
                                                             }
