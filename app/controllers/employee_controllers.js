@@ -18,10 +18,9 @@ module.exports = {
     deleteEmployee: async (req, res) => {
         try {
             const id = req.params.id;
-            const results = await employeeModel.softDelete(id);
+            await employeeModel.softDelete(id);
             return res.json({
                 status: 200,
-                results: results,
                 message: "Employee deleted"
             });
         } catch (error) {

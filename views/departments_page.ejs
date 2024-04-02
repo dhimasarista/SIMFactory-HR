@@ -168,7 +168,8 @@
                                 contentType: "application/json",
                                 success: function(results) {
                                     if (results.status !== 200) {
-                                        ErrorNotif(results.message)
+                                        const message = Object.values(results.message);
+                                        ErrorNotif(`${message[0]}`)
                                         return 0;
                                     }
                                     $("#button-submit-form").html(`<button type="submit" class="btn btn-primary" id="submit-edit">Save</button>`)
@@ -215,7 +216,7 @@
                                         contentType: "application/json",
                                         success: function(results) {
                                             if (results.status !== 200) {
-                                                ErrorNotif(results.message);
+                                                ErrorNotif(Object.values(results.message)[0]);
                                                 return 0;
                                             }
                                             $(`tr[data-id="${id}"]`).remove();
@@ -315,8 +316,12 @@
                                                 contentType: "application/json",
                                                 data: JSON.stringify(data),
                                                 success: function(results) {
-                                                    console.log(results);
-                                                    let newId = results;
+                                                    if (results.status !== 200) {
+                                                        ErrorNotif(Object.values(results.message)[0]);
+                                                        return 0;
+                                                    }
+                                                    OkeNotif(results.message);
+                                                    let newId = results.id;
                                                     let newCheckbox = `<input class="form-check-input" type="checkbox" id="position-${newId}" value="${newId}"><label class="form-check-label" for="${newId}">${value}</label>`;
                                                     let div = document.createElement("div");
                                                     div.setAttribute("class", "form-check mb-2");
@@ -391,7 +396,7 @@
                                                         data: JSON.stringify(data),
                                                         success: function(results){ 
                                                             if (results.status !== 200) {
-                                                                ErrorModal(results.message)
+                                                                ErrorModal(Object.values(results.message)[0])
                                                             } else {
                                                                 SuccessModal(results.message);
                                                             }
@@ -415,7 +420,7 @@
                                                         data: JSON.stringify(data),
                                                         success: function(results){ 
                                                             if (results.status !== 200) {
-                                                                ErrorModal(results.message)
+                                                                ErrorModal(Object.values(results.message)[0])
                                                             } else {
                                                                 SuccessModal(results.message);
                                                             }

@@ -3,19 +3,32 @@ const position = new PositionModel();
 module.exports = {
     findAllPositions: async (req, res) => {
         try {
-            const positions = await position.findAll();
-            return res.status(200).json(positions);
+            const results = await position.findAll();
+            return res.json({
+                status: 200,
+                message: results
+            });
         } catch (error) {
-            return res.status(500).send(error);
+           return res.json({
+                status: 500,
+                message: error,
+            });
         }
     },
     newPosition: async (req, res) => {
         const {name} = req.body;
         try {
             const results = await position.insert(name);
-            return res.status(200).json(results);
+            return res.json({
+                status: 200,
+                message: "New Position",
+                id: results
+            });
         } catch (error) {
-            return res.status(500).send(error);
+           return res.json({
+                status: 500,
+                message: error,
+            });
         }
     }
 }
