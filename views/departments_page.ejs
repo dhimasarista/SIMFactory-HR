@@ -135,7 +135,7 @@
                                 contentType: "application/json",
                                 success: function(results) {
                                     if (results.status !== 200) {
-                                        ErrorNotif(results.message)
+                                        ErrorNotif(Object.values(results.message)[0])
                                         return 0;
                                     }
                                     $("#department-id-column").html(results.results[0]["department_id"]);
