@@ -306,13 +306,14 @@
                                         e.preventDefault();
                                         const value = $("#new-position-input").val();
                                         if (value !== "") {
+                                            const data = {
+                                                name: value
+                                            }
                                             $.ajax({
                                                 url: '/position/new',
                                                 method: 'POST',
                                                 contentType: "application/json",
-                                                data: {
-                                                    name: value
-                                                },
+                                                data: JSON.stringify(data),
                                                 success: function(results) {
                                                     console.log(results);
                                                     let newId = results;
