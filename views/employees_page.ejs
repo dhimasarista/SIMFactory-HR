@@ -183,23 +183,49 @@
                                 </div>
                                 <div class="form-group">
                                     <label for="department">Department</label>
-                                    <select class="form-control" style="width: 100%;">
+                                    <select id="select-department" class="form-control" style="width: 100%;" onchange="selectDepartment()">
                                         <option selected="selected" disabled>Select Department</option>
                                         <% departments.forEach(department => { %>
                                             <option value="<%- department['id'] %>"><%- department['name'] %></option>
                                         <% }); %>
                                     </select>                    
+                                    <script>
+                                        function selectDepartment(){
+                                            $("#select-position option").each(function(index, option) {
+                                                // Mulai menghapus elemen ke-2 (indeks 1) hingga elemen terakhir dalam loop.
+                                                if (index > 0) {
+                                                    $(option).remove();
+                                                }
+                                            });
+                                            $("#select-position").prop("selectedIndex", 0);
+                                            $.ajax({
+                                                url: `/employee/positions/department/${$("#select-department option:selected").val()}`,
+                                                method: 'GET',
+                                                contentType: "application/json",
+                                                success: function(results) {
+                                                    if (results.status !== 200) {
+                                                        ErrorNotif(Object.values(results.message)[0]);
+                                                        return 0;
+                                                    }
+                                                    for (let index = 0; index < results.positions[0]["position_ids"].length; index++) {
+                                                        const option = document.createElement("option");
+                                                        option.value = results.positions[0]["position_ids"][index];
+                                                        option.textContent = results.positions[0]["positions_names"][index];
+                                                        $("#select-position").append(option);
+                                                    }
+                                                },
+                                                error: function(xhr, status, error) {
+                                                    ErrorNotif(`${status} ${error}`);
+                                                    console.log(error);
+                                                }
+                                            });
+                                        }
+                                    </script>
                                 </div>
                                 <div class="form-group">
                                     <label for="position">Position</label>
-                                    <select class="form-control" style="width: 100%;">
+                                    <select class="form-control" style="width: 100%;" id="select-position">
                                         <option selected="selected" disabled>Select Position</option>
-                                        <option>Alaska</option>
-                                        <option>California</option>
-                                        <option>Delaware</option>
-                                        <option>Tennessee</option>
-                                        <option>Texas</option>
-                                        <option>Washington</option>
                                     </select>                    
                                 </div>
                                 <div id="button-submit-form">

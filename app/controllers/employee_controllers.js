@@ -1,9 +1,11 @@
 const UserModel = require("../models/user_model");
 const EmployeeModel = require("../models/employee_model");
 const DepartmentModel = require("../models/department_model");
+const DepartmentPositionModel = require("../models/department_position_model");
 const userModel = new UserModel();
 const employeeModel = new EmployeeModel();
 const departmentModel = new DepartmentModel();
+const departmentPositionModel = new DepartmentPositionModel();
 module.exports = {
     render: async (req, res) => {
         const user = userModel.GetUserByID(2004);
@@ -31,7 +33,23 @@ module.exports = {
             return res.json({
                 status: 500,
                 message: error
-            })            
+            });
+        }
+    },
+    selectPosition: async (req, res) => {
+        try {
+            const idDepartment = req.param("id");
+            const positions = await departmentPositionModel.findByID(idDepartment);
+            res.json({
+                status: 200,
+                message: "position fetched!",
+                positions: positions,
+            })
+        } catch (error) {
+            return res.json({
+                status: 500,
+                message: error
+            });
         }
     }
 }
