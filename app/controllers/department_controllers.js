@@ -26,6 +26,12 @@ module.exports = {
     newDepartment: async (req, res) => {
         const { id, name, positions } = req.body;
         try {
+            if (positions.length === 0) {
+                return res.json({
+                    status: 500,
+                    message: "Select positions or create first!",
+                });
+            }
             const isExist = await department.findByID(id);
             if (isExist.length !== 0) {
                 return res.json({

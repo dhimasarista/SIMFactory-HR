@@ -52,15 +52,15 @@
                                 <td><%- employee['department_name'] %></td>
                                 <td class="text-center text-break">
                                     <!-- Detail -->
-                                    <a href="#" class="m-1" onclick="showEmpoyeeDetailCard(`<%- employee['id'] %>`)">
+                                    <a href="javascript:void(0)" class="m-1" onclick="showEmpoyeeDetailCard(`<%- employee['id'] %>`)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="green" d="M15 11h7v2h-7zm1 4h6v2h-6zm-2-8h8v2h-8zM4 19h10v-1c0-2.757-2.243-5-5-5H7c-2.757 0-5 2.243-5 5v1zm4-7c1.995 0 3.5-1.505 3.5-3.5S9.995 5 8 5S4.5 6.505 4.5 8.5S6.005 12 8 12"/></svg>
                                     </a>
                                     <!-- Edit -->
-                                    <a href="#" class="m-1" onclick="editEmployee()">
+                                    <a href="javascript:void(0)" class="m-1" onclick="editEmployee(`<%- employee['id'] %>`)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 32 32"><path fill="orange" d="M25 4.031c-.766 0-1.516.297-2.094.875L13 14.781l-.219.219l-.062.313l-.688 3.5l-.312 1.468l1.469-.312l3.5-.688l.312-.062l.219-.219l9.875-9.906A2.968 2.968 0 0 0 25 4.03zm0 1.938c.234 0 .465.12.688.343c.445.446.445.93 0 1.375L16 17.376l-1.719.344l.344-1.719l9.688-9.688c.222-.222.453-.343.687-.343zM4 8v20h20V14.812l-2 2V26H6V10h9.188l2-2z"/></svg>
                                     </a>
                                     <!-- Delete -->
-                                    <a href="#" class="m-1" onclick="deleteEmployee(`<%- employee['id'] %>`)">
+                                    <a href="javascript:void(0)" class="m-1" onclick="deleteEmployee(`<%- employee['id'] %>`)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="red" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21zm2-4h2V8H9zm4 0h2V8h-2z"/></svg>
                                     </a>
                                 </td>
@@ -70,21 +70,14 @@
                         </table>
                         <script>
                             function showEmpoyeeDetailCard(id) {
-                                // Swal.fire({
-                                //     title: "Loading!",
-                                //     didOpen: ()=>{
-                                //         Swal.showLoading();
-                                //     }
-                                // });
-                                PurpleNotif("Pleas wait!");
+                                TopLoaderService.start();
                                 setTimeout(() => {
                                     $.ajax({
                                     url: `/employee/${id}`,
                                     method: 'GET',
                                     dataType: 'json',
                                     success: function(results) {
-                                        // Swal.close();
-                                        console.log(results);
+                                        TopLoaderService.end();
                                         if (results.status !== 200) {
                                             ErrorNotif(Object.values(results.message)[0]);
                                             return 0;
@@ -94,7 +87,7 @@
                                         // Unhide new employee button, hide return button
                                         $("#new-employee-button").attr("hidden", true);
                                         $("#return-button").removeAttr('hidden');
-                                        $("#employee-id-column").text(results.employee[0]["id"]);
+                                        $("#employee-id-column").text(results.employee[0]["id_number"]);
                                         $("#id-number-column").text(results.employee[0]["id"]);
                                         $("#name-column").text(PascalCaseWithSpace(results.employee[0]["name"]));
                                         $("#title-column").text(results.employee[0]["title"].toUpperCase());
@@ -108,6 +101,45 @@
                                     }
                                 })
                                 }, 1000);
+                            }
+                            function editEmployee(id) {
+                                TopLoaderService.start();
+                                $.ajax({
+                                    url: `/employee/${id}`,
+                                    method: 'GET',
+                                    dataType: 'json',
+                                    success: function(results) {
+                                        TopLoaderService.end();
+                                        if (results.status !== 200) {
+                                            ErrorNotif(Object.values(results.message)[0]);
+                                            return 0;
+                                        }
+                                        const departments = $("#select-department option");
+                                        for (let index = 0; index < departments.length; index++) {
+                                            if (parseInt(departments[index]["value"]) === results.employee[0]["department_id"]) {
+                                                $(`#select-department option[value='${departments[index]["value"]}']`).prop("selected", true);
+                                                selectDepartment(); // mengtrigger form position
+                                            }
+                                        }
+                                        showEmployeeForm();
+                                        $("#button-submit-form").html('<button type="submit" class="btn btn-primary" id="save-edit">Save</button>');
+                                        $("#employee-id-form").attr("disabled", true);
+                                        $("#employee-id-form").val(results.employee[0]["id"]);
+                                        $("#id-number-form").val(results.employee[0]["id_number"]);
+                                        $("#fullname-form").val(results.employee[0]["name"]);
+                                        $("#title-form").val(results.employee[0]["title"]);
+                                        $("#born-place-form").val(results.employee[0]["bornplace"]);
+                                        $("#birth-date-form").val(results.employee[0]["birthdate"]);
+                                        // $("#id-card-photo-form").val(results.employee[0][""]);
+                                        // $("#photo-form").val("");
+                                        $("#address-form").val(results.employee[0]["address"]);
+                                        console.log(results);
+                                    },
+                                    error: function(xhr, status, error) {
+                                        WarningNotif(`${status} ${error}`);
+                                        console.log(error);
+                                    }
+                                })
                             }
                         </script>
                     </div>
@@ -167,7 +199,7 @@
                                                     <tr class="odd"><td valign="top" colspan="5" class="dataTables_empty">No data available in table</td></tr>
                                                     `)
                                                 }
-                                            }, 4000);
+                                            }, 1000);
                                         },
                                         error: function(xhr, status, error) {
                                             WarningNotif(`${status} ${error}`);
@@ -193,7 +225,11 @@
                             <form>
                                 <div class="form-group">
                                     <label for="id-number">ID Number <small style="color: red;">*Required</small></label>
-                                    <input type="text" class="form-control" id="id-number-form" name="id-number">
+                                    <input type="number" class="form-control" id="id-number-form" name="id-number">
+                                </div>
+                                <div class="form-group">
+                                    <label for="employee ID">Employee ID<small style="color: red;">*Required</small></label>
+                                    <input type="number" class="form-control" id="employee-id-form" name="employee-id-form">
                                 </div>
                                 <div class="form-group">
                                     <label for="fullname">Full Name <small style="color: red;">*Required</small></label>
@@ -273,6 +309,19 @@
                                 <div id="button-submit-form">
                                     <!-- Button Will be creating is here -->
                                 </div>
+                                <script>
+                                    $("#button-submit-form").on("click", e => {
+                                        e.preventDefault();
+
+                                        const buttonStatus = $("#button-submit-form").text();
+                                        if (buttonStatus === "Submit") {
+                                            alert(buttonStatus);
+                                        } else if (buttonStatus === "Save") {
+                                            alert(buttonStatus);
+                                        }
+                                    })
+                                    
+                                </script>
                             </form>
                         </div>
                     </div>
@@ -331,31 +380,37 @@
     </section>
 </div>
 <script>
+    function showEmployeeForm() {
+         // Unhide employee form, hide employees card
+        $("#employees-card").attr("hidden", true);
+        $("#employee-form-card").removeAttr("hidden");
+        // Hide new employee button, unhide cancel button
+        $("#new-employee-button").attr("hidden", true);
+        $("#cancel-button").removeAttr("hidden");
+        // Clear the forms
+        $("#id-number-form").val("");
+        $("#employee-id-form").removeAttr("disabled")
+        $("#employee-id-form").val("");
+        $("#fullname-form").val("");
+        $("#title-form").val("");
+        $("#born-place-form").val("");
+        $("#birth-date-form").val("");
+        $("#id-card-photo-form").val("");
+        $("#photo-form").val("");
+        $("#address-form").val("");
+    }
     $(document).ready(function() {
         // Events for buttons
         $("#new-employee-button").click(function(e) {
             e.preventDefault();
-            // Unhide employee form, hide employees card
-            $("#employees-card").attr("hidden", true);
-            $("#employee-form-card").removeAttr("hidden");
-            // Hide new employee button, unhide cancel button
-            $("#new-employee-button").attr("hidden", true);
-            $("#cancel-button").removeAttr("hidden");
-            // Clear the forms
-            $("#id-number-form").val("");
-            $("#fullname-form").val("");
-            $("#title-form").val("");
-            $("#born-place-form").val("");
-            $("#birth-date-form").val("");
-            $("#id-card-photo-form").val("");
-            $("#photo-form").val("");
-            $("#address-form").val("");
+            showEmployeeForm();
             // Create Button
             $("#button-submit-form").html('<button type="submit" class="btn btn-primary" id="submit-new">Submit</button>');
         });
 
         $("#cancel-button").click(function(e) {
             e.preventDefault();
+            TopLoaderService.start();
             // Clearing Form
             if ($("#id-number-form").val() !== "") {
                 Swal.fire({
@@ -367,6 +422,7 @@
                     cancelButtonColor: "#d33",
                     confirmButtonText: "Yes!"
                 }).then(results => {
+                    TopLoaderService.end();
                     if (results.isConfirmed) {
                         $("#employees-card").removeAttr("hidden");
                         $("#employee-form-card").attr("hidden", true);
@@ -376,6 +432,7 @@
                     }
                 });
             } else {
+                TopLoaderService.end();
                 $("#employees-card").removeAttr("hidden");
                 $("#employee-form-card").attr("hidden", true);
                 // Unhide new employee button, hide cancel button

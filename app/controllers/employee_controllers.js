@@ -25,11 +25,13 @@ module.exports = {
         try {
             const id = req.params.id;
             const results = await employeeModel.findByID(parseInt(id));
-            return res.json({
-                status: 200,
-                message: "Employeee finded!",
-                employee: results,
-            });
+            setTimeout(() => {
+                return res.json({
+                    status: 200,
+                    message: "Employeee finded!",
+                    employee: results,
+                });
+            }, 3000);
         } catch (error) {
             return res.json({
                 status: 500,
