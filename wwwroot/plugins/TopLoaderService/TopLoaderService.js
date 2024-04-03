@@ -44,7 +44,7 @@ const animateWidth = () => {
 
 
 
-export default class TopLoaderService {
+class TopLoaderService {
     static start(percentage) {
         target = percentage || 35;
         startInterval();
