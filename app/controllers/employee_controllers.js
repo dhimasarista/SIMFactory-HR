@@ -38,7 +38,7 @@ module.exports = {
     },
     selectPosition: async (req, res) => {
         try {
-            const idDepartment = req.param("id");
+            const idDepartment = req.params.id;
             const positions = await departmentPositionModel.findByID(idDepartment);
             res.json({
                 status: 200,

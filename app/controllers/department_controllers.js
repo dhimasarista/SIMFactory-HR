@@ -47,7 +47,7 @@ module.exports = {
         }
     },
     findDepartmentByID: async (req, res) => {
-        const id = req.param("id");
+        const id = req.params.id;
         const idToNumber = parseInt(id);
         try {
             const results = await departmentPosition.findByID(idToNumber);
@@ -63,7 +63,7 @@ module.exports = {
         }
     },
     updateDepartment: async(req, res) => {
-        const id = req.param("id");
+        const id = req.params.id;
         const {name, positions } = req.body;
 
         try {
@@ -81,7 +81,7 @@ module.exports = {
         }
     },
     deleteDepartment: async(req, res)=>{
-        const id = req.param("id");
+        const id = req.params.id;
         try {
             await department.softDelete(id);
             return res.json({
@@ -96,8 +96,8 @@ module.exports = {
         }
     },
     test: async(req, res) => {
-        const id = req.param("id");
-        const dp = req.param("dp");
+        const id = req.params.id;
+        const dp = req.params.dp;
         try {
             const result = await departmentPosition.update(parseInt(id), parseInt(dp));
             return res.json({
