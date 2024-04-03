@@ -4,6 +4,15 @@ const { errorLogging } = require("../logging/console");
 class EmployeeModel{
     constructor(){}
 
+    async findByID(id){
+        try {
+            const employee = await knex("employees").where("id", id).andWhere("deleted_at",null);
+            return employee;
+        } catch (error) {
+            throw error;
+        }
+    }
+
     async findAll(){
         try {
             const employees = await knex.select('employees.*', 'positions.name as position_name', "departments.name as department_name")

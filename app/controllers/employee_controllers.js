@@ -21,6 +21,22 @@ module.exports = {
             departments: departments
         });
     },
+    findEmployeeByID: async (req, res) => {
+        try {
+            const id = req.params.id;
+            const results = await employeeModel.findByID(parseInt(id));
+            return res.json({
+                status: 200,
+                message: "Employeee finded!",
+                employee: results,
+            });
+        } catch (error) {
+            return res.json({
+                status: 500,
+                message: error
+            });
+        }
+    },
     deleteEmployee: async (req, res) => {
         try {
             const id = req.params.id;

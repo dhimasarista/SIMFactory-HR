@@ -16,7 +16,7 @@ const metrics = () => {
         totalMemory: totalMemory,
         freeMemory: freeMemory,
         usedMemory: usedMemory,
-        executionTime: executionTime
+        executionTime: (executionTime / 1000).toFixed(1),
     };
     // Mengirimkan data
     return metrics;

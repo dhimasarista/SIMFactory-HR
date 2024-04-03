@@ -52,7 +52,7 @@
                                 <td><%- employee['department_name'] %></td>
                                 <td class="text-center text-break">
                                     <!-- Detail -->
-                                    <a href="#" class="m-1" onclick="showEmpoyeeDetailCard()">
+                                    <a href="#" class="m-1" onclick="showEmpoyeeDetailCard(`<%- employee['id'] %>`)">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="green" d="M15 11h7v2h-7zm1 4h6v2h-6zm-2-8h8v2h-8zM4 19h10v-1c0-2.757-2.243-5-5-5H7c-2.757 0-5 2.243-5 5v1zm4-7c1.995 0 3.5-1.505 3.5-3.5S9.995 5 8 5S4.5 6.505 4.5 8.5S6.005 12 8 12"/></svg>
                                     </a>
                                     <!-- Edit -->
@@ -68,6 +68,48 @@
                             <% }); %>
                             </tbody>                            
                         </table>
+                        <script>
+                            function showEmpoyeeDetailCard(id) {
+                                Swal.fire({
+                                    title: "Loading!",
+                                    didOpen: ()=>{
+                                        Swal.showLoading();
+                                    }
+                                });
+                                setTimeout(() => {
+                                    $.ajax({
+                                    url: `/employee/${id}`,
+                                    method: 'GET',
+                                    dataType: 'json',
+                                    success: function(results) {
+                                        Swal.close();
+                                        if (results.status !== 200) {
+                                            ErrorNotif(results.message);
+                                            return 0;
+                                        }
+                                        console.log(results);
+                                        $("#employees-card").attr("hidden", true);
+                                        $("#employee-detail-card").removeAttr('hidden');
+                                        // Unhide new employee button, hide return button
+                                        $("#new-employee-button").attr("hidden", true);
+                                        $("#return-button").removeAttr('hidden');
+                                        // 
+                                        $("#employee-id-column").text(results.employee[0]["id"]);
+                                        $("#id-number-column").text(results.employee[0]["id"]);
+                                        $("#name-column").text(results.employee[0]["name"]);
+                                        $("#title-column").text(results.employee[0]["title"]);
+                                        $("#birth-place-column").text(results.employee[0]["bornplace"]);
+                                        $("#birth-date-column").text(results.employee[0]["birthdate"]);
+                                        $("#address-column").text(results.employee[0]["address"]);
+                                    },
+                                    error: function(xhr, status, error) {
+                                        WarningNotif(`${status} ${error}`);
+                                        console.log(error);
+                                    }
+                                })
+                                }, 3000);
+                            }
+                        </script>
                     </div>
                     <script>
                         $(function () {
@@ -289,133 +331,74 @@
     </section>
 </div>
 <script>
-    // Cards
-    const employeesCard = document.getElementById("employees-card");
-    const employeeFormCard = document.getElementById("employee-form-card");
-    const employeeDetailCard = document.getElementById("employee-detail-card");
-    // Button Handler for cards
-    const newEmployeeButton = document.getElementById("new-employee-button");
-    const cancelButton = document.getElementById("cancel-button");
-    const returnButton = document.getElementById("return-button");
-    // Button Handler for The Forms
-    const buttonSubmitForm = document.getElementById("button-submit-form");
-    // Employee Form Elements
-    const idNumberForm = document.getElementById("id-number-form");
-    const fullnameForm = document.getElementById("fullname-form");
-    const titleForm = document.getElementById("title-form");
-    const bornPlaceForm = document.getElementById("born-place-form");
-    const birthDateForm = document.getElementById("birth-date-form");
-    const idCardPhotoForm = document.getElementById("id-card-photo-form");
-    const photoForm = document.getElementById("photo-form");
-    const addressForm = document.getElementById("address-form");
-    const clearForm = () => {
-        idNumberForm.value = null;
-        fullnameForm.value = null;
-        titleForm.value = null;
-        bornPlaceForm.value = null;
-        birthDateForm.value = null;
-        idCardPhotoForm.value = null;
-        photoForm.value = null;
-        addressForm.value = null;
-    }
-    // Employee Detail Elements
-    const employeeIdColumn = document.getElementById("employee-id-column");
-    const idNumberColumn = document.getElementById("id-number-column");
-    const nameColumn = document.getElementById("name-column");
-    const titleColumn = document.getElementById("title-column");
-    const birthPlaceColumn = document.getElementById("birth-place-column");
-    const birthDateColumn = document.getElementById("birth-date-column");
-    const addressColumn = document.getElementById("address-column");
-    const clearDetailCard = () => {
-        employeeIdColumn.innerHTML = "";
-        idNumberColumn.innerHTML = "";
-        nameColumn.innerHTML = "";
-        titleColumn.innerHTML = "";
-        birthPlaceColumn.innerHTML = "";
-        birthDateColumn.innerHTML = "";
-        addressColumn.innerHTML = "";
-    }
+    $(document).ready(function() {
+        // Events for buttons
+        $("#new-employee-button").click(function(e) {
+            e.preventDefault();
+            // Unhide employee form, hide employees card
+            $("#employees-card").attr("hidden", true);
+            $("#employee-form-card").removeAttr("hidden");
+            // Hide new employee button, unhide cancel button
+            $("#new-employee-button").attr("hidden", true);
+            $("#cancel-button").removeAttr("hidden");
+            // Clear the forms
+            $("#id-number-form").val("");
+            $("#fullname-form").val("");
+            $("#title-form").val("");
+            $("#born-place-form").val("");
+            $("#birth-date-form").val("");
+            $("#id-card-photo-form").val("");
+            $("#photo-form").val("");
+            $("#address-form").val("");
+            // Create Button
+            $("#button-submit-form").html('<button type="submit" class="btn btn-primary" id="submit-new">Submit</button>');
+        });
 
-    const showEmployeesCard = () => {
-        // unhide employees card, hidding employee form
-        employeesCard.removeAttribute("hidden");
-        employeeFormCard.setAttribute("hidden", true);
-        // Also for button
-        newEmployeeButton.removeAttribute("hidden");
-        cancelButton.setAttribute("hidden", true);
+        $("#cancel-button").click(function(e) {
+            e.preventDefault();
+            // Clearing Form
+            if ($("#id-number-form").val() !== "") {
+                Swal.fire({
+                    title: "are you sure wanna cancel it?",
+                    // text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#3085d6",
+                    cancelButtonColor: "#d33",
+                    confirmButtonText: "Yes!"
+                }).then(results => {
+                    if (results.isConfirmed) {
+                        $("#employees-card").removeAttr("hidden");
+                        $("#employee-form-card").attr("hidden", true);
+                        // Unhide new employee button, hide cancel button
+                        $("#new-employee-button").removeAttr("hidden");
+                        $("#cancel-button").attr("hidden", true);
+                    }
+                });
+            } else {
+                $("#employees-card").removeAttr("hidden");
+                $("#employee-form-card").attr("hidden", true);
+                // Unhide new employee button, hide cancel button
+                $("#new-employee-button").removeAttr("hidden");
+                $("#cancel-button").attr("hidden", true);
+            }
+        });
 
-        // Remove Button Submit
-        buttonSubmitForm.innerHTML = "";
-    }
-
-    const showEmployeeForm = () => {
-        // unhide employee form, hidding employees card
-        employeesCard.setAttribute("hidden", true);
-        employeeFormCard.removeAttribute("hidden");
-        // Also for button
-        newEmployeeButton.setAttribute("hidden", true);
-        cancelButton.removeAttribute("hidden");
-
-        // Clear the forms
-        clearForm(); 
-    }
-
-    const editEmployee = () => {    
-        showEmployeeForm();
-
-        buttonSubmitForm.innerHTML = `<button type="submit" class="btn btn-primary" id="submit-edit">Save</button>`;
-    }
-
-    const showEmpoyeeDetailCard = () => {
-        employeeDetailCard.removeAttribute("hidden", true);
-        employeeFormCard.setAttribute("hidden", true);
-        employeesCard.setAttribute("hidden", true);
-
-        newEmployeeButton.setAttribute("hidden", true);
-        cancelButton.setAttribute("hidden", true);
-        returnButton.removeAttribute("hidden");
-    }
-
-    // Events
-    newEmployeeButton.addEventListener("click", (e) => {
-        e.preventDefault();
-
-        showEmployeeForm();
-        // Create Button
-        buttonSubmitForm.innerHTML = `<button type="submit" class="btn btn-primary" id="submit-new">Submit</button>`;
+        $("#return-button").click(function(e) {
+            e.preventDefault();
+            $("#employees-card").removeAttr("hidden");
+            $("#employee-detail-card").attr('hidden', true);
+            // Unhide new employee button, hide return button
+            $("#new-employee-button").removeAttr("hidden");
+            $("#return-button").attr("hidden", true);
+            // Clear detail card
+            $("#employee-id-column").text("");
+            $("#id-number-column").text("");
+            $("#name-column").text("");
+            $("#title-column").text("");
+            $("#birth-place-column").text("");
+            $("#birth-date-column").text("");
+            $("#address-column").text("");
+        });
     });
-    cancelButton.addEventListener("click", (e) => {
-        e.preventDefault();
-
-        // Clearing Form
-        if (idNumberForm.value !== "") {
-            Swal.fire({
-                title: "are you sure wanna cancel it?",
-                // text: "You won't be able to revert this!",
-                icon: "warning",
-                showCancelButton: true,
-                confirmButtonColor: "#3085d6",
-                cancelButtonColor: "#d33",
-                confirmButtonText: "Yes!"
-            }).then(results => {
-                if (results.isConfirmed) {
-                    showEmployeesCard();
-                    return 0;
-                }
-            });
-        } else {
-            showEmployeesCard();
-        }
-    });
-    returnButton.addEventListener("click", (e) => {
-        e.preventDefault();
-
-        employeesCard.removeAttribute("hidden");
-        employeeDetailCard.setAttribute('hidden', true);
-
-        newEmployeeButton.removeAttribute("hidden");
-        returnButton.setAttribute("hidden", true);
-
-        clearDetailCard();
-    })
 </script>

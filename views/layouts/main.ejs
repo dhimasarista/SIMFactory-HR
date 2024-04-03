@@ -179,72 +179,31 @@
         <strong>Hak Cipta &copy; 2024 <a href="#">dhimasarista</a></strong>
         All rights reserved.
         <div class="float-right d-none d-sm-inline-block">
-            <!-- <b>Development</b> Version -->
-<<<<<<< HEAD
-            <div class="text-sm"><span id="memory"></span> 
-                <!-- / <span id="speed"></span> -->
-            </div>
-=======
-            <div class="text-sm">Server  <span id="memory"></span> / <span id="speed"></span></div>
->>>>>>> 3b5d1904271db2284f846a2b1f2e1a23cae84556
+            <b>Development</b> Version
         </div>
     </footer>
     </body>
     <script>
-<<<<<<< HEAD
-        $(document).ready(function() {
-            // Fungsi untuk mengambil data metrik secara real-time
-            function getMetrics() {
-                $.ajax({
-                    url: "/metrics", // Endpoint untuk mendapatkan metrik dari server
-                    type: "GET",
-                    dataType: "json",
-                    success: function(response) {
-                        if (response.status === 200) {
-                            $("#memory").text(`${response.metrics["executionTime"]} mb`);
-                            // const formattedText = `${(response.metrics["usedMemory"] / 1000).toFixed(1)}ms`;
-                            // $("#speed").text(formattedText);
-                            // Lakukan sesuatu dengan data metrik, misalnya menampilkan di halaman web
-                        } else {
-                            console.error("Gagal mendapatkan data metrik:", response.message);
-                        }
-                    },
-                    error: function(xhr, status, error) {
-                        console.error("Terjadi kesalahan:", error);
-                    }
-                });
-=======
-$(document).ready(function() {
-    // Fungsi untuk mengambil data metrik secara real-time
-    function getMetrics() {
-        $.ajax({
-            url: "/metrics", // Endpoint untuk mendapatkan metrik dari server
-            type: "GET",
-            dataType: "json"
-        })
-        .done(function(response) {
-            if (response.status === 200) {
-                // Tampilkan metrik menggunakan template literals
-                $("#memory").text(`${response.metrics.executionTime} mb`);
-                
-                // Hitung dan format nilai usedMemory menjadi milidetik
-                const formattedText = `${(response.metrics.usedMemory / 1000).toFixed(1)}ms`;
-                $("#speed").text(formattedText);
-                
-                // Lakukan sesuatu dengan data metrik, misalnya menampilkan di halaman web
-            } else {
-                console.error("Gagal mendapatkan data metrik:", response.message);
->>>>>>> 3b5d1904271db2284f846a2b1f2e1a23cae84556
-            }
-        })
-        .fail(function(xhr, status, error) {
-            console.error("Terjadi kesalahan:", error);
-        });
-    }
-
-    // Panggil fungsi getMetrics() secara berkala untuk memperbarui data metrik setiap detik
-    setInterval(getMetrics, 1000); // Memperbarui setiap 1 detik
-});
-
+        // $(document).ready(function() {
+        //     // Fungsi untuk mengambil data metrik secara real-time
+        //     $.ajax({
+        //         url: "/metrics", // Endpoint untuk mendapatkan metrik dari server
+        //         type: "GET",
+        //         dataType: "json",
+        //         success: function(response) {
+        //             if (response.status === 200) {
+        //                 // $("#memory").text(`${response.metrics["executionTime"]} mb`);
+        //                 const formattedText = `${(response.metrics["usedMemory"] / 1000).toFixed(1)}ms`;
+        //                 $("#speed").text(formattedText);
+        //                 // Lakukan sesuatu dengan data metrik, misalnya menampilkan di halaman web
+        //             } else {
+        //                 console.error("Gagal mendapatkan data metrik:", response.message);
+        //             }
+        //         },
+        //         error: function(xhr, status, error) {
+        //             console.error("Terjadi kesalahan:", error);
+        //         }
+        //     });
+        // });
     </script>
 </html>

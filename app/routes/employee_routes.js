@@ -1,4 +1,4 @@
-const { render, deleteEmployee, selectPosition } = require("../controllers/employee_controllers");
+const { render, deleteEmployee, selectPosition, findEmployeeByID } = require("../controllers/employee_controllers");
 class EmployeeRoute{
     constructor(app){
         this.app = app;
@@ -13,6 +13,7 @@ class EmployeeRoute{
         this.app.get("/employees", render);
         this.app.delete("/employee/:id", deleteEmployee);
         this.app.get("/employee/positions/department/:id", selectPosition);
+        this.app.get("/employee/:id", findEmployeeByID);
     }
 }
 
