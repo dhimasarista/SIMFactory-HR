@@ -180,7 +180,9 @@
         All rights reserved.
         <div class="float-right d-none d-sm-inline-block">
             <!-- <b>Development</b> Version -->
-            <div class="text-sm"><span id="memory"></span> / <span id="speed"></span></div>
+            <div class="text-sm"><span id="memory"></span> 
+                <!-- / <span id="speed"></span> -->
+            </div>
         </div>
     </footer>
     </body>
@@ -195,8 +197,8 @@
                     success: function(response) {
                         if (response.status === 200) {
                             $("#memory").text(`${response.metrics["executionTime"]} mb`);
-                            const formattedText = `${(response.metrics["usedMemory"] / 1000).toFixed(1)}ms`;
-                            $("#speed").text(formattedText);
+                            // const formattedText = `${(response.metrics["usedMemory"] / 1000).toFixed(1)}ms`;
+                            // $("#speed").text(formattedText);
                             // Lakukan sesuatu dengan data metrik, misalnya menampilkan di halaman web
                         } else {
                             console.error("Gagal mendapatkan data metrik:", response.message);
