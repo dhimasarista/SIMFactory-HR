@@ -129,12 +129,13 @@
                         });
                         function showDepartmentDetailCard(id) {
                             clearDepartmentDetail();
+                            TopLoaderService.start();
                             $.ajax({
                                 url: `/department/${id}`,
                                 method: 'GET',
                                 contentType: "application/json",
                                 success: function(results) {
-                                    console.log(results);
+                                    TopLoaderService.end();
                                     if (results.status !== 200) {
                                         ErrorNotif(Object.values(results.message)[0])
                                         return 0;
@@ -156,6 +157,7 @@
                                     $("#new-department-button").attr("hidden", true);
                                 },
                                 error: function(xhr, status, error) {
+                                    TopLoaderService.start();
                                     ErrorNotif(`${status} ${error}`);
                                     console.log(error);
                                 }
@@ -163,11 +165,13 @@
                         }
 
                         function editDepartmentsForm(id) {
+                            TopLoaderService.start();
                             $.ajax({
                                 url: `/department/${id}`,
                                 method: 'GET',
                                 contentType: "application/json",
                                 success: function(results) {
+                                    TopLoaderService.end();
                                     if (results.status !== 200) {
                                         const message = Object.values(results.message);
                                         ErrorNotif(`${message[0]}`)
@@ -194,6 +198,7 @@
                                     });
                                 },
                                 error: function(xhr, status, error) {
+                                    TopLoaderService.end();
                                     ErrorNotif(`${status} ${error}`);
                                     console.log(error);
                                 }
@@ -201,6 +206,7 @@
 
                         }
                         function deleteDepartment(id) {
+                            TopLoaderService.start();
                             Swal.fire({
                                 title: "Data is correctly?",
                                 text: "You won't be able to revert this!",
@@ -210,6 +216,7 @@
                                 cancelButtonColor: "#d33",
                                 confirmButtonText: "Yes!"
                             }).then(result =>{
+                                TopLoaderService.end();
                                 if (result.isConfirmed) {
                                     $.ajax({
                                         url: `/department/${id}`,
@@ -308,6 +315,7 @@
                                         e.preventDefault();
                                         const value = $("#new-position-input").val();
                                         if (value !== "") {
+                                            TopLoaderService.start();
                                             const data = {
                                                 name: value
                                             }
@@ -317,6 +325,7 @@
                                                 contentType: "application/json",
                                                 data: JSON.stringify(data),
                                                 success: function(results) {
+                                                    TopLoaderService.end();
                                                     if (results.status !== 200) {
                                                         ErrorNotif(Object.values(results.message)[0]);
                                                         return 0;
@@ -332,6 +341,7 @@
                                                     hiddenNewPosition();
                                                 },
                                                 error: function(xhr, status, error) {
+                                                    TopLoaderService.end();
                                                     ErrorNotif(`${status} ${error}`);
                                                     console.log(error);
                                                 }
