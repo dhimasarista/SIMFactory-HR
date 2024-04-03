@@ -20,7 +20,7 @@ function checkFileType(file, expectedTypes, errorMsg, toDelete) {
     }
 }
 
-function dateFormattion(dateString) {
+function dateFormatting(dateString) {
     // Buat objek Date dari string
     var tanggal = new Date(dateString);
 
