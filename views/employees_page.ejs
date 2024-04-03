@@ -70,44 +70,44 @@
                         </table>
                         <script>
                             function showEmpoyeeDetailCard(id) {
-                                Swal.fire({
-                                    title: "Loading!",
-                                    didOpen: ()=>{
-                                        Swal.showLoading();
-                                    }
-                                });
+                                // Swal.fire({
+                                //     title: "Loading!",
+                                //     didOpen: ()=>{
+                                //         Swal.showLoading();
+                                //     }
+                                // });
+                                PurpleNotif("Pleas wait!");
                                 setTimeout(() => {
                                     $.ajax({
                                     url: `/employee/${id}`,
                                     method: 'GET',
                                     dataType: 'json',
                                     success: function(results) {
-                                        Swal.close();
+                                        // Swal.close();
+                                        console.log(results);
                                         if (results.status !== 200) {
-                                            ErrorNotif(results.message);
+                                            ErrorNotif(Object.values(results.message)[0]);
                                             return 0;
                                         }
-                                        console.log(results);
                                         $("#employees-card").attr("hidden", true);
                                         $("#employee-detail-card").removeAttr('hidden');
                                         // Unhide new employee button, hide return button
                                         $("#new-employee-button").attr("hidden", true);
                                         $("#return-button").removeAttr('hidden');
-                                        // 
                                         $("#employee-id-column").text(results.employee[0]["id"]);
                                         $("#id-number-column").text(results.employee[0]["id"]);
-                                        $("#name-column").text(results.employee[0]["name"]);
-                                        $("#title-column").text(results.employee[0]["title"]);
-                                        $("#birth-place-column").text(results.employee[0]["bornplace"]);
-                                        $("#birth-date-column").text(results.employee[0]["birthdate"]);
-                                        $("#address-column").text(results.employee[0]["address"]);
+                                        $("#name-column").text(PascalCaseWithSpace(results.employee[0]["name"]));
+                                        $("#title-column").text(results.employee[0]["title"].toUpperCase());
+                                        $("#birth-place-column").text(PascalCaseWithSpace(results.employee[0]["bornplace"]));
+                                        $("#birth-date-column").text(dateFormatting(results.employee[0]["birthdate"]));
+                                        $("#address-column").text(PascalCaseWithSpace(results.employee[0]["address"]));
                                     },
                                     error: function(xhr, status, error) {
                                         WarningNotif(`${status} ${error}`);
                                         console.log(error);
                                     }
                                 })
-                                }, 3000);
+                                }, 1000);
                             }
                         </script>
                     </div>
@@ -156,7 +156,7 @@
                                         dataType: 'json',
                                         success: function(results) {
                                             if (results.status !== 200) {
-                                                ErrorNotif(results.message);
+                                                ErrorNotif(Object.values(results.message)[0]);
                                                 return 0;
                                             }
                                             setTimeout(() => {
@@ -307,7 +307,7 @@
                                 </tr>
                                 <tr>
                                     <td>Place/Date of Birth</td>
-                                    <td><span id="birth-place-column"></span><span id="birth-date-column"></span></td>
+                                    <td><span id="birth-place-column"></span>, <span id="birth-date-column"></span></td>
                                 </tr>
                                 <tr>
                                     <td>Address</td>

@@ -31,7 +31,17 @@ function dateFormatting(dateString) {
 }
 
 function PascalCaseWithSpace(text) {
-    return text.replace(/([A-Z])/g, ' $1').replace(/^./, function(str){ return str.toUpperCase(); });
+    // Pisahkan teks menjadi array kata
+    var words = text.split(/\s+/);
+    
+    // Iterasi melalui setiap kata dan konversi menjadi PascalCase
+    for (var i = 0; i < words.length; i++) {
+        // Ubah huruf pertama kata menjadi huruf besar
+        words[i] = words[i].charAt(0).toUpperCase() + words[i].slice(1).toLowerCase();
+    }
+    
+    // Gabungkan kembali kata-kata dengan spasi di antara dan kembalikan teks
+    return words.join(' ');
 }
 
 // Fungsi untuk memeriksa apakah input hanya terdiri dari angka
