@@ -20,6 +20,16 @@ function checkFileType(file, expectedTypes, errorMsg, toDelete) {
     }
 }
 
+function dateFormattion(dateString) {
+    // Buat objek Date dari string
+    var tanggal = new Date(dateString);
+
+    // Format tanggal menjadi format yang diinginkan (misalnya: dd-mm-yyyy)
+    var formattedDate = ("0" + tanggal.getDate()).slice(-2) + "-" + ("0" + (tanggal.getMonth() + 1)).slice(-2) + "-" + tanggal.getFullYear();
+
+    return formattedDate;
+}
+
 // Fungsi untuk memeriksa apakah input hanya terdiri dari angka
 function IsNumber(input) {
     return /^\d+$/.test(input);
