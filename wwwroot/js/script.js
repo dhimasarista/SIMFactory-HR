@@ -30,6 +30,10 @@ function dateFormatting(dateString) {
     return formattedDate;
 }
 
+function PascalCaseWithSpace(text) {
+    return text.replace(/([A-Z])/g, ' $1').replace(/^./, function(str){ return str.toUpperCase(); });
+}
+
 // Fungsi untuk memeriksa apakah input hanya terdiri dari angka
 function IsNumber(input) {
     return /^\d+$/.test(input);
