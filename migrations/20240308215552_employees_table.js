@@ -5,7 +5,7 @@
 exports.up = function(knex) {
     return knex.schema.createTable('employees', function(table) {
         table.increments('id').primary(); // Kolom ID sebagai primary key
-        table.integer('id_number', 16).unsigned(); // Kolom position_id sebagai integer unsigned
+        table.bigint('id_number', 16).unsigned(); // Kolom position_id sebagai integer unsigned
         table.string('name').unique(); // Kolom Username sebagai string unik
         table.string("title").unique();
         table.string("bornplace").unique();
