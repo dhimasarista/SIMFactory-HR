@@ -114,6 +114,7 @@
                                             ErrorNotif(Object.values(results.message)[0]);
                                             return 0;
                                         }
+                                        showEmployeeForm();
                                         const departments = $("#select-department option");
                                         for (let index = 0; index < departments.length; index++) {
                                             if (parseInt(departments[index]["value"]) === results.employee[0]["department_id"]) {
@@ -121,7 +122,6 @@
                                                 selectDepartment(); // mengtrigger form position
                                             }
                                         }
-                                        showEmployeeForm();
                                         $("#button-submit-form").html('<button type="submit" class="btn btn-primary" id="save-edit">Save</button>');
                                         $("#employee-id-form").attr("disabled", true);
                                         $("#employee-id-form").val(results.employee[0]["id"]);
@@ -398,6 +398,7 @@
         $("#id-card-photo-form").val("");
         $("#photo-form").val("");
         $("#address-form").val("");
+        $('#select-department option').eq(0).prop('selected', true);
     }
     $(document).ready(function() {
         // Events for buttons
