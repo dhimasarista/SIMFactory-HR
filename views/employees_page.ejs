@@ -420,7 +420,6 @@
 
         $("#cancel-button").click(function(e) {
             e.preventDefault();
-            TopLoaderService.start();
             // Clearing Form
             if ($("#id-number-form").val() !== "") {
                 Swal.fire({
@@ -432,7 +431,6 @@
                     cancelButtonColor: "#d33",
                     confirmButtonText: "Yes!"
                 }).then(results => {
-                    TopLoaderService.end();
                     if (results.isConfirmed) {
                         $("#employees-card").removeAttr("hidden");
                         $("#employee-form-card").attr("hidden", true);
