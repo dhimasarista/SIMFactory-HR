@@ -118,6 +118,7 @@
                                             if (parseInt(departments[index]["value"]) === results.employee[0]["department_id"]) {
                                                 $(`#select-department option[value='${departments[index]["value"]}']`).prop("selected", true);
                                                 selectDepartment(); // mengtrigger form position
+                                                
                                             }
                                         }
                                         $("#button-submit-form").html('<button type="submit" class="btn btn-primary" id="save-edit">Save</button>');
@@ -139,6 +140,9 @@
                                         // $("#photo-form").val("");
                                         $("#address-form").val(results.employee[0]["address"]);
                                         console.log(results);
+                                        let idPosition = results.employee[0]["position_id"];
+                                        let selectPosition = $("#select-position");
+                                        selectPosition.val(parseInt(idPosition));
                                     },
                                     error: function(xhr, status, error) {
                                         WarningNotif(`${status} ${error}`);
