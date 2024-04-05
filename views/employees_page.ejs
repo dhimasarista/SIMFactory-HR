@@ -129,7 +129,14 @@
                                         $("#fullname-form").val(results.employee[0]["name"]);
                                         $("#title-form").val(results.employee[0]["title"]);
                                         $("#born-place-form").val(results.employee[0]["bornplace"]);
-                                        $("#birth-date-form").val(results.employee[0]["birthdate"]);
+                                        // Date String formatting
+                                        let dateString = results.employee[0]["birthdate"];
+                                        let date = new Date(dateString);
+                                        let year = date.getFullYear();
+                                        let month = ("0" + (date.getMonth() + 1)).slice(-2);
+                                        let day = ("0" + date.getDate()).slice(-2);
+                                        let formattedDate = year + "-" + month + "-" + day;
+                                        $("#birth-date-form").val(formattedDate);
                                         // $("#id-card-photo-form").val(results.employee[0][""]);
                                         // $("#photo-form").val("");
                                         $("#address-form").val(results.employee[0]["address"]);
@@ -394,7 +401,7 @@
         $("#fullname-form").val("");
         $("#title-form").val("");
         $("#born-place-form").val("");
-        $("#birth-date-form").val("");
+        $("#birth-date-form").val(null);
         $("#id-card-photo-form").val("");
         $("#photo-form").val("");
         $("#address-form").val("");
