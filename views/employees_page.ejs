@@ -71,7 +71,6 @@
                         <script>
                             function showEmpoyeeDetailCard(id) {
                                 TopLoaderService.start();
-                                setTimeout(() => {
                                     $.ajax({
                                     url: `/employee/${id}`,
                                     method: 'GET',
@@ -100,7 +99,6 @@
                                         console.log(error);
                                     }
                                 })
-                                }, 1000);
                             }
                             function editEmployee(id) {
                                 TopLoaderService.start();
