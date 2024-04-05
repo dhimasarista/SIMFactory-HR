@@ -315,7 +315,6 @@
                                         e.preventDefault();
                                         const value = $("#new-position-input").val();
                                         if (value !== "") {
-                                            TopLoaderService.start();
                                             const data = {
                                                 name: value
                                             }
@@ -325,7 +324,6 @@
                                                 contentType: "application/json",
                                                 data: JSON.stringify(data),
                                                 success: function(results) {
-                                                    TopLoaderService.end();
                                                     if (results.status !== 200) {
                                                         ErrorNotif(Object.values(results.message)[0]);
                                                         return 0;
