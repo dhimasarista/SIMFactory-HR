@@ -140,14 +140,25 @@
                                         // $("#photo-form").val("");
                                         $("#address-form").val(results.employee[0]["address"]);
                                         console.log(results);
-                                        let idPosition = results.employee[0]["position_id"];
-                                        let selectPosition = $("#select-position");
-                                        selectPosition.val(parseInt(idPosition));
+                                        $("#select-position").attr("disabled", true);
+                                        let interval = setInterval(() => {
+                                            let idPosition = results.employee[0]["position_id"];
+                                            $(`#select-position option[value='${idPosition}']`).prop("selected", true);
+                                            $("#select-position").removeAttr("disabled");
+                                            if ($("#select-position").val() !== null) {
+                                                clearInterval(interval);
+                                            }
+                                        }, 1000);
                                     },
                                     error: function(xhr, status, error) {
                                         WarningNotif(`${status} ${error}`);
                                         console.log(error);
                                     }
+                                })
+                                .done(function(data) {
+                                    // Setelah data diterima, jalankan operasi
+                                    console.log(data);
+                                    $(`#select-position option[value='${data.employee[0]["position_id"]}']`).prop("selected", true);
                                 })
                             }
                         </script>
@@ -408,6 +419,8 @@
         $("#photo-form").val("");
         $("#address-form").val("");
         $('#select-department option').eq(0).prop('selected', true);
+        $("#select-position option").eq(0).prop('selected', true);
+        $("#select-position").removeAttr("disabled");
     }
     $(document).ready(function() {
         // Events for buttons
