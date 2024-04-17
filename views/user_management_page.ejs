@@ -117,63 +117,67 @@
                                     searchEmployee(id);
                                     return 0;
                                 }
-                                WarningNotif("Input Correctly!");
+                                alert("Input Correctly!");
                             })
                             function searchEmployee(id) {
                                 // Mendapatkan nilai ID karyawan dari input
                                 var employeeId = id;
-                                
-                                // Simulasi data karyawan (biasanya ini akan menjadi panggilan AJAX ke server)
-                                var employeeData = [
-                                    { id: 1, name: "John Doe", position: "Manager" },
-                                    { id: 2, name: "Jane Smith", position: "Developer" },
-                                    // Data lainnya
-                                ];
+                                $.ajax({
+                                        url: `/employee/${id}`,
+                                        method: 'GET',
+                                        dataType: 'json',
+                                        success: function(results) {
+                                            console.log(results);
+                                            if (results.status !== 200) {
+                                                ErrorNotif(Object.values(results.message)[0]);
+                                                return 0;   
+                                            }                                            
 
-                                // Mencari data karyawan berdasarkan ID
-                                var employee = employeeData.find(function(emp) {
-                                    return emp.id == employeeId;
-                                });
+                                            const employee = results.employee[0];
 
-                                // Membuat tabel HTML untuk menampilkan informasi karyawan
-                                var tableHTML = `
-                                    <table class='table'>
-                                        <thead>
-                                            <tr>
-                                                <th>ID</th>
-                                                <th>Name</th>
-                                                <th>Action</th>
-                                                </tr>
-                                            </thead>
-                                    <tbody>`;
+                                            // Membuat tabel HTML untuk menampilkan informasi karyawan
+                                            var tableHTML = `
+                                                <table class='table'>
+                                                    <thead>
+                                                        <tr>
+                                                            <th>ID</th>
+                                                            <th>Name</th>
+                                                            <th>Action</th>
+                                                            </tr>
+                                                        </thead>
+                                                <tbody>`;
+                                            if (results.employee.length != 0) {
+                                                tableHTML += "<tr><td>" + employee.id + "</td><td>" + PascalCaseWithSpace(employee.name) + "</td><td>" 
+                                                    + `<button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#new-user" data-username="${employee.name}">
+                                                        <i>
+                                                            add    
+                                                        </i>
+                                                        </button>`
+                                                    + "</td></tr>";
+                                            } else {
+                                                tableHTML += "<tr><td colspan='3'>Employee not found</td></tr>";
+                                            }
 
-                                if (employee) {
-                                    tableHTML += "<tr><td>" + employee.id + "</td><td>" + employee.name + "</td><td>" 
-                                        + `<button type="button" class="btn btn-sm btn-success" data-toggle="modal" data-target="#new-user" data-username="${employee.name}">
-                                            <i>
-                                                add    
-                                            </i>
-                                            </button>`
-                                        + "</td></tr>";
-                                } else {
-                                    tableHTML += "<tr><td colspan='3'>Employee not found</td></tr>";
-                                }
+                                            tableHTML += "</tbody></table>";
 
-                                tableHTML += "</tbody></table>";
-
-                                let loading = `
-                                <div class="text-center m-5">
-                                    <div class="spinner-grow spinner-grow-sm text-warninggoi" role="status">
-                                        <span class="sr-only">Loading...</span>
-                                    </div>
-                                </div>
-                                `;
-                                // Menampilkan tabel di dalam div dengan id "employeeTable"
-                                $("#employee-search-result").html(loading);
-                                setTimeout(() => {
-                                    // Menampilkan tabel di dalam div dengan id "employeeTable"
-                                    $("#employee-search-result").html(tableHTML);
-                                }, 1000);
+                                            let loading = `
+                                            <div class="text-center m-5">
+                                                <div class="spinner-grow spinner-grow-sm text-warninggoi" role="status">
+                                                    <span class="sr-only">Loading...</span>
+                                                </div>
+                                            </div>
+                                            `;
+                                            // Menampilkan tabel di dalam div dengan id "employeeTable"
+                                            $("#employee-search-result").html(loading);
+                                            setTimeout(() => {
+                                                // Menampilkan tabel di dalam div dengan id "employeeTable"
+                                                $("#employee-search-result").html(tableHTML);
+                                            }, 1000);
+                                        },
+                                        error: function(xhr, status, error) {
+                                            WarningNotif(`${status} ${error}`);
+                                            console.log(error);
+                                }})
                         }
 
                         </script>
@@ -202,7 +206,7 @@
           </div>
           <div class="form-group">
             <label for="message-text" class="col-form-label">Default Password:</label>
-            <input type="text" class="form-control" id="message-text" placeholder="Employee Birthdate" disabled>
+            <input type="text" class="form-control" id="message-text" placeholder="Employee Birthdate (yyymmdd)" disabled>
           </div>
         </form>
       </div>
