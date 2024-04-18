@@ -169,10 +169,8 @@
                                             `;
                                             // Menampilkan tabel di dalam div dengan id "employeeTable"
                                             $("#employee-search-result").html(loading);
-                                            setTimeout(() => {
-                                                // Menampilkan tabel di dalam div dengan id "employeeTable"
-                                                $("#employee-search-result").html(tableHTML);
-                                            }, 1000);
+                                             // Menampilkan tabel di dalam div dengan id "employeeTable"
+                                             $("#employee-search-result").html(tableHTML);
                                         },
                                         error: function(xhr, status, error) {
                                             WarningNotif(`${status} ${error}`);

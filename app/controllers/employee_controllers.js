@@ -67,5 +67,19 @@ module.exports = {
                 message: error
             });
         }
+    },
+    employeeLastID: async (req, res) => {
+        try {
+            const lastId = await employeeModel.lastID();
+            return res.json({
+                status: 200,
+                last_id: lastId,
+            })
+        } catch (error) {
+            return res.json({
+                status: 500,
+                message: error
+            });
+        }
     }
 }

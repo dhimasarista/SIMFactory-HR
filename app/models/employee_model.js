@@ -26,6 +26,24 @@ class EmployeeModel{
         }
     }
 
+    async lastID(){
+        try {
+            // Mengambil semua data dari tabel "employees" dan mengurutkannya berdasarkan ID secara descending
+            const rows = await knex("employees").orderBy("id", "desc");
+            
+            // Jika ada baris data, kembalikan ID dari baris pertama
+            if (rows.length > 0) {
+                return rows[0].id;
+            } else {
+                // Jika tidak ada data, kembalikan null atau throw error sesuai kebutuhan
+                return null;
+            }
+        } catch (error) {
+            errorLogging(error);
+            throw error;
+        }
+    }
+
     async hardDelete(id){
         try {
             const results = await knex("employees").where("id", id).del();
