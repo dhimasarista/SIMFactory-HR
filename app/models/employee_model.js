@@ -36,7 +36,7 @@ class EmployeeModel{
                 return rows[0].id;
             } else {
                 // Jika tidak ada data, kembalikan null atau throw error sesuai kebutuhan
-                return null;
+                return 200200;
             }
         } catch (error) {
             errorLogging(error);
