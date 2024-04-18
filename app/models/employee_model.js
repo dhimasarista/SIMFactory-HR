@@ -29,7 +29,7 @@ class EmployeeModel{
     async lastID(){
         try {
             // Mengambil semua data dari tabel "employees" dan mengurutkannya berdasarkan ID secara descending
-            const rows = await knex("employees").orderBy("id", "desc");
+            const rows = await knex("employees").select("id").orderBy("id", "desc");
             
             // Jika ada baris data, kembalikan ID dari baris pertama
             if (rows.length > 0) {
