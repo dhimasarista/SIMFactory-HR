@@ -368,6 +368,34 @@
                                         const buttonStatus = $("#button-submit-form").text();
                                         if (buttonStatus === "Submit") {
                                             alert(buttonStatus);
+                                            $.ajax({
+                                                url: '/employee/id/new',
+                                                method: 'POST',
+                                                contentType: "application/json",
+                                                data: JSON.stringify({
+                                                    id: $("#id-number-form").val(),
+                                                    employee_id: $("#employee-id-form").val(),
+                                                    name: $("#fullname-form").val(),
+                                                    title: $("#title-form").val(),
+                                                    bornplace: $("#born-place-form").val(),
+                                                    birthdate: $("#birth-date-form").val(),
+                                                    id_card: $("#id-card-photo-form").val(),
+                                                    photo: $("#photo-form").val(),
+                                                    address: $("#address-form").val(),
+                                                }),
+                                                success: function(results) {
+                                                    console.log(results);
+                                                    if (results.status !== 200) {
+                                                        ErrorNotif(Object.values(results.message)[0]);
+                                                        return 0;
+                                                    }
+                                                },
+                                                error: function(xhr, status, error) {
+                                                    TopLoaderService.end();
+                                                    ErrorNotif(`${status} ${error}`);
+                                                    console.log(error);
+                                                }
+                                            });
                                         } else if (buttonStatus === "Save") {
                                             alert(buttonStatus);
                                         }

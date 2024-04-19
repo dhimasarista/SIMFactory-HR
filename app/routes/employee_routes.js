@@ -15,6 +15,11 @@ class EmployeeRoute{
         this.app.get("/employee/positions/department/:id", selectPosition);
         this.app.get("/employee/:id", findEmployeeByID);
         this.app.get("/employee/id/last", employeeLastID);
+        this.app.post("/employee/id/new", (req, res) => {
+            return res.json({
+                body: req.body,
+            });
+        });
     }
 }
 
