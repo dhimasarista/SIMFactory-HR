@@ -300,12 +300,23 @@
                                     <input type="date" class="form-control" id="birth-date-form" name="birthdate">
                                 </div>
                                 <div class="form-group">
-                                    <label for="id-card-photo">ID Card Photo</label>
-                                    <input type="file" class="form-control-file" id="id-card-photo-form" name="id-card-photo">
-                                </div>
-                                <div class="form-group">
                                     <label for="photo">Photo</label>
                                     <input type="file" class="form-control-file" id="photo-form" name="photo">
+                                    <script>
+                                        $("#photo-form").on("change", function(e) {
+                                            e.preventDefault();
+                                            const photo = this.files[0];
+
+                                            // Mengakses file yang diunggah
+                                            checkFileType(photo, ["image/jpeg", "image/jpg", "image/png"], "format file tidak didukung! (JPEG/JPG/PNG)", this, function() {
+                                                UploadFile(photo, "image", "/upload/image");
+                                            });
+                                        });
+                                    </script>
+                                </div>
+                                <div class="form-group">
+                                    <label for="id-card-photo">ID Card Photo</label>
+                                    <input type="file" class="form-control-file" id="id-card-photo-form" name="id-card-photo">
                                 </div>
                                 <div class="form-group">
                                     <label for="address">Address</label>
@@ -347,6 +358,30 @@
                                                 error: function(xhr, status, error) {
                                                     ErrorNotif(`${status} ${error}`);
                                                     console.log(error);
+                                                }
+                                            });
+                                        }
+                                        // Upload File dengan AJAX
+                                        function UploadFile(file, dataname, path) {
+                                            const formData = new FormData();
+                                            formData.append(dataname, file);
+                                            formData.append("filename", file.name);
+
+                                            $.ajax({
+                                                url: path,
+                                                type: 'POST',
+                                                data: formData,
+                                                contentType: false,
+                                                processData: false,
+                                                success: function(response) {
+                                                    // Lakukan sesuatu setelah pengunggahan berhasil
+                                                    OkeNotif("Upload Success");
+                                                    console.log('Upload berhasil:', response);
+                                                },
+                                                error: function(xhr, status, error) {
+                                                    // Tangani kesalahan jika pengunggahan gagal
+                                                    Swal.fire("Error", error, "error");
+                                                    console.error("Error:", error);
                                                 }
                                             });
                                         }
