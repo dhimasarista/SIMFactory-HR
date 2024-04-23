@@ -71,6 +71,10 @@ function LowercaseAndRemoveSpace(text) {
     // Mengonversi setiap huruf menjadi huruf kecil dan menghapus spasi
     return text.toLowerCase().replace(/\s/g, '');
 }
+// Fungsi untuk reload halaman setelah respon berhasil diterima
+function reloadPage() {
+    location.reload(true); // Reload halaman dengan membersihkan cache
+}
 
 let notyf; // Variabel notyf dideklarasikan di luar event listener
 document.addEventListener("DOMContentLoaded", function() {
@@ -137,4 +141,24 @@ function ErrorModal(message) {
         showCancelButton: false,
         confirmButtonText: 'OK'
       });
+}
+
+class Spinner {
+    constructor(id) {
+        this.id = id;
+        this.spinnerElement = $(`
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span class="sr-only">Loading...</span>
+        `);
+    }
+
+    show() {
+        // Tambahkan spinner ke dalam elemen dengan ID yang disediakan
+        $(this.id).append(this.spinnerElement);
+    }
+
+    destroy() {
+        // Hapus spinner dari elemen dengan ID yang disediakan
+        $(this.id).find('.spinner-border').remove();
+    }
 }
