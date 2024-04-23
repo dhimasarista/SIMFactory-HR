@@ -14,11 +14,13 @@ class UploadRoutes{
             try {
                 // console.log(filename.filename);
                 // Setelah mengupload image
-                // compressAndSaveImage(`app/uploads/${filename.filename}`, `app/uploads/photos/${filename.filename}`, 10);
-                return res.json({
-                    status: 200,
-                    message: `Image ${filename.filename} success uploaded..`
-                });
+                // compressAndSaveImage(` app/uploads/${filename.filename}`, `app/uploads/photos/${filename.filename}`, 50);
+                setTimeout(() => {
+                    return res.json({
+                        status: 200,
+                        message: `Image ${filename.filename} success uploaded..`
+                    });
+                }, 1000);
             } catch (error) {
                 return res.json({
                     status: 500,
@@ -31,10 +33,12 @@ class UploadRoutes{
             const filename = req.params.filename;
             try {
                 deleteImage(filename, "../uploads/");
-                return res.json({
-                    status: 200,
-                    message: `Image ${filename} has been deleted from server.`
-                });
+                setTimeout(() => {
+                    return res.json({
+                        status: 200,
+                        message: `Image ${filename} has been deleted from server.`
+                    });
+                }, 1000);
             } catch (error) {
                 return res.json({
                     status: 500,

@@ -302,6 +302,7 @@
                                 <div class="form-group">
                                     <label for="photo">Photo</label>
                                     <input type="file" class="form-control-file" id="photo-form" name="photo">
+                                    <div id="photo-upload-loading"></div>
                                     <div id="delete-photo" hidden>
                                         <a href="#"  class="px-1 badge badge-danger" id="button-delete-foto">
                                             <i>
@@ -311,6 +312,7 @@
                                         <span id="photo-filename"></span>
                                     </div>
                                     <script>
+                                        const spinner = new Spinner("#photo-upload-loading");
                                         let photoFilename = "";
                                         $("#photo-form").on("change", function(e) {
                                             e.preventDefault();
@@ -320,19 +322,24 @@
 
                                             // Mengakses file yang diunggah
                                             checkFileType(renamedPhoto, ["image/jpeg", "image/jpg", "image/png"], "format file tidak didukung! (JPEG/JPG/PNG)", this, function() {
-                                                UploadFile(renamedPhoto, "image", "/upload/image");
+                                                spinner.show();
                                                 $("#photo-form").attr("hidden", true);
-                                                $("#delete-photo").removeAttr("hidden");
-                                                $("#photo-filename").append(renamedPhoto["name"]);
+                                                UploadFile(renamedPhoto, "image", "/upload/image", function () { 
+                                                    $("#delete-photo").removeAttr("hidden");
+                                                    $("#photo-filename").append(renamedPhoto["name"]);
+                                                    spinner.destroy();
+                                                 });
                                             });
                                         });
                                         $("#delete-photo").on("click", e =>{
                                             e.preventDefault();
+                                            spinner.show();
+                                            $("#delete-photo").attr("hidden", true);
+                                            $("#photo-filename").html("");
                                             deleteImage(photoFilename, function() {
+                                                spinner.destroy();
                                                 $("#photo-form").val(null);
                                                 $("#photo-form").removeAttr("hidden");
-                                                $("#delete-photo").attr("hidden", true);
-                                                $("#photo-filename").html("");
                                                 photoFilename = ""
                                             })
                                         })
@@ -386,7 +393,7 @@
                                             });
                                         }
                                         // Upload File dengan AJAX
-                                        function UploadFile(file, dataname, path) {
+                                        function UploadFile(file, dataname, path, callback) {
                                             const formData = new FormData();
                                             formData.append(dataname, file);
                                             formData.append("filename", file.name);
@@ -403,6 +410,7 @@
                                                         return 0;
                                                     }
                                                     OkeNotif("Upload Success");
+                                                    callback();
                                                 },
                                                 error: function(xhr, status, error) {
                                                     // Tangani kesalahan jika pengunggahan gagal
@@ -635,5 +643,12 @@
             $("#birth-date-column").text("");
             $("#address-column").text("");
         });
+    });
+    // Event saat halaman ditutup atau direload
+    $(window).on('beforeunload', function(e) {
+        if ($('#photo-form')[0].files[0]["name"] !== "") {
+            e.preventDefault();
+            deleteImage(photoFilename, function() {});
+        }
     });
 </script>
