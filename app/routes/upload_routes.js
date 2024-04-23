@@ -1,4 +1,5 @@
 const {upload, deleteImage} = require("../controllers/upload_controllers");
+const compressAndSaveImage = require("../utilities/compress_image");
 
 class UploadRoutes{
     constructor(app){
@@ -13,6 +14,7 @@ class UploadRoutes{
             try {
                 // console.log(filename.filename);
                 // Setelah mengupload image
+                // compressAndSaveImage(`app/uploads/${filename.filename}`, `app/uploads/photos/${filename.filename}`, 10);
                 return res.json({
                     status: 200,
                     message: `Image ${filename.filename} success uploaded..`
