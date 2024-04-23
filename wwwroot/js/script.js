@@ -12,12 +12,22 @@ function checkFileSize(file) {
     }                                   
 }
 // Memeriksa jenis tipe file yang akan diunggah
-function checkFileType(file, expectedTypes, errorMsg, toDelete) {
+function checkFileType(file, expectedTypes, errorMsg, toDelete, callback) {
     if (!expectedTypes.includes(file.type)) {
-        Swal.fire('Error', errorMsg, 'error');
         toDelete.value = null;
-        return 0;
+        Swal.fire('Error', errorMsg, 'error');
+        return;
     }
+    // Panggil callback setelah pengecekan selesai
+    if (callback) {
+        callback();
+    }
+}
+
+// Fungsi untuk mengubah nama file
+function renameFile(file, newName) {
+    const renamedFile = new File([file], newName, { type: file.type });
+    return renamedFile;
 }
 
 function dateFormatting(dateString) {
