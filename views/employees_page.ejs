@@ -510,8 +510,8 @@
                                                     title: $("#title-form").val(),
                                                     bornplace: $("#born-place-form").val(),
                                                     birthdate: $("#birth-date-form").val(),
-                                                    id_card: $("#id-card-photo-form").val(),
-                                                    photo: $("#photo-form").val(),
+                                                    id_card: idcardFilename,
+                                                    photo: photoFilename,
                                                     address: $("#address-form").val(),
                                                 }),
                                                 success: function(results) {
@@ -693,7 +693,7 @@
 
         if (photo !== "" || idcard !== "") {
             if (photo !== "") {
-                deleteImage(photo, function() {
+                deleteImage(photoFilename, function() {
                     $("#delete-photo").attr("hidden", true);
                     $("#photo-filename").html("");
                     $("#photo-form").val(null);
@@ -702,7 +702,7 @@
             }
 
             if (idcard !== "") {
-                deleteImage(idcard, function() {
+                deleteImage(idcardFilename, function() {
                     $("#delete-idcard").attr("hidden", true);
                     $("#idcard-filename").html("");
                     $("#id-card-photo-form").val(null);
