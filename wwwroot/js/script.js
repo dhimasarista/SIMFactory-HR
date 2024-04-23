@@ -26,7 +26,16 @@ function checkFileType(file, expectedTypes, errorMsg, toDelete, callback) {
 
 // Fungsi untuk mengubah nama file
 function renameFile(file, newName) {
-    const renamedFile = new File([file], newName, { type: file.type });
+    // Memisahkan nama file dan ekstensi
+    const parts = file.name.split('.');
+    const fileName = parts.slice(0, -1).join('.'); // Nama file tanpa ekstensi
+    const fileExtension = parts.pop(); // Ekstensi file
+
+    // Menambahkan nama baru di akhir nama file dan menggabungkannya kembali dengan ekstensi
+    const renamedFileName = newName + '.' + fileExtension;
+
+    // Membuat objek File baru dengan nama yang diubah
+    const renamedFile = new File([file], renamedFileName, { type: file.type });
     return renamedFile;
 }
 

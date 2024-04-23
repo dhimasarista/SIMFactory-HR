@@ -13,16 +13,22 @@ class UploadRoutes{
             try {
                 // console.log(filename.filename);
                 // Setelah mengupload image
-                res.status(200).send(`Image success uploaded.`);
+                return res.json({
+                    status: 200,
+                    message: `Image ${filename.filename} success uploaded..`
+                });
             } catch (error) {
-                return res.status(500).send(error);
+                return res.json({
+                    status: 500,
+                    message: `Error deleteing ${filename} from server.`
+                });
             }
         });
         // Routing Menghapus File
         this.app.get("/delete/image/:filename", (req, res) => {
             const filename = req.params.filename;
             try {
-                deleteImage(filename);
+                deleteImage(filename, "../uploads/");
                 return res.json({
                     status: 200,
                     message: `Image ${filename} has been deleted from server.`

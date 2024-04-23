@@ -302,16 +302,40 @@
                                 <div class="form-group">
                                     <label for="photo">Photo</label>
                                     <input type="file" class="form-control-file" id="photo-form" name="photo">
+                                    <div id="delete-photo" hidden>
+                                        <a href="#"  class="px-1 badge badge-danger" id="button-delete-foto">
+                                            <i>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21H7Zm2-4h2V8H9v9Zm4 0h2V8h-2v9Z"/></svg>
+                                            </i>
+                                        </a>
+                                        <span id="photo-filename"></span>
+                                    </div>
                                     <script>
+                                        let photoFilename = "";
                                         $("#photo-form").on("change", function(e) {
                                             e.preventDefault();
-                                            const photo = this.files[0];
+                                            let photo = this.files[0];
+                                            const renamedPhoto = renameFile(photo, `photo_${$("#fullname-form").val()}_${new Date().getTime()}`);
+                                            photoFilename = renamedPhoto["name"];
 
                                             // Mengakses file yang diunggah
-                                            checkFileType(photo, ["image/jpeg", "image/jpg", "image/png"], "format file tidak didukung! (JPEG/JPG/PNG)", this, function() {
-                                                UploadFile(photo, "image", "/upload/image");
+                                            checkFileType(renamedPhoto, ["image/jpeg", "image/jpg", "image/png"], "format file tidak didukung! (JPEG/JPG/PNG)", this, function() {
+                                                UploadFile(renamedPhoto, "image", "/upload/image");
+                                                $("#photo-form").attr("hidden", true);
+                                                $("#delete-photo").removeAttr("hidden");
+                                                $("#photo-filename").append(renamedPhoto["name"]);
                                             });
                                         });
+                                        $("#delete-photo").on("click", e =>{
+                                            e.preventDefault();
+                                            const fileName = $("#photo-form").prop('files')[0].name;
+                                            deleteImage(photoFilename, function() {
+                                                $("#photo-form").val(null);
+                                                $("#photo-form").removeAttr("hidden");
+                                                $("#delete-photo").attr("hidden", true);
+                                                $("#photo-filename").append("");
+                                            })
+                                        })
                                     </script>
                                 </div>
                                 <div class="form-group">
@@ -374,9 +398,11 @@
                                                 contentType: false,
                                                 processData: false,
                                                 success: function(response) {
-                                                    // Lakukan sesuatu setelah pengunggahan berhasil
+                                                    if (response.status !== 200) {
+                                                        ErrorNotif(response.message);
+                                                        return 0;
+                                                    }
                                                     OkeNotif("Upload Success");
-                                                    console.log('Upload berhasil:', response);
                                                 },
                                                 error: function(xhr, status, error) {
                                                     // Tangani kesalahan jika pengunggahan gagal
@@ -385,6 +411,26 @@
                                                 }
                                             });
                                         }
+                                        function deleteImage(filename, callback) {
+                                            $.ajax({
+                                                url: `/delete/image/${filename}`, // URL endpoint
+                                                type: 'GET', // Metode HTTP GET
+                                                success: function(response) {
+                                                    if (response.status !== 200) {
+                                                        ErrorNotif(response.message);
+                                                        return 0;
+                                                    }
+                                                    OkeNotif("Image Deleted");
+                                                    callback();
+                                                },
+                                                error: function(xhr, status, error) {
+                                                    // Tangani kesalahan jika pengunggahan gagal
+                                                    Swal.fire("Error", error, "error");
+                                                    console.error("Error:", error);
+                                                }
+                                            });
+                                        }
+
                                     </script>
                                 </div>
                                 <div class="form-group">
