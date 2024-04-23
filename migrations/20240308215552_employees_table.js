@@ -11,8 +11,8 @@ exports.up = function(knex) {
         table.string("bornplace").unique();
         table.date("birthdate");
         table.string("address").unique();
-        table.binary("photo");
-        table.binary("id_card");
+        table.string("photo");
+        table.string("id_card");
         table.integer('position_id').unsigned(); // Kolom position_id sebagai integer unsigned
         table.foreign('position_id').references('id').inTable('positions'); // Kunci asing ke tabel positions
         table.integer('department_id').unsigned(); // Kolom department_id sebagai integer unsigned
