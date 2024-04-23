@@ -312,7 +312,7 @@
                                         <span id="photo-filename"></span>
                                     </div>
                                     <script>
-                                        const spinner = new Spinner("#photo-upload-loading");
+                                        const photoSpinner = new Spinner("#photo-upload-loading");
                                         let photoFilename = "";
                                         $("#photo-form").on("change", function(e) {
                                             e.preventDefault();
@@ -322,33 +322,75 @@
 
                                             // Mengakses file yang diunggah
                                             checkFileType(renamedPhoto, ["image/jpeg", "image/jpg", "image/png"], "format file tidak didukung! (JPEG/JPG/PNG)", this, function() {
-                                                spinner.show();
+                                                photoSpinner.show();
                                                 $("#photo-form").attr("hidden", true);
                                                 UploadFile(renamedPhoto, "image", "/upload/image", function () { 
                                                     $("#delete-photo").removeAttr("hidden");
                                                     $("#photo-filename").append(renamedPhoto["name"]);
-                                                    spinner.destroy();
+                                                    photoSpinner.destroy();
                                                  });
                                             });
                                         });
                                         $("#delete-photo").on("click", e =>{
                                             e.preventDefault();
-                                            spinner.show();
+                                            photoSpinner.show();
                                             $("#delete-photo").attr("hidden", true);
                                             $("#photo-filename").html("");
                                             deleteImage(photoFilename, function() {
-                                                spinner.destroy();
+                                                photoSpinner.destroy();
                                                 $("#photo-form").val(null);
                                                 $("#photo-form").removeAttr("hidden");
                                                 photoFilename = ""
-                                            })
-                                        })
+                                            });
+                                        });
                                     </script>
                                 </div>
                                 <div class="form-group">
                                     <label for="id-card-photo">ID Card Photo</label>
                                     <input type="file" class="form-control-file" id="id-card-photo-form" name="id-card-photo">
+                                    <div id="idcard-upload-loading"></div>
+                                    <div id="delete-idcard" hidden>
+                                        <a href="#" class="px-1 badge badge-danger">
+                                            <i>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"><path fill="currentColor" d="M7 21q-.825 0-1.412-.587T5 19V6H4V4h5V3h6v1h5v2h-1v13q0 .825-.587 1.413T17 21H7Zm2-4h2V8H9v9Zm4 0h2V8h-2v9Z"/></svg>
+                                            </i>
+                                        </a>
+                                        <span id="idcard-filename"></span>
+                                    </div>
                                 </div>
+                                <script>
+                                    const idcardSpinner = new Spinner("#idcard-upload-loading");
+                                    let idcardFilename = "";
+                                    $("#id-card-photo-form").on("change", function(e) {
+                                        e.preventDefault();
+                                        let photo = this.files[0];
+                                        const renamedPhoto = renameFile(photo, `idcard_${$("#fullname-form").val()}_${new Date().getTime()}`);
+                                        idcardFilename = renamedPhoto["name"];
+
+                                        // Mengakses file yang diunggah
+                                        checkFileType(renamedPhoto, ["image/jpeg", "image/jpg", "image/png"], "format file tidak didukung! (JPEG/JPG/PNG)", this, function() {
+                                            idcardSpinner.show();
+                                            $("#id-card-photo-form").attr("hidden", true);
+                                            UploadFile(renamedPhoto, "image", "/upload/image", function () { 
+                                                $("#delete-idcard").removeAttr("hidden");
+                                                $("#idcard-filename").append(renamedPhoto["name"]);
+                                                    idcardSpinner.destroy();
+                                                });
+                                        });
+                                    });
+                                    $("#delete-idcard").on("click", e =>{
+                                        e.preventDefault();
+                                        idcardSpinner.show();
+                                        $("#delete-idcard").attr("hidden", true);
+                                        $("#idcard-filename").html("");
+                                        deleteImage(idcardFilename, function() {
+                                            idcardSpinner.destroy();
+                                            $("#id-card-photo-form").val(null);
+                                            $("#id-card-photo-form").removeAttr("hidden");
+                                            idcardFilename = ""
+                                        })
+                                    });
+                                </script>
                                 <div class="form-group">
                                     <label for="address">Address</label>
                                     <textarea class="form-control" id="address-form" name="address" rows="3"></textarea>
@@ -646,9 +688,29 @@
     });
     // Event saat halaman ditutup atau direload
     $(window).on('beforeunload', function(e) {
-        if ($('#photo-form')[0].files[0]["name"] !== "") {
+        var photo = $('#photo-form')[0].files[0];
+        var idcard = $('#id-card-photo-form')[0].files[0];
+
+        if (photo !== "" || idcard !== "") {
+            if (photo !== "") {
+                deleteImage(photo, function() {
+                    $("#delete-photo").attr("hidden", true);
+                    $("#photo-filename").html("");
+                    $("#photo-form").val(null);
+                    $("#photo-form").removeAttr("hidden");
+                });
+            }
+
+            if (idcard !== "") {
+                deleteImage(idcard, function() {
+                    $("#delete-idcard").attr("hidden", true);
+                    $("#idcard-filename").html("");
+                    $("#id-card-photo-form").val(null);
+                    $("#id-card-photo-form").removeAttr("hidden");
+                });
+            }
+
             e.preventDefault();
-            deleteImage(photoFilename, function() {});
         }
     });
 </script>
