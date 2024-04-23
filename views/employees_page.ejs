@@ -328,12 +328,12 @@
                                         });
                                         $("#delete-photo").on("click", e =>{
                                             e.preventDefault();
-                                            const fileName = $("#photo-form").prop('files')[0].name;
                                             deleteImage(photoFilename, function() {
                                                 $("#photo-form").val(null);
                                                 $("#photo-form").removeAttr("hidden");
                                                 $("#delete-photo").attr("hidden", true);
-                                                $("#photo-filename").append("");
+                                                $("#photo-filename").html("");
+                                                photoFilename = ""
                                             })
                                         })
                                     </script>
