@@ -16,9 +16,18 @@ class EmployeeRoute{
         this.app.get("/employee/:id", findEmployeeByID);
         this.app.get("/employee/id/last", employeeLastID);
         this.app.post("/employee/id/new", (req, res) => {
-            return res.json({
-                body: req.body,
-            });
+            try {
+                return res.json({
+                    status: 200,
+                    body: req.body,
+                    message: "New employee"
+                });
+            } catch (error) {
+                return res.json({
+                    status: 500,
+                    message: error
+                });
+            }
         });
     }
 }

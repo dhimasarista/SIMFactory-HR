@@ -498,33 +498,60 @@
 
                                         const buttonStatus = $("#button-submit-form").text();
                                         if (buttonStatus === "Submit") {
-                                            alert(buttonStatus);
-                                            $.ajax({
-                                                url: '/employee/id/new',
-                                                method: 'POST',
-                                                contentType: "application/json",
-                                                data: JSON.stringify({
-                                                    id: $("#id-number-form").val(),
-                                                    employee_id: $("#employee-id-form").val(),
-                                                    name: $("#fullname-form").val(),
-                                                    title: $("#title-form").val(),
-                                                    bornplace: $("#born-place-form").val(),
-                                                    birthdate: $("#birth-date-form").val(),
-                                                    id_card: idcardFilename,
-                                                    photo: photoFilename,
-                                                    address: $("#address-form").val(),
-                                                }),
-                                                success: function(results) {
-                                                    console.log(results);
-                                                    if (results.status !== 200) {
-                                                        ErrorNotif(Object.values(results.message)[0]);
-                                                        return 0;
-                                                    }
-                                                },
-                                                error: function(xhr, status, error) {
-                                                    TopLoaderService.end();
-                                                    ErrorNotif(`${status} ${error}`);
-                                                    console.log(error);
+                                            Swal.fire({
+                                                title: "are you sure wanna data correctly?",
+                                                // text: "You won't be able to revert this!",
+                                                icon: "warning",
+                                                showCancelButton: true,
+                                                confirmButtonColor: "#3085d6",
+                                                cancelButtonColor: "#d33",
+                                                confirmButtonText: "Yes!"
+                                            }).then(results => {
+                                                TopLoaderService.start();
+                                                if (results.isConfirmed) {
+                                                    $.ajax({
+                                                        url: '/employee/id/new',
+                                                        method: 'POST',
+                                                        contentType: "application/json",
+                                                        data: JSON.stringify({
+                                                            id: $("#id-number-form").val(),
+                                                            employee_id: $("#employee-id-form").val(),
+                                                            name: $("#fullname-form").val(),
+                                                            title: $("#title-form").val(),
+                                                            bornplace: $("#born-place-form").val(),
+                                                            birthdate: $("#birth-date-form").val(),
+                                                            id_card: idcardFilename,
+                                                            photo: photoFilename,
+                                                            address: $("#address-form").val(),
+                                                            department_id: $("#select-department").val(),
+                                                            position_id: $("#select-position").val(),
+                                                        }),
+                                                        success: function(results) {
+                                                            if (results.status !== 200) {
+                                                                ErrorNotif(Object.values(results.message)[0]);
+                                                                return 0;
+                                                            }
+                                                            TopLoaderService.end();
+                                                            Swal.fire({
+                                                                title: results.message,
+                                                                icon: "success",
+                                                                showCancelButton: false,
+                                                                confirmButtonColor: "#3085d6",
+                                                                confirmButtonText: "OK"
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    location.reload(); // Reload halaman jika tombol OK diklik
+                                                                }
+                                                                location.reload(); // Reload halaman jika tombol OK diklik
+                                                            });
+
+                                                        },
+                                                        error: function(xhr, status, error) {
+                                                            TopLoaderService.end();
+                                                            ErrorNotif(`${status} ${error}`);
+                                                            console.log(error);
+                                                        }
+                                                    });
                                                 }
                                             });
                                         } else if (buttonStatus === "Save") {
@@ -700,7 +727,6 @@
                     $("#photo-form").removeAttr("hidden");
                 });
             }
-
             if (idcard !== "") {
                 deleteImage(idcardFilename, function() {
                     $("#delete-idcard").attr("hidden", true);
@@ -709,8 +735,6 @@
                     $("#id-card-photo-form").removeAttr("hidden");
                 });
             }
-
-            e.preventDefault();
         }
     });
 </script>
