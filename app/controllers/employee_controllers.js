@@ -1,7 +1,9 @@
+const compressAndSaveImage = require("../utilities/compress_image");
 const UserModel = require("../models/user_model");
 const EmployeeModel = require("../models/employee_model");
 const DepartmentModel = require("../models/department_model");
 const DepartmentPositionModel = require("../models/department_position_model");
+const { deleteImage } = require("./upload_controllers");
 const userModel = new UserModel();
 const employeeModel = new EmployeeModel();
 const departmentModel = new DepartmentModel();
@@ -20,6 +22,48 @@ module.exports = {
             employees: employees,
             departments: departments
         });
+    },
+    newEmployee: async (req, res) => {
+        const newEmployee = req.body;
+        try {
+            let checkingForm = newEmployee["name"] === "" || newEmployee["id_number"] === "" || newEmployee["employee_id"] === "" || newEmployee["id_card"] === "" || newEmployee["photo"] === "" 
+            if (checkingForm) {
+                return res.json({
+                    status: 500,
+                    message: "form is empty"
+                });
+            }
+            compressAndSaveImage(`app/uploads/${newEmployee["id_card"]}`, `app/uploads/idcards/${newEmployee["id_card"]}`, 50);
+            deleteImage(newEmployee["id_card"], "../uploads/");
+            compressAndSaveImage(`app/uploads/${newEmployee["photo"]}`, `app/uploads/photos/${newEmployee["photo"]}`, 50);
+            deleteImage(newEmployee["photo"], "../uploads/");
+
+            const resultNewEmployee = employeeModel.newEmployee(
+                newEmployee["employee_id"],
+                newEmployee["id_number"],
+                newEmployee["name"],
+                newEmployee["title"],
+                newEmployee["bornplace"],
+                newEmployee["birthdate"],
+                newEmployee["address"],
+                newEmployee["employee_id"],
+                newEmployee["photo"],
+                newEmployee["id_card"],
+                newEmployee["position_id"],
+                newEmployee["department_id"],
+            );
+
+            return res.json({
+                status: 200,
+                employee: resultNewEmployee,
+                message: "New employee"
+            });
+        } catch (error) {
+            return res.json({
+                status: 500,
+                message: error
+            });
+        }
     },
     findEmployeeByID: async (req, res) => {
         try {

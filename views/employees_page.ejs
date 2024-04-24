@@ -514,7 +514,7 @@
                                                         method: 'POST',
                                                         contentType: "application/json",
                                                         data: JSON.stringify({
-                                                            id: $("#id-number-form").val(),
+                                                            id_number: $("#id-number-form").val(),
                                                             employee_id: $("#employee-id-form").val(),
                                                             name: $("#fullname-form").val(),
                                                             title: $("#title-form").val(),
@@ -527,9 +527,10 @@
                                                             position_id: $("#select-position").val(),
                                                         }),
                                                         success: function(results) {
+                                                            console.log(results);
                                                             TopLoaderService.end();
                                                             if (results.status !== 200) {
-                                                                ErrorNotif(results.status);
+                                                                ErrorNotif(results.message);
                                                                 return 0;
                                                             }
                                                             Swal.fire({
@@ -715,27 +716,27 @@
         });
     });
     // Event saat halaman ditutup atau direload
-    $(window).on('beforeunload', function(e) {
-        var photo = $('#photo-form')[0].files[0];
-        var idcard = $('#id-card-photo-form')[0].files[0];
+    // $(window).on('beforeunload', function(e) {
+    //     var photo = $('#photo-form')[0].files[0];
+    //     var idcard = $('#id-card-photo-form')[0].files[0];
 
-        if (photo !== "" || idcard !== "") {
-            if (photo !== "") {
-                deleteImage(photoFilename, function() {
-                    $("#delete-photo").attr("hidden", true);
-                    $("#photo-filename").html("");
-                    $("#photo-form").val(null);
-                    $("#photo-form").removeAttr("hidden");
-                });
-            }
-            if (idcard !== "") {
-                deleteImage(idcardFilename, function() {
-                    $("#delete-idcard").attr("hidden", true);
-                    $("#idcard-filename").html("");
-                    $("#id-card-photo-form").val(null);
-                    $("#id-card-photo-form").removeAttr("hidden");
-                });
-            }
-        }
-    });
+    //     if (photo !== "" || idcard !== "") {
+    //         if (photo !== "") {
+    //             deleteImage(photoFilename, function() {
+    //                 $("#delete-photo").attr("hidden", true);
+    //                 $("#photo-filename").html("");
+    //                 $("#photo-form").val(null);
+    //                 $("#photo-form").removeAttr("hidden");
+    //             });
+    //         }
+    //         if (idcard !== "") {
+    //             deleteImage(idcardFilename, function() {
+    //                 $("#delete-idcard").attr("hidden", true);
+    //                 $("#idcard-filename").html("");
+    //                 $("#id-card-photo-form").val(null);
+    //                 $("#id-card-photo-form").removeAttr("hidden");
+    //             });
+    //         }
+    //     }
+    // });
 </script>
