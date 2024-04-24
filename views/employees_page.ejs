@@ -514,8 +514,8 @@
                                                         method: 'POST',
                                                         contentType: "application/json",
                                                         data: JSON.stringify({
-                                                            id_number: $("#id-number-form").val(),
-                                                            employee_id: $("#employee-id-form").val(),
+                                                            id_number: parseInt( $("#id-number-form").val()),
+                                                            employee_id: parseInt($("#employee-id-form").val()),
                                                             name: $("#fullname-form").val(),
                                                             title: $("#title-form").val(),
                                                             bornplace: $("#born-place-form").val(),
@@ -523,8 +523,8 @@
                                                             id_card: idcardFilename,
                                                             photo: photoFilename,
                                                             address: $("#address-form").val(),
-                                                            department_id: $("#select-department").val(),
-                                                            position_id: $("#select-position").val(),
+                                                            department_id: parseInt($("#select-department").val()),
+                                                            position_id: parseInt($("#select-position").val()),
                                                         }),
                                                         success: function(results) {
                                                             console.log(results);

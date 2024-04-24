@@ -15,13 +15,14 @@ class EmployeeModel{
 
     async newEmployee(employeeId, idNumber, name, title, bornplace, birthdate, address, photo, idCard, positionId, departmentId){
         try {
+            const formatedDate = formatDate(birthdate);
             const data = {
                 id: employeeId,
                 id_number: idNumber,
                 name: name,
                 title: title,
                 bornplace: bornplace,
-                birthdate: formatDate(birthdate), // "mm-dd-yyyy"
+                birthdate: birthdate, // "mm-dd-yyyy"
                 address: address,
                 photo: photo,
                 id_card: idCard,
@@ -31,6 +32,7 @@ class EmployeeModel{
             const results = await knex("employees").insert(data);
             return results;
         } catch (error) {
+            errorLogging(error);
         }
     }
 

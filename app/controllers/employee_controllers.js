@@ -33,12 +33,12 @@ module.exports = {
                     message: "form is empty"
                 });
             }
-            compressAndSaveImage(`app/uploads/${newEmployee["id_card"]}`, `app/uploads/idcards/${newEmployee["id_card"]}`, 50);
+            await compressAndSaveImage(`app/uploads/${newEmployee["id_card"]}`, `app/uploads/idcards/${newEmployee["id_card"]}`, 50);
             deleteImage(newEmployee["id_card"], "../uploads/");
-            compressAndSaveImage(`app/uploads/${newEmployee["photo"]}`, `app/uploads/photos/${newEmployee["photo"]}`, 50);
+            await compressAndSaveImage(`app/uploads/${newEmployee["photo"]}`, `app/uploads/photos/${newEmployee["photo"]}`, 50);
             deleteImage(newEmployee["photo"], "../uploads/");
 
-            const resultNewEmployee = employeeModel.newEmployee(
+            const resultNewEmployee = await employeeModel.newEmployee(
                 newEmployee["employee_id"],
                 newEmployee["id_number"],
                 newEmployee["name"],
