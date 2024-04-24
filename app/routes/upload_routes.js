@@ -15,12 +15,10 @@ class UploadRoutes{
                 // console.log(filename.filename);
                 // Setelah mengupload image
                 // compressAndSaveImage(` app/uploads/${filename.filename}`, `app/uploads/photos/${filename.filename}`, 50);
-                setTimeout(() => {
-                    return res.json({
-                        status: 200,
-                        message: `Image ${filename.filename} success uploaded..`
-                    });
-                }, 1000);
+                return res.json({
+                    status: 200,
+                    message: `Image ${filename.filename} success uploaded..`
+                });
             } catch (error) {
                 return res.json({
                     status: 500,
@@ -33,12 +31,10 @@ class UploadRoutes{
             const filename = req.params.filename;
             try {
                 deleteImage(filename, "../uploads/");
-                setTimeout(() => {
-                    return res.json({
-                        status: 200,
-                        message: `Image ${filename} has been deleted from server.`
-                    });
-                }, 1000);
+                return res.json({
+                    status: 200,
+                    message: `Image ${filename} has been deleted from server.`
+                });
             } catch (error) {
                 return res.json({
                     status: 500,
