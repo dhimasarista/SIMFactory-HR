@@ -527,11 +527,11 @@
                                                             position_id: $("#select-position").val(),
                                                         }),
                                                         success: function(results) {
+                                                            TopLoaderService.end();
                                                             if (results.status !== 200) {
-                                                                ErrorNotif(Object.values(results.message)[0]);
+                                                                ErrorNotif(results.status);
                                                                 return 0;
                                                             }
-                                                            TopLoaderService.end();
                                                             Swal.fire({
                                                                 title: results.message,
                                                                 icon: "success",
@@ -547,9 +547,9 @@
 
                                                         },
                                                         error: function(xhr, status, error) {
-                                                            TopLoaderService.end();
                                                             ErrorNotif(`${status} ${error}`);
                                                             console.log(error);
+                                                            TopLoaderService.end();
                                                         }
                                                     });
                                                 }
