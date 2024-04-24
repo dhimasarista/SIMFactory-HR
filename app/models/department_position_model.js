@@ -61,7 +61,6 @@ module.exports = class DepartmentPositionModel{
         return rows;
       } catch (err) {
         errorLogging(err);
-        throw err;
       }
     }
      
@@ -80,7 +79,6 @@ module.exports = class DepartmentPositionModel{
           results += `Data-${index + 1}: ${JSON.stringify(result)}\n`;
         } catch (error) {
           errorLogging(error);
-          throw error;
         }
       }
       return results;
@@ -92,7 +90,6 @@ module.exports = class DepartmentPositionModel{
         const result = await this.insert(departmentID, positions);
         return result;
       } catch (error) {
-        throw error;
       }
     }
 
@@ -100,7 +97,6 @@ module.exports = class DepartmentPositionModel{
       try {
         await knex("department_positions").where("deparment_id", departmentID).update("deleted_at", knex.fn.now());
       } catch (error) {
-        throw error;
       }
     }
 }
