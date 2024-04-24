@@ -1,4 +1,5 @@
 const knex = require("../config/knex");
+const { errorLogging } = require("../logging/console");
 class PositionModel{
     constructor(){}
 
@@ -7,7 +8,7 @@ class PositionModel{
             const position = await knex.select("*").from("positions");
             return position;
         } catch (error) {
-            throw error;
+            errorLogging(error);
         }
     }
 
@@ -22,7 +23,7 @@ class PositionModel{
             const result = await knex("positions").insert(newData)
             return result;
         } catch (error) {
-            throw error;
+            errorLogging(error);
         }
     }
 }

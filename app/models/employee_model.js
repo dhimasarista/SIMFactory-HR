@@ -1,5 +1,6 @@
 const knex = require("../config/knex");
 const { errorLogging } = require("../logging/console");
+const formatDate = require("../utilities/formatting_date");
 
 class EmployeeModel{
     constructor(){}
@@ -9,7 +10,27 @@ class EmployeeModel{
             const employee = await knex("employees").where("id", id).andWhere("deleted_at",null);
             return employee;
         } catch (error) {
-            throw error;
+        }
+    }
+
+    async newEmployee(employeeId, idNumber, name, title, bornplace, birthdate, address, photo, idCard, positionId, departmentId){
+        try {
+            const data = {
+                id: employeeId,
+                id_number: idNumber,
+                name: name,
+                title: title,
+                bornplace: bornplace,
+                birthdate: formatDate(birthdate), // "mm-dd-yyyy"
+                address: address,
+                photo: photo,
+                id_card: idCard,
+                position_id: positionId,
+                department_id: departmentId,
+            }
+            const results = await knex("employees").insert(data);
+            return results;
+        } catch (error) {
         }
     }
 
@@ -21,8 +42,7 @@ class EmployeeModel{
             .leftJoin('departments', 'employees.department_id', 'departments.id');
             return employees;
         } catch (error) {
-            errorLogging(error);
-            throw error; 
+            errorLogging(error); 
         }
     }
 
@@ -40,7 +60,6 @@ class EmployeeModel{
             }
         } catch (error) {
             errorLogging(error);
-            throw error;
         }
     }
 
@@ -50,7 +69,6 @@ class EmployeeModel{
             return results;
         } catch (error) {
             errorLogging(error);
-            throw error;
         }
     }
 
@@ -60,7 +78,6 @@ class EmployeeModel{
             return results;
         } catch (error) {
             errorLogging(error);
-            throw error;
         }
     }
 }

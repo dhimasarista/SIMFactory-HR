@@ -8,7 +8,6 @@ class DepartmentModel{
         return departments;
       } catch (error) {
         errorLogging(error);
-          throw error;
       }
     }
 
@@ -18,7 +17,6 @@ class DepartmentModel{
             return departments;
         } catch (error) {
           errorLogging(error);
-            throw error;
         }
     }
 
@@ -46,7 +44,6 @@ class DepartmentModel{
         return result;
       } catch (error) {
         errorLogging(error);
-        throw error;
       }
     }
 
@@ -61,7 +58,6 @@ class DepartmentModel{
         return result;
       } catch (error) {
         errorLogging(error);
-        throw error;
       }
     }
 
@@ -70,7 +66,6 @@ class DepartmentModel{
         const result = await knex("departments").update("deleted_at", new Date()).where("id", parseInt(id));
       } catch (error) {
         errorLogging(error);
-        throw error;
       }
     }
 }
