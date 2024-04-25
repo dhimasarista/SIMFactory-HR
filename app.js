@@ -16,6 +16,7 @@ const logger = require('./app/logging/winston');
 const { successLogging } = require('./app/logging/console');
 const metrics = require('./app/utilities/metrics');
 const UploadRoutes = require('./app/routes/upload_routes');
+const FileRoutes = require('./app/routes/file_routes');
 
 const app = express(); // Init aplikasi
 const port = process.env.APP_PORT || 3000; // Init port
@@ -42,6 +43,7 @@ new ErrorRoutes(app);
 new DepartmentRoutes(app);
 new UserManagementRoutes(app);
 new UploadRoutes(app);
+new FileRoutes(app);
 app.get("/metrics", (req, res) => {
     try {
         const data = metrics();
