@@ -39,18 +39,19 @@ module.exports = {
             deleteImage(newEmployee["photo"], "../uploads/");
 
             const resultNewEmployee = await employeeModel.newEmployee(
-                newEmployee["employee_id"],
-                newEmployee["id_number"],
-                newEmployee["name"],
-                newEmployee["title"],
-                newEmployee["bornplace"],
-                newEmployee["birthdate"],
-                newEmployee["address"],
-                newEmployee["employee_id"],
-                newEmployee["photo"],
-                newEmployee["id_card"],
-                newEmployee["position_id"],
-                newEmployee["department_id"],
+                {
+                    employeeId: newEmployee["employee_id"], 
+                    idNumber: newEmployee["id_number"], 
+                    name: newEmployee["name"],
+                    title: newEmployee["title"],
+                    bornplace: newEmployee["bornplace"], 
+                    birthdate: newEmployee["birthdate"],
+                    address: newEmployee["address"], 
+                    photo: newEmployee["photo"],
+                    idCard: newEmployee["id_card"],
+                    positionId: newEmployee["position_id"],
+                    departmentId: newEmployee["department_id"],
+                }
             );
 
             return res.json({

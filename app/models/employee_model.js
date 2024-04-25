@@ -13,23 +13,23 @@ class EmployeeModel{
         }
     }
 
-    async newEmployee(employeeId, idNumber, name, title, bornplace, birthdate, address, photo, idCard, positionId, departmentId){
+    async newEmployee(data){
         try {
-            const formatedDate = formatDate(birthdate);
-            const data = {
-                id: employeeId,
-                id_number: idNumber,
-                name: name,
-                title: title,
-                bornplace: bornplace,
-                birthdate: birthdate, // "mm-dd-yyyy"
-                address: address,
-                photo: photo,
-                id_card: idCard,
-                position_id: positionId,
-                department_id: departmentId,
+            const formatedDate = formatDate(data.birthdate);
+            const newEmployee = {
+                id: data.employeeId,
+                id_number: data.idNumber,
+                name: data.name,
+                title: data.title,
+                bornplace: data.bornplace,
+                birthdate: formatedDate, // "mm-dd-yyyy"
+                address: data.address,
+                photo: data.photo,
+                id_card: data.idCard,
+                position_id: data.positionId,
+                department_id: data.departmentId,
             }
-            const results = await knex("employees").insert(data);
+            const results = await knex("employees").insert(newEmployee);
             return results;
         } catch (error) {
             errorLogging(error);
