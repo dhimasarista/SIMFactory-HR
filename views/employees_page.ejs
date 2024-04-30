@@ -93,7 +93,7 @@
                                         $("#birth-place-column").text(PascalCaseWithSpace(results.employee[0]["bornplace"]));
                                         $("#birth-date-column").text(dateFormatting(results.employee[0]["birthdate"]));
                                         $("#address-column").text(PascalCaseWithSpace(results.employee[0]["address"]));
-                                        $("#idcard-column").attr("file-name", results.employee[0]["idcard"]);
+                                        $("#idcard-column").attr("file-name", results.employee[0]["id_card"]);
                                         $("#photo-column").attr("file-name", results.employee[0]["photo"]);
                                     },
                                     error: function(xhr, status, error) {
@@ -607,10 +607,22 @@
                                 <tr>
                                     <td>Photo</td>
                                     <td><a id="photo-column" href="#">view</a></td>
+                                    <script>
+                                        $("#photo-column").on("click", e => {
+                                            e.preventDefault();
+                                            ShowImage(`/image/photo/${$("#photo-column").attr("file-name")}`);
+                                        })
+                                    </script>
                                 </tr>
                                 <tr>
                                     <td>ID Card Photo</td>
                                     <td><a id="idcard-column" href="#">view</a></td>
+                                    <script>
+                                        $("#idcard-column").on("click", e => {
+                                            e.preventDefault();
+                                            ShowImage(`/image/idcard/${$("#idcard-column").attr("file-name")}`);
+                                        })
+                                    </script>
                                 </tr>
                                 </tbody>
                             </table>

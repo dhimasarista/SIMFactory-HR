@@ -1,40 +1,31 @@
 const path = require('path');
-const fs = require("fs");
+const imageToBlob = require('../utilities/image_blob');
 
+const idCardsDirectory = path.join(__dirname, '../', 'uploads', 'idcards');
+const photosDirectory = path.join(__dirname, '../', 'uploads', 'photos');  
 class FileRoutes{
     constructor(app){
-        const idCardsDirectory = path.join(__dirname, '../', 'uploads', 'idcards');
-        const photosDirectory = path.join(__dirname, '../', 'uploads', 'photos');
-        app.get("/image/idcard/:name", (req, res) => {
-            const name = req.params.name;
-            console.log(name);
-            const filePath = path.join(idCardsDirectory, name);
-
-            fs.readFileSync(filePath, (err, data) => {
-                if (err) {
-                    return res.status(500).json({
-                        error: err,
-                    });
-                }
-
+        app.post("/image/idcard/:name", (req, res) => {
+            try {
+                const name = req.params.name;
+                const {imageBlob, imageType} = imageToBlob(name, idCardsDirectory);
                 res.setHeader('Content-Type', 'application/octet-stream');
-                res.send(data);
-            });
+                res.setHeader("Content-Disposition", `attachment; filename="${name}"`);
+                return res.status(200).send(imageBlob);
+            } catch (error) {
+                return res.status(500).send(error);
+            }
         });
-        app.get("/image/photo/:name", (req, res) => {
-            const name = req.params.name;
-            const filePath = path.join(photosDirectory, name);
-
-            fs.readFile(filePath, (err, data) => {
-                if (err) {
-                    return res.status(500).json({
-                        error: err,
-                    });
-                }
-
+        app.post("/image/photo/:name", (req, res) => {
+            try {
+                const name = req.params.name;
+                const {imageBlob, imageType} = imageToBlob(name, photosDirectory);
                 res.setHeader('Content-Type', 'application/octet-stream');
-                res.send(data);
-            });
+                res.setHeader("Content-Disposition", `attachment; filename="${name}"`);
+                return res.status(200).send(imageBlob);
+            } catch (error) {
+                return res.status(500).send(error);
+            }
         });
     }
 }

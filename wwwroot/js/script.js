@@ -162,3 +162,51 @@ class Spinner {
         $(this.id).find('.spinner-border').remove();
     }
 }
+
+function ArrayBufferToBase64(buffer) {
+    let binary = '';
+    const bytes = new Uint8Array(buffer);
+    const len = bytes.byteLength;
+    for (let index = 0; index < len; index++) {
+        binary += String.fromCharCode(bytes);
+    }
+
+    return btoa(binary);
+}
+let myFile;
+function FetchImage(path, callback) {
+    fetch(path, {
+        method: "POST"
+    })
+    .then(response => {
+        if (!response.ok) {
+            throw new Error('Failed to download file');
+        }
+        return response.blob();
+    })
+    .then(async blob => {
+        const reader = new FileReader();
+
+        reader.onload = function () { 
+            const dataUrl = reader.result;
+            const base64 = dataUrl.split(",")[1];
+            callback(base64);
+        };
+
+        reader.readAsDataURL(blob);
+    })
+    .catch(error => {
+        ErrorNotif(error);
+    });
+}
+
+function ShowImage(path) {  
+    FetchImage(path, function (base64) {  
+        Swal.fire({
+            imageUrl: `data:image/jpeg;base64,${base64}`,
+            imageAlt: "image",
+            showCloseButton: true,
+            showCancelButton: false,
+        })
+    });
+}

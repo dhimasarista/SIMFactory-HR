@@ -12,8 +12,11 @@ function imageToBlob(name, directory) {
         throw Error("Format gambar tidak didukung!");
     }
 
-    const imageBlob = new Blob([imageBuffer], { type: imageType });
-    return imageBlob;
+    const imageBlob = Buffer.from(imageBuffer, 'binary');
+    return {
+        imageBlob,
+        imageType,
+    };
 }
 
 module.exports = imageToBlob;
