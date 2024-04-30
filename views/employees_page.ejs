@@ -89,8 +89,8 @@
                                         // Unhide new employee button, hide return button
                                         $("#new-employee-button").attr("hidden", true);
                                         $("#return-button").removeAttr('hidden');
-                                        $("#employee-id-column").text(results.employee[0]["id_number"]);
-                                        $("#id-number-column").text(results.employee[0]["id"]);
+                                        $("#employee-id-column").text(results.employee[0]["id"]);
+                                        $("#id-number-column").text(results.employee[0]["id_number"]);
                                         $("#name-column").text(PascalCaseWithSpace(results.employee[0]["name"]));
                                         $("#title-column").text(results.employee[0]["title"].toUpperCase());
                                         $("#birth-place-column").text(PascalCaseWithSpace(results.employee[0]["bornplace"]));
@@ -157,6 +157,7 @@
                                                 clearInterval(interval);
                                             }
                                         }, 1000);
+                                        $("#employee-form-card").attr("type-form", "edit-form");
                                     },
                                     error: function(xhr, status, error) {
                                         WarningNotif(`${status} ${error}`);
@@ -353,7 +354,7 @@
                                             photoSpinner.show();
                                             $("#delete-photo").attr("hidden", true);
                                             $("#photo-filename").html("");
-                                            deleteImage(photoFilename, function() {
+                                            deleteImage(photoFilename, $("#employee-form-card").attr("type-form"), "photo", function() {
                                                 photoSpinner.destroy();
                                                 $("#photo-form").val(null);
                                                 $("#photo-form").removeAttr("hidden");
@@ -400,7 +401,7 @@
                                         idcardSpinner.show();
                                         $("#delete-idcard").attr("hidden", true);
                                         $("#idcard-filename").html("");
-                                        deleteImage(idcardFilename, function() {
+                                        deleteImage(idcardFilename, $("#employee-form-card").attr("type-form"), "idcard", function() {
                                             idcardSpinner.destroy();
                                             $("#id-card-photo-form").val(null);
                                             $("#id-card-photo-form").removeAttr("hidden");
@@ -481,10 +482,15 @@
                                                 }
                                             });
                                         }
-                                        function deleteImage(filename, callback) {
+                                        function deleteImage(filename, typeForm, typeFile, callback) {
                                             $.ajax({
                                                 url: `/delete/image/${filename}`, // URL endpoint
-                                                type: 'GET', // Metode HTTP GET
+                                                type: 'POST', // Metode HTTP GET
+                                                contentType: "application/json",
+                                                data: JSON.stringify({
+                                                    type_file: typeFile,
+                                                    type_form: typeForm,
+                                                }),
                                                 success: function(response) {
                                                     if (response.status !== 200) {
                                                         ErrorNotif(response.message);
@@ -695,6 +701,7 @@
                         return 0;
                     }
                     $("#employee-id-form").val(results["last_id"] + 1);
+                    $("#employee-form-card").attr("type-form", "new-form");
                 },
                 error: function(xhr, status, error) {
                     ErrorNotif(`${status} ${error}`);
