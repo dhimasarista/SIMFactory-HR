@@ -10,6 +10,7 @@ class EmployeeModel{
             const employee = await knex("employees").where("id", id).andWhere("deleted_at",null);
             return employee;
         } catch (error) {
+            errorLogging(error);
         }
     }
 
