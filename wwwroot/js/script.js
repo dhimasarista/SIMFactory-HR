@@ -76,6 +76,18 @@ function reloadPage() {
     location.reload(true); // Reload halaman dengan membersihkan cache
 }
 
+const SwalToast = Swal.mixin({
+    toast: true,
+    position: "top-end",
+    showConfirmButton: false,
+    timer: 2000,
+    timerProgressBar: false,
+    didOpen: (toast) => {
+      toast.onmouseenter = Swal.stopTimer;
+      toast.onmouseleave = Swal.resumeTimer;
+    }
+});
+
 let notyf; // Variabel notyf dideklarasikan di luar event listener
 document.addEventListener("DOMContentLoaded", function() {
     // Pustaka notifikasi
