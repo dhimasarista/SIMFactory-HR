@@ -1,3 +1,4 @@
+const path = require("path");
 const compressAndSaveImage = require("../utilities/compress_image");
 const UserModel = require("../models/user_model");
 const EmployeeModel = require("../models/employee_model");
@@ -62,23 +63,23 @@ module.exports = {
         } catch (error) {
             return res.json({
                 status: 500,
-                message: error
+                message: error.toString()
             });
         }
     },
     findEmployeeByID: async (req, res) => {
         try {
             const id = req.params.id;
-            const results = await employeeModel.findByID(parseInt(id));
+            const employee = await employeeModel.findByID(parseInt(id));
                 return res.json({
                     status: 200,
                     message: "Employeee finded!",
-                    employee: results,
+                    employee,
                 });
         } catch (error) {
             return res.json({
                 status: 500,
-                message: error
+                message: error.toString()
             });
         }
     },
@@ -93,7 +94,7 @@ module.exports = {
         } catch (error) {
             return res.json({
                 status: 500,
-                message: error
+                message: error.toString()
             });
         }
     },
@@ -109,7 +110,7 @@ module.exports = {
         } catch (error) {
             return res.json({
                 status: 500,
-                message: error
+                message: error.toString()
             });
         }
     },
@@ -123,7 +124,7 @@ module.exports = {
         } catch (error) {
             return res.json({
                 status: 500,
-                message: error
+                message: error.toString()
             });
         }
     }

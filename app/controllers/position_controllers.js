@@ -11,7 +11,7 @@ module.exports = {
         } catch (error) {
            return res.json({
                 status: 500,
-                message: error,
+                message: error.toString(),
             });
         }
     },
@@ -27,7 +27,7 @@ module.exports = {
         } catch (error) {
            return res.json({
                 status: 500,
-                message: error,
+                message: error.toString(),
             });
         }
     }
