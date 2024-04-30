@@ -137,7 +137,7 @@
                                 success: function(results) {
                                     TopLoaderService.end();
                                     if (results.status !== 200) {
-                                        ErrorNotif(Object.values(results.message)[0])
+                                        ErrorNotif(results.message)
                                         return 0;
                                     }
                                     $("#department-id-column").html(results.results[0]["department_id"]);
@@ -224,7 +224,7 @@
                                         contentType: "application/json",
                                         success: function(results) {
                                             if (results.status !== 200) {
-                                                ErrorNotif(Object.values(results.message)[0]);
+                                                ErrorNotif(results.message);
                                                 return 0;
                                             }
                                             $(`tr[data-id="${id}"]`).remove();
@@ -325,7 +325,7 @@
                                                 data: JSON.stringify(data),
                                                 success: function(results) {
                                                     if (results.status !== 200) {
-                                                        ErrorNotif(Object.values(results.message)[0]);
+                                                        ErrorNotif(results.message);
                                                         return 0;
                                                     }
                                                     OkeNotif(results.message);

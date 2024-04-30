@@ -78,7 +78,7 @@
                                     success: function(results) {
                                         TopLoaderService.end();
                                         if (results.status !== 200) {
-                                            ErrorNotif(Object.values(results.message)[0]);
+                                            ErrorNotif(results.message);
                                             return 0;
                                         }
                                         $("#employees-card").attr("hidden", true);
@@ -93,6 +93,8 @@
                                         $("#birth-place-column").text(PascalCaseWithSpace(results.employee[0]["bornplace"]));
                                         $("#birth-date-column").text(dateFormatting(results.employee[0]["birthdate"]));
                                         $("#address-column").text(PascalCaseWithSpace(results.employee[0]["address"]));
+                                        $("#idcard-column").attr("file-name", results.employee[0]["idcard"]);
+                                        $("#photo-column").attr("file-name", results.employee[0]["photo"]);
                                     },
                                     error: function(xhr, status, error) {
                                         WarningNotif(`${status} ${error}`);
@@ -109,7 +111,7 @@
                                     success: function(results) {
                                         TopLoaderService.end();
                                         if (results.status !== 200) {
-                                            ErrorNotif(Object.values(results.message)[0]);
+                                            ErrorNotif(results.message);
                                             return 0;
                                         }
                                         showEmployeeForm();
@@ -208,7 +210,7 @@
                                         dataType: 'json',
                                         success: function(results) {
                                             if (results.status !== 200) {
-                                                ErrorNotif(Object.values(results.message)[0]);
+                                                ErrorNotif(results.message);
                                                 return 0;
                                             }
                                             setTimeout(() => {
@@ -418,7 +420,7 @@
                                                 contentType: "application/json",
                                                 success: function(results) {
                                                     if (results.status !== 200) {
-                                                        ErrorNotif(Object.values(results.message)[0]);
+                                                        ErrorNotif(results.message);
                                                         return 0;
                                                     }
                                                     for (let index = 0; index < results.positions[0]["position_ids"].length; index++) {
@@ -604,11 +606,11 @@
                                 </tr>
                                 <tr>
                                     <td>Photo</td>
-                                    <td><a href="#">view</a></td>
+                                    <td><a id="photo-column" href="#">view</a></td>
                                 </tr>
                                 <tr>
                                     <td>ID Card Photo</td>
-                                    <td><a href="#">view</a></td>
+                                    <td><a id="idcard-column" href="#">view</a></td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -653,7 +655,7 @@
                 contentType: "application/json",
                 success: function(results) {
                     if (results.status !== 200) {
-                        ErrorNotif(Object.values(results.message)[0]);
+                        ErrorNotif(results.message);
                         return 0;
                     }
                     $("#employee-id-form").val(results["last_id"] + 1);
@@ -713,6 +715,8 @@
             $("#birth-place-column").text("");
             $("#birth-date-column").text("");
             $("#address-column").text("");
+            $("#idcard-column").removeAttr("file-name");
+            $("#photo-column").removeAttr("file-name");
         });
     });
     // Event saat halaman ditutup atau direload
