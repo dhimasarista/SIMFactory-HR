@@ -224,7 +224,10 @@
                                         contentType: "application/json",
                                         success: function(results) {
                                             if (results.status !== 200) {
-                                                ErrorNotif(results.message);
+                                                SwalToast.fire({
+                                                    icon: "error",
+                                                    title: results.message,
+                                                });
                                                 return 0;
                                             }
                                             $(`tr[data-id="${id}"]`).remove();
@@ -233,7 +236,10 @@
                                                     <tr class="odd"><td valign="top" colspan="5" class="dataTables_empty">No data available in table</td></tr>
                                                 `)
                                             }
-                                            OkeNotif(results.message);
+                                            SwalToast.fire({
+                                                icon: "success",
+                                                title: results.message,
+                                            });
                                         },
                                         error: function(xhr, status, error) {
                                             ErrorNotif(`${status} ${error}`);
@@ -325,10 +331,16 @@
                                                 data: JSON.stringify(data),
                                                 success: function(results) {
                                                     if (results.status !== 200) {
-                                                        ErrorNotif(results.message);
+                                                        SwalToast.fire({
+                                                    icon: "error",
+                                                    title: results.message,
+                                                });
                                                         return 0;
                                                     }
-                                                    OkeNotif(results.message);
+                                                    SwalToast.fire({
+                                                        icon: "success",
+                                                        title: results.message,
+                                                    });
                                                     let newId = results.id;
                                                     let newCheckbox = `<input class="form-check-input" type="checkbox" id="position-${newId}" value="${newId}"><label class="form-check-label" for="${newId}">${value}</label>`;
                                                     let div = document.createElement("div");

@@ -78,7 +78,10 @@
                                     success: function(results) {
                                         TopLoaderService.end();
                                         if (results.status !== 200) {
-                                            ErrorNotif(results.message);
+                                            SwalToast.fire({
+                                                icon: "error",
+                                                title: results.message,
+                                            });
                                             return 0;
                                         }
                                         $("#employees-card").attr("hidden", true);
@@ -111,7 +114,10 @@
                                     success: function(results) {
                                         TopLoaderService.end();
                                         if (results.status !== 200) {
-                                            ErrorNotif(results.message);
+                                            SwalToast.fire({
+                                                    icon: "error",
+                                                    title: results.message,
+                                                });
                                             return 0;
                                         }
                                         showEmployeeForm();
@@ -210,11 +216,17 @@
                                         dataType: 'json',
                                         success: function(results) {
                                             if (results.status !== 200) {
-                                                ErrorNotif(results.message);
+                                                SwalToast.fire({
+                                                    icon: "error",
+                                                    title: results.message,
+                                                });
                                                 return 0;
                                             }
                                             setTimeout(() => {
-                                                OkeNotif(results.message);
+                                                SwalToast.fire({
+                                                    icon: "success",
+                                                    title: results.message,
+                                                });
                                                 $(`tr[data-id="${id}"]`).remove();
                                                 if ($("#employees-table tbody tr").length === 0) {
                                                     $("#employees-table tbody").append(`
@@ -263,7 +275,10 @@
                                                     success: function(results) {
                                                         if (results.status !== 200) {
                                                             console.log(results);
-                                                            ErrorNotif(results.message);
+                                                            SwalToast.fire({
+                                                    icon: "error",
+                                                    title: results.message,
+                                                });
                                                             return;
                                                         }
                                                         if (results["employee"].length !== 0) {
@@ -420,7 +435,10 @@
                                                 contentType: "application/json",
                                                 success: function(results) {
                                                     if (results.status !== 200) {
-                                                        ErrorNotif(results.message);
+                                                        SwalToast.fire({
+                                                    icon: "error",
+                                                    title: results.message,
+                                                });
                                                         return 0;
                                                     }
                                                     for (let index = 0; index < results.positions[0]["position_ids"].length; index++) {
@@ -532,7 +550,10 @@
                                                             console.log(results);
                                                             TopLoaderService.end();
                                                             if (results.status !== 200) {
-                                                                ErrorNotif(results.message);
+                                                                SwalToast.fire({
+                                                    icon: "error",
+                                                    title: results.message,
+                                                });
                                                                 return 0;
                                                             }
                                                             Swal.fire({
@@ -667,7 +688,10 @@
                 contentType: "application/json",
                 success: function(results) {
                     if (results.status !== 200) {
-                        ErrorNotif(results.message);
+                        SwalToast.fire({
+                                                    icon: "error",
+                                                    title: results.message,
+                                                });
                         return 0;
                     }
                     $("#employee-id-form").val(results["last_id"] + 1);
