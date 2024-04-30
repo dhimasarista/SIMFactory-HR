@@ -8,6 +8,7 @@ const path = require("path");
 const cookieParser = require("cookie-parser");
 const bodyParser = require("body-parser");
 const compression = require('compression');
+const cors = require("cors");
 const EmployeeRoute = require("./app/routes/employee_routes");
 const ErrorRoutes = require("./app/routes/error_routes");
 const DepartmentRoutes = require("./app/routes/department_routes");
@@ -37,6 +38,7 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json()); // Parsing permintaan JSON
 app.use(bodyParser.json());
 app.use(cookieParser()); // Menggunakan cookie-parser
+app.use(cors());  // Add cors middleware
 // Routes
 new EmployeeRoute(app);     
 new ErrorRoutes(app);
