@@ -5,6 +5,7 @@ const EmployeeModel = require("../models/employee_model");
 const DepartmentModel = require("../models/department_model");
 const DepartmentPositionModel = require("../models/department_position_model");
 const { deleteImage } = require("./upload_controllers");
+const { update } = require("../config/knex");
 const userModel = new UserModel();
 const employeeModel = new EmployeeModel();
 const departmentModel = new DepartmentModel();
@@ -38,6 +39,49 @@ module.exports = {
             deleteImage(newEmployee["id_card"], "../uploads/");
             await compressAndSaveImage(`app/uploads/${newEmployee["photo"]}`, `app/uploads/photos/${newEmployee["photo"]}`, 50);
             deleteImage(newEmployee["photo"], "../uploads/");
+
+            const resultNewEmployee = await employeeModel.newEmployee(
+                {
+                    employeeId: newEmployee["employee_id"], 
+                    idNumber: newEmployee["id_number"], 
+                    name: newEmployee["name"],
+                    title: newEmployee["title"],
+                    bornplace: newEmployee["bornplace"], 
+                    birthdate: newEmployee["birthdate"],
+                    address: newEmployee["address"], 
+                    photo: newEmployee["photo"],
+                    idCard: newEmployee["id_card"],
+                    positionId: newEmployee["position_id"],
+                    departmentId: newEmployee["department_id"],
+                }
+            );
+
+            return res.json({
+                status: 200,
+                employee: resultNewEmployee,
+                message: "New employee"
+            });
+        } catch (error) {
+            return res.json({
+                status: 500,
+                message: error.toString()
+            });
+        }
+    },
+    updateEmployee: async (req, res) => {
+        const newEmployee = req.body;
+        try {
+            let checkingForm = newEmployee["name"] === "" || newEmployee["id_number"] === "" || newEmployee["employee_id"] === "" || newEmployee["id_card"] === "" || newEmployee["photo"] === "" 
+            if (checkingForm) {
+                return res.json({
+                    status: 500,
+                    message: "form is empty"
+                });
+            }
+            // await compressAndSaveImage(`app/uploads/${newEmployee["id_card"]}`, `app/uploads/idcards/${newEmployee["id_card"]}`, 50);
+            // deleteImage(newEmployee["id_card"], "../uploads/");
+            // await compressAndSaveImage(`app/uploads/${newEmployee["photo"]}`, `app/uploads/photos/${newEmployee["photo"]}`, 50);
+            // deleteImage(newEmployee["photo"], "../uploads/");
 
             const resultNewEmployee = await employeeModel.newEmployee(
                 {

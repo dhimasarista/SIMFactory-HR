@@ -16,14 +16,13 @@ class EmployeeModel{
 
     async newEmployee(data){
         try {
-            const formatedDate = formatDate(data.birthdate);
             const newEmployee = {
                 id: data.employeeId,
                 id_number: data.idNumber,
                 name: data.name,
                 title: data.title,
                 bornplace: data.bornplace,
-                birthdate: formatedDate, // "mm-dd-yyyy"
+                birthdate: data.birthdate, // "mm-dd-yyyy"
                 address: data.address,
                 photo: data.photo,
                 id_card: data.idCard,
@@ -31,6 +30,26 @@ class EmployeeModel{
                 department_id: data.departmentId,
             }
             const results = await knex("employees").insert(newEmployee);
+            return results;
+        } catch (error) {
+            errorLogging(error);
+        }
+    }
+    async updateEmployee(data){
+        try {
+            const employee = {
+                id_number: data.idNumber,
+                name: data.name,
+                title: data.title,
+                bornplace: data.bornplace,
+                birthdate: data.birthdate, // "mm-dd-yyyy"
+                address: data.address,
+                photo: data.photo,
+                id_card: data.idCard,
+                position_id: data.positionId,
+                department_id: data.departmentId,
+            }
+            const results = await knex("employees").update(employee).where("id", data.employeeId);
             return results;
         } catch (error) {
             errorLogging(error);
