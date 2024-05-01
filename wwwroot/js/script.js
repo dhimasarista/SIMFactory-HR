@@ -187,6 +187,7 @@ function ArrayBufferToBase64(buffer) {
 }
 let myFile;
 function FetchImage(path, callback) {
+    TopLoaderService.start();
     fetch(path, {
         method: "POST"
     })
@@ -197,6 +198,7 @@ function FetchImage(path, callback) {
         return response.blob();
     })
     .then(async blob => {
+        TopLoaderService.end();
         const reader = new FileReader();
 
         reader.onload = function () { 
@@ -208,6 +210,7 @@ function FetchImage(path, callback) {
         reader.readAsDataURL(blob);
     })
     .catch(error => {
+        TopLoaderService.end();
         ErrorNotif(error);
     });
 }
@@ -215,7 +218,7 @@ function FetchImage(path, callback) {
 function ShowImage(path) {  
     FetchImage(path, function (base64) {  
         Swal.fire({
-            imageUrl: `data:image/jpeg;base64,${base64}`,
+            imageUrl: `data:image/png;base64,${base64}`,
             imageAlt: "image",
             showCloseButton: true,
             showCancelButton: false,
