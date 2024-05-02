@@ -1,11 +1,9 @@
-const path = require("path");
 const compressAndSaveImage = require("../utilities/compress_image");
 const UserModel = require("../models/user_model");
 const EmployeeModel = require("../models/employee_model");
 const DepartmentModel = require("../models/department_model");
 const DepartmentPositionModel = require("../models/department_position_model");
 const { deleteImage } = require("./upload_controllers");
-const { update } = require("../config/knex");
 const userModel = new UserModel();
 const employeeModel = new EmployeeModel();
 const departmentModel = new DepartmentModel();
@@ -71,7 +69,7 @@ module.exports = {
     updateEmployee: async (req, res) => {
         const newEmployee = req.body;
         try {
-            let checkingForm = newEmployee["name"] === "" || newEmployee["id_number"] === "" || newEmployee["employee_id"] === "" || newEmployee["id_card"] === "" || newEmployee["photo"] === "" 
+            let checkingForm = newEmployee["name"] === "" || newEmployee["id_number"] === "" || newEmployee["employee_id"] === "" 
             if (checkingForm) {
                 return res.json({
                     status: 500,
@@ -83,26 +81,26 @@ module.exports = {
             // await compressAndSaveImage(`app/uploads/${newEmployee["photo"]}`, `app/uploads/photos/${newEmployee["photo"]}`, 50);
             // deleteImage(newEmployee["photo"], "../uploads/");
 
-            const resultNewEmployee = await employeeModel.newEmployee(
-                {
-                    employeeId: newEmployee["employee_id"], 
-                    idNumber: newEmployee["id_number"], 
-                    name: newEmployee["name"],
-                    title: newEmployee["title"],
-                    bornplace: newEmployee["bornplace"], 
-                    birthdate: newEmployee["birthdate"],
-                    address: newEmployee["address"], 
-                    photo: newEmployee["photo"],
-                    idCard: newEmployee["id_card"],
-                    positionId: newEmployee["position_id"],
-                    departmentId: newEmployee["department_id"],
-                }
-            );
+            // const resultNewEmployee = await employeeModel.updateEmployee(
+            //     {
+            //         employeeId: newEmployee["employee_id"], 
+            //         idNumber: newEmployee["id_number"], 
+            //         name: newEmployee["name"],
+            //         title: newEmployee["title"],
+            //         bornplace: newEmployee["bornplace"], 
+            //         birthdate: newEmployee["birthdate"],
+            //         address: newEmployee["address"], 
+            //         photo: newEmployee["photo"],
+            //         idCard: newEmployee["id_card"],
+            //         positionId: newEmployee["position_id"],
+            //         departmentId: newEmployee["department_id"],
+            //     }
+            // );
 
             return res.json({
                 status: 200,
-                employee: resultNewEmployee,
-                message: "New employee"
+                employee: req.body,
+                message: "Update employee"
             });
         } catch (error) {
             return res.json({

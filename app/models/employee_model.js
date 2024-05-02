@@ -35,6 +35,7 @@ class EmployeeModel{
             errorLogging(error);
         }
     }
+    
     async updateEmployee(data){
         try {
             const employee = {

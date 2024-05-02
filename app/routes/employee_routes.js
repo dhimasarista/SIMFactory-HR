@@ -1,4 +1,4 @@
-const { render, deleteEmployee, selectPosition, findEmployeeByID, employeeLastID, newEmployee } = require("../controllers/employee_controllers");
+const { render, deleteEmployee, selectPosition, findEmployeeByID, employeeLastID, newEmployee, updateEmployee } = require("../controllers/employee_controllers");
 class EmployeeRoute{
     constructor(app){
         this.app = app;
@@ -16,6 +16,7 @@ class EmployeeRoute{
         this.app.get("/employee/:id", findEmployeeByID);
         this.app.get("/employee/id/last", employeeLastID);
         this.app.post("/employee/id/new", newEmployee);
+        this.app.put("/employee/id/update", updateEmployee);
     }
 }
 
