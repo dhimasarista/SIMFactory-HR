@@ -29,7 +29,6 @@ app.use((req, res, next) => {
     logger.info(`${req.method} ${req.url}`);
     next();
 });
-app.use(expressLayouts); // Layouting menggunakan EJS 
 app.use(compression()); // Kompresi HTTP Resources yang dikirimkan ke klien
 app.set("layout", path.join(__dirname, "views/layouts/main")); // Mengatur file utama layouting
 app.set("view engine", "ejs"); // Mengatur View Engine ke EJS
@@ -46,7 +45,8 @@ app.get("/", (req, res) => {
     return res.redirect("/login");
 });
 new AuthRoutes(app);
-// Routes with auth
+// Routes with auth, layouting
+app.use(expressLayouts); // Layouting menggunakan EJS 
 new EmployeeRoute(app);     
 new ErrorRoutes(app);
 new DepartmentRoutes(app);
