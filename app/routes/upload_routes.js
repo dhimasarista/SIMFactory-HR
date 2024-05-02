@@ -1,9 +1,4 @@
 const {upload, deleteImage} = require("../controllers/upload_controllers");
-const compressAndSaveImage = require("../utilities/compress_image");
-const path = require("path");
-const fs = require("fs");
-const idCardsDirectory = path.join(__dirname, '../', 'uploads', 'idcards');
-const photosDirectory = path.join(__dirname, '../', 'uploads', 'photos'); 
 class UploadRoutes{
     constructor(app){
         this.app = app;

@@ -6,10 +6,6 @@ class EmployeeRoute{
     }
 
     main(){
-      
-        this.app.get("/", (req, res) => {
-            return res.redirect("/employees");
-        });
         this.app.get("/employees", render);
         this.app.delete("/employee/:id", deleteEmployee);
         this.app.get("/employee/positions/department/:id", selectPosition);

@@ -18,6 +18,7 @@ const { successLogging } = require('./app/logging/console');
 const metrics = require('./app/utilities/metrics');
 const UploadRoutes = require('./app/routes/upload_routes');
 const FileRoutes = require('./app/routes/file_routes');
+const AuthRoutes = require('./app/routes/auth_routes');
 
 const app = express(); // Init aplikasi
 const port = process.env.APP_PORT || 3000; // Init port
@@ -39,7 +40,13 @@ app.use(express.json()); // Parsing permintaan JSON
 app.use(bodyParser.json());
 app.use(cookieParser()); // Menggunakan cookie-parser
 app.use(cors());  // Add cors middleware
-// Routes
+
+// Routes without auth
+app.get("/", (req, res) => {
+    return res.redirect("/login");
+});
+new AuthRoutes(app);
+// Routes with auth
 new EmployeeRoute(app);     
 new ErrorRoutes(app);
 new DepartmentRoutes(app);
