@@ -81,25 +81,25 @@ module.exports = {
             // await compressAndSaveImage(`app/uploads/${newEmployee["photo"]}`, `app/uploads/photos/${newEmployee["photo"]}`, 50);
             // deleteImage(newEmployee["photo"], "../uploads/");
 
-            // const resultNewEmployee = await employeeModel.updateEmployee(
-            //     {
-            //         employeeId: newEmployee["employee_id"], 
-            //         idNumber: newEmployee["id_number"], 
-            //         name: newEmployee["name"],
-            //         title: newEmployee["title"],
-            //         bornplace: newEmployee["bornplace"], 
-            //         birthdate: newEmployee["birthdate"],
-            //         address: newEmployee["address"], 
-            //         photo: newEmployee["photo"],
-            //         idCard: newEmployee["id_card"],
-            //         positionId: newEmployee["position_id"],
-            //         departmentId: newEmployee["department_id"],
-            //     }
-            // );
+            const resultNewEmployee = await employeeModel.updateEmployee(
+                {
+                    id: newEmployee["employee_id"], 
+                    id_number: newEmployee["id_number"], 
+                    name: newEmployee["name"],
+                    title: newEmployee["title"],
+                    bornplace: newEmployee["bornplace"], 
+                    birthdate: newEmployee["birthdate"],
+                    address: newEmployee["address"], 
+                    photo: newEmployee["photo"],
+                    id_card: newEmployee["id_card"],
+                    position_id: newEmployee["position_id"],
+                    department_id: newEmployee["department_id"],
+                }
+            );
 
             return res.json({
                 status: 200,
-                employee: req.body,
+                employee: resultNewEmployee,
                 message: "Update employee"
             });
         } catch (error) {

@@ -50,7 +50,7 @@ class EmployeeModel{
                 position_id: data.positionId,
                 department_id: data.departmentId,
             }
-            const results = await knex("employees").update(employee).where("id", data.employeeId);
+            const results = await knex("employees").update(employee).where("id", data.id);
             return results;
         } catch (error) {
             errorLogging(error);

@@ -586,7 +586,67 @@
                                                 TopLoaderService.end();
                                             });
                                         } else if (buttonStatus === "Save") {
-                                            
+                                            Swal.fire({
+                                                title: "are you sure wanna data correctly?",
+                                                // text: "You won't be able to revert this!",
+                                                icon: "warning",
+                                                showCancelButton: true,
+                                                confirmButtonColor: "#3085d6",
+                                                cancelButtonColor: "#d33",
+                                                confirmButtonText: "Yes!"
+                                            }).then(results => {
+                                                TopLoaderService.start();
+                                                if (results.isConfirmed) {
+                                                    $.ajax({
+                                                        url: '/employee/id/update',
+                                                        method: 'PUT',
+                                                        contentType: "application/json",
+                                                        data: JSON.stringify({
+                                                            id_number: parseInt( $("#id-number-form").val()),
+                                                            employee_id: parseInt($("#employee-id-form").val()),
+                                                            name: $("#fullname-form").val(),
+                                                            title: $("#title-form").val(),
+                                                            bornplace: $("#born-place-form").val(),
+                                                            birthdate: $("#birth-date-form").val(),
+                                                            id_card: "idcard_muhammad dhimas arista_1714650471655.jpg",
+                                                            photo: "photo_muhammad dhimas arista_1714650456192.jpg",
+                                                            address: $("#address-form").val(),
+                                                            department_id: parseInt($("#select-department").val()),
+                                                            position_id: parseInt($("#select-position").val()),
+                                                        }),
+                                                        success: function(results) {
+                                                            console.log(results);
+                                                            TopLoaderService.end();
+                                                            if (results.status !== 200) {
+                                                                SwalToast.fire({
+                                                                    icon: "error",
+                                                                    title: results.message,
+                                                                });
+                                                                return 0;
+                                                            }
+                                                            Swal.fire({
+                                                                title: results.message,
+                                                                icon: "success",
+                                                                showCancelButton: false,
+                                                                confirmButtonColor: "#3085d6",
+                                                                confirmButtonText: "OK"
+                                                            }).then((result) => {
+                                                                if (result.isConfirmed) {
+                                                                    location.reload(); // Reload halaman jika tombol OK diklik
+                                                                }
+                                                                location.reload(); // Reload halaman jika tombol OK diklik
+                                                            });
+
+                                                        },
+                                                        error: function(xhr, status, error) {
+                                                            ErrorNotif(`${status} ${error}`);
+                                                            console.log(error);
+                                                            TopLoaderService.end();
+                                                        }
+                                                    });
+                                                }
+                                                TopLoaderService.end();
+                                            });
                                         }
                                     })
                                     
