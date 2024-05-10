@@ -8,6 +8,7 @@ This application is a web platform built using the MVC (Model-View-Controller) a
 - **MySQL**: Used as the relational database to store and manage application data.
 - **EJS (Embedded JavaScript)**: A templating engine that allows the use of JavaScript directly in HTML to build dynamic views.
 - **Knex.js**: SQL query builder that provides a friendly interface to interact with MySQL databases.
+- **Data-Set Source**: [Kaggle.com](https://www.kaggle.com/datasets/crepantherx/employees?select=employees.csv)
 
 ## Project Structure
 
