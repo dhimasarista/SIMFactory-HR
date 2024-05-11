@@ -19,6 +19,7 @@ const metrics = require('./app/utilities/metrics');
 const UploadRoutes = require('./app/routes/upload_routes');
 const FileRoutes = require('./app/routes/file_routes');
 const AuthRoutes = require('./app/routes/auth_routes');
+const DashboardRoutes = require('./app/routes/dashboard_routes');
 
 const app = express(); // Init aplikasi
 const port = process.env.APP_PORT || 3000; // Init port
@@ -42,8 +43,9 @@ app.use(cors());  // Add cors middleware
 
 // Routes without auth
 app.get("/", (req, res) => {
-    return res.redirect("/login");
+    return res.redirect("/dashboard");
 });
+new DashboardRoutes(app);
 new AuthRoutes(app);
 // Routes with auth, layouting
 app.use(expressLayouts); // Layouting menggunakan EJS 
