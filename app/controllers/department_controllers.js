@@ -10,18 +10,22 @@ const position = new PositionModel();
 const departmentPosition = new DepartmentPositionModel();
 module.exports = {
     renderDepartment: async (req, res) => {
-        const users = user.GetUserByID(2004);
-        const username = users["username"];
-        const path = req.path;
+        try {
+            const users = user.GetUserByID(2004);
+            const username = users["username"];
+            const path = req.path;
 
-        const findAllDepartment = await departmentPosition.findAll();
-        const findAllPosition = await position.findAll();
-        return res.render("departments_page", {
-            username: username,
-            path: path,
-            departments: findAllDepartment,
-            positions: findAllPosition,
-        })
+            const findAllDepartment = await departmentPosition.findAll();
+            const findAllPosition = await position.findAll();
+            return res.render("departments_page", {
+                username: username,
+                path: path,
+                departments: findAllDepartment,
+                positions: findAllPosition,
+            })
+        } catch (error) {
+            return res.redirect("/500")
+        }
     },
     newDepartment: async (req, res) => {
         const { id, name, positions } = req.body;

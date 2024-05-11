@@ -63,7 +63,6 @@ module.exports = class DepartmentPositionModel{
         errorLogging(err);
       }
     }
-     
 
     async insert(departmentID, positions) {
       let results = '';
