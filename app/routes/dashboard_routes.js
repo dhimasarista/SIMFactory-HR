@@ -1,10 +1,16 @@
+const EmployeeModel = require("../models/employee_model");
+
+const employeeModel = new EmployeeModel()
 class DashboardRoutes{
     constructor(app){
         this.app = app;
-        app.get("/dashboard", (req, res) => {
+        app.get("/dashboard", async (req, res) => {
+            const employees = await employeeModel.findAll()
+            console.log(employees);
             return res.render("dashboard_page", {
                 username: "ibmeong",
                 path: req.path,
+                employees,
             })
         })
     }
