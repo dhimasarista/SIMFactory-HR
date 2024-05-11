@@ -6,7 +6,6 @@ class DashboardRoutes{
         this.app = app;
         app.get("/dashboard", async (req, res) => {
             const employees = await employeeModel.findAll()
-            console.log(employees);
             return res.render("dashboard_page", {
                 username: "ibmeong",
                 path: req.path,
