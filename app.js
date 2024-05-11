@@ -45,10 +45,10 @@ app.use(cors());  // Add cors middleware
 app.get("/", (req, res) => {
     return res.redirect("/dashboard");
 });
-new DashboardRoutes(app);
 new AuthRoutes(app);
 // Routes with auth, layouting
 app.use(expressLayouts); // Layouting menggunakan EJS 
+new DashboardRoutes(app);
 new EmployeeRoute(app);     
 new ErrorRoutes(app);
 new DepartmentRoutes(app);

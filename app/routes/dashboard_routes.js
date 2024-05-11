@@ -1,8 +1,11 @@
 class DashboardRoutes{
     constructor(app){
         this.app = app;
-        app.get("/dasboard", (req, res) => {
-            return res.send("hello, world!");
+        app.get("/dashboard", (req, res) => {
+            return res.render("dashboard_page", {
+                username: "ibmeong",
+                path: req.path,
+            })
         })
     }
 }
